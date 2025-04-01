@@ -2,12 +2,15 @@ import { } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import arrow from '../../assets/arrow.png'
 
 const Sidebar = () => {
+    const [openCategoryIds, setOpenCategoryIds] = useState([]);
     const [categories, setCategories] = useState([
         {
             id: 1,
             name: "English Books",
+            link: "/books/english",
             subcategories: [
                 { id: 101, name: "Art & Photography", link: "/books/art-photography" },
                 { id: 102, name: "Biographies & Memories", link: "/books/biographies-memories" },
@@ -18,6 +21,7 @@ const Sidebar = () => {
         {
             id: 2,
             name: "Vietnamese Books",
+            link: "/books/vietnamese",
             subcategories: [
                 { id: 201, name: "Literature", link: "/books/literature" },
                 { id: 202, name: "Education", link: "/books/education" },
@@ -27,6 +31,7 @@ const Sidebar = () => {
         {
             id: 3,
             name: "Manga & Comics",
+            link: "/books/manga-comics",
             subcategories: [
                 { id: 301, name: "Shonen", link: "/books/shonen" },
                 { id: 302, name: "Shojo", link: "/books/shojo" },
@@ -36,6 +41,7 @@ const Sidebar = () => {
         {
             id: 4,
             name: "Textbooks",
+            link: "/books/textbook",
             subcategories: [
                 { id: 401, name: "Science", link: "/books/science" },
                 { id: 402, name: "Mathematics", link: "/books/mathematics" },
@@ -44,44 +50,51 @@ const Sidebar = () => {
         }
     ]);
 
+const toggleSubcategories = (categoryId) => {
+        setOpenCategoryIds(prevOpenIds => {
+            if (prevOpenIds.includes(categoryId)) {
+                return prevOpenIds.filter(id => id !== categoryId);
+            } 
+            else {
+                return [...prevOpenIds, categoryId];
+            }
+        });
+    };
+
+    const isCategoryOpen = (categoryId) => {
+        return openCategoryIds.includes(categoryId);
+    };
+
     return (
         <aside className="flex flex-col rounded-md h-screen  w-64 bg-[#c2c2c2]" >
             <div className="sidebar-top border-b-1 border-[#c2c2c2] p-1.5">
                 <span className="ml-2.5 font-semibold ">Khám phá theo danh mục</span>
             </div>
-            <div className="flex flex-col justify-between ">
-                <ul className="mt-3 space-y-1">
+            <div className="menuCtn flex flex-col">
+                <ul>
                     {categories.map((category) => (
-                        <li key={category.id}>
-                            <details className="group [&_summary::-webkit-details-marker]:hidden">
-                                <summary
-                                    className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                                >
-                                    <span className="text-sm font-medium">{category.name}</span>
-
-                                    <span className="something shrink-0 transition duration-300 group-open:-rotate-180">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="arrow size-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </span>
-                                </summary>
-
-                                <ul className="mt-2 space-y-1 px-4">
-                                    {category.subcategories && category.subcategories.map((subcat) => (
+                        <li key={category.id} className="border-b-1 border-[#c2c2c2] p-2">
+                            <div className="catCtn flex justify-between items-center px-2 ">
+                                <Link to={category.link} className="text-sm hover:text-blue-400 hover:underline ">{category.name}</Link>
+                                <button type="button" onClick={() => toggleSubcategories(category.id)} className="p-1 hover:bg-gray-300 cursor-pointer rounded-md">
+                                    <img  src={arrow} alt="arrow" className={`size-7 transition-transform duration-200 
+                                        ${isCategoryOpen(category.id) ? '' : 'rotate-180'}`} />
+                                </button>
+                            </div>
+                            <div className={`subCatCtn overflow-hidden transition-all duration-200 ${isCategoryOpen(category.id) ? 'max-h-96' : 'max-h-0'}`}>
+                                <ul className=" px-4">
+                                    {category.subcategories.map((subcat) => (
                                         <li key={subcat.id}>
-                                            <Link to={subcat.link} className="block rounded-lg px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-700">
+                                            <Link to={subcat.link} className="block rounded-lg px-4 py-1 text-sm hover:text-blue-400 hover:underline ">
                                                 {subcat.name}
                                             </Link>
                                         </li>
                                     ))}
                                 </ul>
-                            </details>
+                            </div>
                         </li>
                     ))}
+
                 </ul>
             </div>
         </aside>

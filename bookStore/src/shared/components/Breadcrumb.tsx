@@ -5,7 +5,7 @@ const Breadcrumb = () => {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
 
-  if (pathnames.length === 0) return null; // hidden when at homepage
+//   if (pathnames.length === 0) return null; // hidden when at homepage
 
   return (
     <nav className="text-gray-600 text-sm py-2">
