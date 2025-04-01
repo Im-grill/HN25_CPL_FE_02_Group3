@@ -1,7 +1,9 @@
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import HomePage from './shared/layout/customer/HomePage'
+import HomePage from './pages/customer/HomePage'
+import CustomerLayout from './shared/layouts/CustomerLayout'
+import BookSeries from './shared/components/BookSeries'
 
 function App() {
 
@@ -9,7 +11,10 @@ function App() {
   return (
    <BrowserRouter>
    <Routes>
-    <Route path="/" element={<HomePage/>}></Route>
+    <Route path='/' element={<CustomerLayout/>}>
+    <Route path="homepage" element={<HomePage/>}/>
+    <Route path="bookseries" element={<BookSeries/>}/>
+    </Route>
    </Routes>
    </BrowserRouter>
   )
