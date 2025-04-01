@@ -20,7 +20,7 @@ function BannerCarousel() {
   indicators ={false}
     >
       <Carousel.Item>
-        <div className='flex'>
+        <div className='flex gap-1.5 w-full justify-between'>
         <BookSeries/>
         <BookSeries/>
         </div>

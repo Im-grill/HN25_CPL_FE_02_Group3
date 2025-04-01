@@ -3,6 +3,7 @@ import React from 'react'
 import Sidebar from '../../shared/components/Sidebar'
 import Breadcrumb from '../../shared/components/Breadcrumb'
 import BannerCarousel from '../../shared/components/BannerCarousel'
+import DiscoverCate from '../../shared/components/DiscoverCate'
 
 export default function HomePage() {
   return (
@@ -13,13 +14,20 @@ export default function HomePage() {
         <Breadcrumb />
       </div>
       {/* main content */}
-      <div className='ml-6 flex flex-row'>
+      <div className='ml-6 flex flex-row border-1'>
         <Sidebar />
-        <div className='border-1 w-full mx-5' >
+        <div className='border-1 w-full ml-5' >
           <div className='bg-white w-full h-[74px] rounded-b-lg pt-4 pl-4 '>
             <span className='text-[28px] font-semibold'>Nhà Sách Tiki</span>
           </div>
-<BannerCarousel/>
+          <div className='w-full relative mt-3  border-1'>
+          <BannerCarousel />
+          </div>
+        
+        </div>
+        {/* kham pha danh muc */}
+        <div>
+          {/* <DiscoverCate/> */}
         </div>
         {/* <BookList/> */}
       </div>
