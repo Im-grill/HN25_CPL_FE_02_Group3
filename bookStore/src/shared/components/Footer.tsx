@@ -91,25 +91,38 @@ const Footer = () => {
                         <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>Phương thức
                             thanh toán</h4>
                         <p className={'text-xs leading-4 text-[rgb(128,128,137)] mb-3 mt-0'}>
-                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo1} alt=""/></span>
-                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo2} alt=""/></span>
-                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo3} alt=""/></span>
-                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo4} alt=""/></span>
-                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo5} alt=""/></span>
-                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo6} alt=""/></span>
-                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo7} alt=""/></span>
-                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo8} alt=""/></span>
-                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo9} alt=""/></span>
-                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo10} alt=""/></span>
-                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo11} alt=""/></span>
+                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo1}
+                                       alt=""/></span>
+                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo2}
+                                       alt=""/></span>
+                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo3}
+                                       alt=""/></span>
+                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo4}
+                                       alt=""/></span>
+                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo5}
+                                       alt=""/></span>
+                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo6}
+                                       alt=""/></span>
+                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo7}
+                                       alt=""/></span>
+                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo8}
+                                       alt=""/></span>
+                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo9}
+                                       alt=""/></span>
+                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo10}
+                                       alt=""/></span>
+                            <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo11}
+                                       alt=""/></span>
                         </p>
-                        <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>Dịch vụ giao hàng</h4>
+                        <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>Dịch vụ giao
+                            hàng</h4>
                         <a href="/">
                             <img className={'ml-[-9px] mt-[-8px] w-[109px] h-[33px]'} src={tikilogo} alt=""/>
                         </a>
                     </div>
                     <div className={'w-[226px]'}>
-                        <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>Kết nối với chúng tôi</h4>
+                        <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>Kết nối với
+                            chúng tôi</h4>
                         <p>
                             <a className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} href="">
                                 <img src={fblogo} alt=""/>
@@ -121,7 +134,8 @@ const Footer = () => {
                                 <img src={zllogo} alt=""/>
                             </a>
                         </p>
-                        <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-6'}>Tải ứng dụng trên điện thoại</h4>
+                        <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-6'}>Tải ứng dụng
+                            trên điện thoại</h4>
                         <div className={'flex gap-2 '}>
                             <img className={'w-20 h-20'} src={qrcodelogo} alt=""/>
                             <div className={'flex flex-col gap-2 justify-between items-center'}>
@@ -133,6 +147,94 @@ const Footer = () => {
                                 </a>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div className="h-px w-[1240px] bg-gray-200 mx-auto"></div>
+            <div className={'py-4 bg-white'}>
+                <div className={'w-[1270px] px-[15px] mx-auto'}>
+                    <p className={'text-[16px] leading-6 font-medium text-[#38383d] mb-3 mt-0'}>Công ty TNHH TI KI</p>
+                    <p className={'block mb-2 text-[#808089]'}>Tòa nhà số 52 đường Út Tịch, Phường 4, Quận Tân Bình,
+                        Thành
+                        phố Hồ Chí Minh</p>
+                    <p className={'block mb-2 text-[#808089]'}> Giấy chứng nhận đăng ký doanh nghiệp số 0309532909 do Sở
+                        Kế
+                        Hoạch và Đầu Tư Thành phố Hồ Chí Minh cấp lần đầu vào ngày 06/01/2010.
+                    </p>
+                    <p className={'block mb-0 text-[#808089]'}>
+                        Hotline:
+                        <a className={'text-[#0b74e5] no-underline'} href=""> 1900 6035</a>
+                    </p>
+                </div>
+            </div>
+            <div className="h-px w-[1240px] bg-gray-200 mx-auto"></div>
+            <div className={'w-[1270px] px-[15px] mx-auto'}>
+                <div className="pt-4">
+                    <div className={'text-[16px] leading-6 font-medium text-[#38383d] mb-3 mt-0'}>
+                        Thương Hiệu Nổi Bật
+                    </div>
+                    <div className={'mb-4'}>
+                        <p className={'inline-flex flex-wrap'}>
+                            <a href="/" className={'text-[#808089]'}>vascara</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>dior</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>esteelauder</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>th truemilk</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>barbie</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>owen</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>ensure</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>durex</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>bioderma</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>elly</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>milo</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>skechers</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>aldo</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>triumph</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>nutifood</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>kindle</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>nerman</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>wacom</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>anessa</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>yoosee</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>olay</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>similac</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>comfort</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>bitas</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>shiseido</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>langfarm</a>
+                            <a href="/" className={'text-[#808089]'}>hukan</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>vichy</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>fila</a>
+                            &nbsp;/&nbsp;
+                            <a href="/" className={'text-[#808089]'}>tsubaki</a>
+                            &nbsp;/&nbsp;
+                        </p>
                     </div>
                 </div>
             </div>
