@@ -4,6 +4,7 @@ import Sidebar from '../../shared/components/Sidebar'
 import Breadcrumb from '../../shared/components/Breadcrumb'
 import BannerCarousel from '../../shared/components/BannerCarousel'
 import DiscoverCate from '../../shared/components/DiscoverCate'
+import FilterBook from '../../shared/components/FilterBook'
 
 export default function HomePage() {
   return (
@@ -14,21 +15,22 @@ export default function HomePage() {
         <Breadcrumb />
       </div>
       {/* main content */}
-      <div className='ml-6 flex flex-row border-1'>
+      <div className='ml-6 flex flex-row '>
         <Sidebar />
-        <div className='border-1 w-full ml-5' >
+        {/* Carousel top sach*/}
+        <div className='w-full ml-5 flex flex-col' >
           <div className='bg-white w-full h-[74px] rounded-b-lg pt-4 pl-4 '>
             <span className='text-[28px] font-semibold'>Nhà Sách Tiki</span>
           </div>
-          <div className='w-full relative mt-3  border-1'>
-          <BannerCarousel />
+          <div className='w-full mt-3'>
+            <BannerCarousel />
           </div>
-        
+          {/* kham pha danh muc */}
+          <DiscoverCate />
+          {/* filter book */}
+          <FilterBook/>
         </div>
-        {/* kham pha danh muc */}
-        <div>
-          {/* <DiscoverCate/> */}
-        </div>
+
         {/* <BookList/> */}
       </div>
 

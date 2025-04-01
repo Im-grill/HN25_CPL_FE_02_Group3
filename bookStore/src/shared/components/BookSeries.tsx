@@ -41,8 +41,8 @@ export default function BookSeries() {
                 </div>
                 {/* book */}
                 <div className='flex mt-7'>
-                    {books.map((book) =>
-                        <div className='relative'>
+                    {books.map((book,index) =>
+                        <div key={index} className='relative'>
                             <img className='size-16 border' src={book.image} />
                             <div className='flex absolute bottom-0 right-0 rounded-[8px] w-[35px] h-4 bg-red-500 items-center justify-center'>
                                 <span className="text-white text-[10px] font-bold  ">{book.discount}</span>
