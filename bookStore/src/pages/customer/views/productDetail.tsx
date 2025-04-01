@@ -1,6 +1,5 @@
-// App.jsx
-import React, { useState } from 'react';
-import { FaStar, FaCheck, FaAngleRight, FaChevronLeft, FaChevronRight, FaMinus, FaPlus } from 'react-icons/fa';
+import { useRef, useState } from 'react';
+import { FaStar, FaAngleRight, FaChevronLeft, FaChevronRight, FaMinus, FaPlus } from 'react-icons/fa';
 import tikiLogo from '../../../assets/tiki-logo.png';
 import bookCover from '../../../assets/book-cover.png';
 import tikiheader from '../../../assets/tiki-head.png';
@@ -17,6 +16,19 @@ function ProductDetail() {
     const decreaseQuantity = () => {
         if (quantity > 1) {
             setQuantity(prevQuantity => prevQuantity - 1);
+        }
+    };
+
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    const scroll = (direction: "left" | "right") => {
+        if (scrollRef.current) {
+            const { current } = scrollRef;
+            if (direction === "left") {
+                current.scrollBy({ left: -300, behavior: "smooth" });
+            } else {
+                current.scrollBy({ left: 300, behavior: "smooth" });
+            }
         }
     };
 
@@ -155,6 +167,13 @@ function ProductDetail() {
         );
     };
 
+    const [expanded, setExpanded] = useState(false);
+
+    const toggleExpand = () => {
+        setExpanded(!expanded);
+    };
+
+
     return (
         <div className="min-h-screen bg-gray-100">
             <div className="container mx-auto px-4 py-2">
@@ -174,33 +193,42 @@ function ProductDetail() {
             </div>
 
             {/* Main content */}
-            <div className="container mx-auto px-4 py-4">
-                <div className="bg-white rounded-md shadow-sm">
-                    <div className="grid grid-cols-12 gap-6 p-4">
-                        {/* Product images */}
-                        <div className="col-span-3">
-                            <div className="border border-gray-200 rounded-md mb-2">
+            <div className="container mx-auto px-4 py-2">
+                <div className="grid grid-cols-12 gap-6 p-4">
+                    {/* Product images */}
+                    <div className="col-span-3">
+                        <div className="bg-white rounded-lg shadow-md">
+                            <div className="p-6">
                                 <img src={bookCover} alt="Chat GPT Thực Chiến" className="w-full" />
                             </div>
-                            <div className="grid grid-cols-5 gap-2">
-                                <div className="border border-blue-500 rounded-md overflow-hidden">
-                                    <img src={bookCover} alt="Thumbnail 1" className="w-full" />
-                                </div>
-                                <div className="border border-gray-200 rounded-md overflow-hidden">
-                                    <img src={bookCover} alt="Thumbnail 2" className="w-full" />
+                            <div className="border-b border-gray-200 p-4">
+                                <div className="grid grid-cols-5 gap-2  ">
+                                    <div className="border border-blue-500 rounded-md overflow-hidden">
+                                        <img src={bookCover} alt="Thumbnail 1" className="w-full" />
+                                    </div>
+                                    <div className="border border-gray-200 rounded-md overflow-hidden">
+                                        <img src={bookCover} alt="Thumbnail 2" className="w-full" />
+                                    </div>
                                 </div>
                             </div>
-                            <div className="flex items-center mt-4 text-sm">
+                            <div className="flex items-center mt-4 text-sm ml-6">
                                 <span className=""><img src={tikiheader} alt="icon-left" width={24} height={24} /></span>
                                 <div className="ml-2">
                                     <span className=" text-gray-500">Xem thêm </span>
                                     Tóm tắt nội dung sách
                                 </div>
+                                <div className="text-right ml-auto mr-3">
+                                    <img src="https://salt.tikicdn.com/ts/ta/5c/76/e2/25aa7773e0480b23252d8f1c95a03d05.png" alt="icon-right" width="24" height="24"></img>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Product info */}
-                        <div className="col-span-6">
+
+                        </div>
+                    </div>
+
+                    {/* Product info - Fixed the vertical alignment by adding a flex flex-col class */}
+                    <div className="col-span-6 flex flex-col">
+                        <div className="bg-white rounded-lg shadow-md p-6">
                             <div className="flex items-center text-sm text-gray-500 mb-2">
                                 <span>Tác giả:</span>
                                 <span className="text-blue-500 ml-1">Đoàn Dương, Phan Tuấn Bảo, Lý Thế Minh</span>
@@ -220,187 +248,229 @@ function ProductDetail() {
                                 <span className="ml-2 text-gray-500 line-through text-sm">169.000₫</span>
                                 <span className="ml-2 text-red-500 font-medium">-35%</span>
                             </div>
+                        </div>
 
-                            {/* Product details */}
-                            <div className="bg-gray-50 rounded-md p-4 mb-4">
-                                <h3 className="font-medium mb-3">Thông tin chi tiết</h3>
-                                <table className="w-full text-sm">
-                                    <tbody>
-                                        <tr>
-                                            <td className="py-1 text-gray-500">Bookcare</td>
-                                            <td className="py-1">Có</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 text-gray-500">Công ty phát hành</td>
-                                            <td className="py-1">1980 Books</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 text-gray-500">Ngày xuất bản</td>
-                                            <td className="py-1">2024-07-01 00:00:00</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 text-gray-500">Kích thước</td>
-                                            <td className="py-1">13 × 20.5 cm</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 text-gray-500">Dịch Giả</td>
-                                            <td className="py-1">Huyền Trang</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 text-gray-500">Loại bìa</td>
-                                            <td className="py-1">Bìa mềm</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 text-gray-500">Số trang</td>
-                                            <td className="py-1">263</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="py-1 text-gray-500">Nhà xuất bản</td>
-                                            <td className="py-1">Nhà Xuất Bản Dân Trí</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        {/* Product details */}
+                        <div className="bg-white rounded-lg shadow-md p-6 mt-4">
+                            <table className="w-full text-sm">
+                                <thead>
+                                    <tr className="font-medium mb-3">
+                                        <th className="py-1 text-left">Thông tin chi tiết</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr className="border-b border-gray-200">
+                                        <td className="py-1 text-gray-500">Bookcare</td>
+                                        <td className="py-1">Có</td>
+                                    </tr>
+                                    <tr className="border-b border-gray-200">
+                                        <td className="py-1 text-gray-500">Công ty phát hành</td>
+                                        <td className="py-1">1980 Books</td>
+                                    </tr>
+                                    <tr className="border-b border-gray-200">
+                                        <td className="py-1 text-gray-500">Ngày xuất bản</td>
+                                        <td className="py-1">2024-07-01 00:00:00</td>
+                                    </tr>
+                                    <tr className="border-b border-gray-200">
+                                        <td className="py-1 text-gray-500">Kích thước</td>
+                                        <td className="py-1">13 × 20.5 cm</td>
+                                    </tr>
+                                    <tr className="border-b border-gray-200">
+                                        <td className="py-1 text-gray-500">Dịch Giả</td>
+                                        <td className="py-1">Huyền Trang</td>
+                                    </tr>
+                                    <tr className="border-b border-gray-200">
+                                        <td className="py-1 text-gray-500">Loại bìa</td>
+                                        <td className="py-1">Bìa mềm</td>
+                                    </tr>
+                                    <tr className="border-b border-gray-200">
+                                        <td className="py-1 text-gray-500">Số trang</td>
+                                        <td className="py-1">263</td>
+                                    </tr>
+                                    <tr >
+                                        <td className="py-1 text-gray-500">Nhà xuất bản</td>
+                                        <td className="py-1">Nhà Xuất Bản Dân Trí</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Product description */}
+                        <div className="bg-white rounded-lg shadow-md p-6 mt-4">
+                            <h2 className="text-lg font-medium text-gray-800 mb-4">Mô tả sản phẩm</h2>
+
+                            <div className={`relative overflow-hidden ${expanded ? 'h-auto' : 'h-64'}`}>
+                                <p className="whitespace-pre-line leading-relaxed text-gray-700">
+                                    Mèo méo meo - Bí mật giao tiếp từ cái vẫy đuôi đến tiếng grừ grừ
+                                    Tặng: Thẻ đeo mica cá nhân hóa & Bộ sticker mèo dễ thương
+
+                                    <span className="font-medium block mt-4 mb-2 text-gray-800">Giới thiệu sách</span>
+
+                                    Quyển sách "Kitty Language: An Illustrated Guide to Understanding Your Cat" - quyển sách "đọc vị" loài mèo đình đám trong hội con sen toàn thế giới nay đã chính thức có phiên bản Việt hóa với tên: "Mèo méo meo - Bí mật giao tiếp từ cái vẫy đuôi đến tiếng grừ grừ". Quyển sách nhận được 4.6 sao trên sàn Amazon và trở thành quyển cẩm nang đặc biệt giúp "sen" kết nối với "quàng thượng" theo một cách vừa khoa học, vừa gần gũi. Những hình minh họa đáng yêu từ tác giả Lili Chin sẽ giúp bạn thấu hiểu "ngôn ngữ" của boss yêu qua mọi bộ phận cơ thể: mặt, mắt, tai, râu và đuôi; và cả cách thay đổi tư thế hay hướng và tốc độ di chuyển.
+                                    Để chào đón "hội sen Việt Nam", Saigon Books còn dành tặng bộ quà tặng đặc biệt: Thẻ đeo mica dành cho boss yêu cùng Decal Sticker cute của nhà Vitamin Mèo.
+
+                                    Quyển sách được chắp bút và minh họa bởi Lili Chin - nghệ sĩ minh họa nổi tiếng và là "con sen" chính hiệu. Cô đã hợp tác với nhiều tổ chức uy tín như Fear Free Pets, RSPCA, Hiệp hội tư vấn hành vi động vật quốc tế và International Cat Care. Cô cũng là tác giả của quyển sách "Doggie Language" đình đám.
+
+                                    {/* Content trimmed for brevity - include the rest of the content in the actual implementation */}
+                                </p>
+
+                                {!expanded && (
+                                    <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"></div>
+                                )}
                             </div>
 
-                            {/* Product description */}
+                            <div className="flex justify-center mt-2">
+                                <button
+                                    onClick={toggleExpand}
+                                    className="text-blue-500 hover:text-blue-600 text-sm font-medium focus:outline-none"
+                                >
+                                    {expanded ? 'Thu gọn' : 'Xem thêm'}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Related products section */}                      
+                        <div className="bg-white rounded-md shadow-sm p-4 mt-4 relative">
+                            <div className="flex items-center justify-between mb-4">
+                                <h2 className="text-lg font-medium">Sản phẩm tương tự</h2>
+                            </div>
+                            <div className="relative">
+                                <button
+                                    className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
+                                    onClick={() => scroll("left")}
+                                >
+                                    <FaChevronLeft size={12} />
+                                </button>
+                                <div
+                                    ref={scrollRef}
+                                    className="flex space-x-2 overflow-hidden scroll-smooth px-8"
+                                >
+                                    {relatedProducts.map((product, index) => (
+                                        <div key={index} className="min-w-[160px] flex-shrink-0">
+                                            {renderProductCard(product)}
+                                        </div>
+                                    ))}
+                                </div>
+                                <button
+                                    className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
+                                    onClick={() => scroll("right")}
+                                >
+                                    <FaChevronRight size={12} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Top deals section */}
+                        <div className="bg-white rounded-md shadow-sm p-4 mt-4 relative">
+                            <div className="flex items-center justify-between mb-4">
+                                <h2 className="text-lg font-medium">Top Deals</h2>
+                            </div>
+                            <div className="relative">
+                                <button
+                                    className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
+                                    onClick={() => scroll("left")}
+                                >
+                                    <FaChevronLeft size={12} />
+                                </button>
+                                <div
+                                    ref={scrollRef}
+                                    className="flex space-x-2 overflow-hidden scroll-smooth px-8"
+                                >
+                                    {topDeals.map((product, index) => (
+                                        <div key={index} className="min-w-[160px] flex-shrink-0">
+                                            {renderProductCard(product)}
+                                        </div>
+                                    ))}
+                                </div>
+                                <button
+                                    className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
+                                    onClick={() => scroll("right")}
+                                >
+                                    <FaChevronRight size={12} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Buying info section */}
+                        <div className="bg-white rounded-md shadow-sm p-4 mt-4">
+                            <h2 className="text-lg font-medium mb-4">An tâm mua sắm</h2>
+                            <div className="space-y-3">
+                                <div className="flex items-start border-b border-gray-200 pb-2">
+                                    <img src="https://salt.tikicdn.com/ts/upload/c5/37/ee/76c708d43e377343e82baee8a0340297.png" alt="compensation-icon" height="20" width="20" />
+                                    <div className="text-sm ml-2">Được đồng kiểm khi nhận hàng</div>
+                                </div>
+                                <div className="flex items-start border-b border-gray-200 pb-2">
+                                    <img alt="compensation-icon" src="https://salt.tikicdn.com/ts/upload/ea/02/b4/b024e431ec433e6c85d4734aaf35bd65.png" height="20" width="20" />
+                                    <div className="text-sm ml-2">Được hoàn tiền 200% nếu là hàng giả</div>
+                                </div>
+                                <div className="flex items-start border-b border-gray-200 pb-2">
+                                    <img alt="compensation-icon" src="https://salt.tikicdn.com/ts/upload/d8/c7/a5/1cd5bd2f27f9bd74b2c340b8e27c4d82.png" height="20" width="20" />
+                                    <div className="text-sm ml-2">Đổi trả miễn phí trong 30 ngày. Được đổi ý.
+                                        <div className="underline font-bold">
+                                            <a href="http://">Chi tiết</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Buy options */}
+                    <div className="col-span-3">
+                        <div className="bg-white rounded-lg shadow-md p-6">
+                            <div className="flex items-center mb-3">
+                                <img src={tikiLogo} alt="Tiki Logo" className="w-10 h-10 mr-2" />
+                                <div>
+                                    <div className="font-medium">Tiki Trading</div>
+                                    <img src={official} alt="" />
+                                </div>
+                            </div>
+
                             <div className="mb-4">
-                                <h3 className="font-medium mb-2">Mô tả sản phẩm</h3>
-                                <div className="text-sm text-gray-700 space-y-2">
-                                    <p>Trong thời đại hiện nay, tất cả những ai không muốn bị tụt hậu đều cần học về các công cụ AI, đặc biệt là biết cách sử dụng công cụ AI trong thực tế. Nếu nắm vững các kỹ thuật đơn giản quản các công cụ AI, bạn có thể nhận được sự hỗ trợ đắc lực những công việc của mình.</p>
-                                    <p>Một trong những AI thông minh nhất hiện nay là gọi tên Chat GPT. Kế từ khi ra mắt, Chat GPT luôn được nhìn nhận là một trí tuệ nhân tạo (AI) thông minh nhất thế giới.</p>
-                                    <p>Bất kỳ ai ở lĩnh vự sử dụng ChatGPT đều có thể cảm nhận được hiệu quả và nhanh sự diệu "telling other con người" của trí tuệ nhân tạo đều điều hiểu và đều cảm nhận được</p>
-                                </div>
-                                <div className="text-center mt-4">
-                                    <button className="text-blue-500 text-sm">Xem thêm</button>
+                                <div className="text-sm mb-2">Số Lượng</div>
+                                <div className="flex items-center">
+                                    <button
+                                        onClick={decreaseQuantity}
+                                        className="border border-gray-300 px-2 py-1 rounded-l"
+                                    >
+                                        <FaMinus size={12} />
+                                    </button>
+                                    <input
+                                        type="text"
+                                        value={quantity}
+                                        readOnly
+                                        className="border-t border-b border-gray-300 w-10 text-center py-1"
+                                    />
+                                    <button
+                                        onClick={increaseQuantity}
+                                        className="border border-gray-300 px-2 py-1 rounded-r"
+                                    >
+                                        <FaPlus size={12} />
+                                    </button>
                                 </div>
                             </div>
-                        </div>
 
-                        {/* Buy options */}
-                        <div className="col-span-3">
-                            <div className="border border-gray-200 rounded-md p-4 mb-4">
-                                <div className="flex items-center mb-3">
-                                    <img src={tikiLogo} alt="Tiki Logo" className="w-10 h-10 mr-2" />
-                                    <div>
-                                        <div className="font-medium">Tiki Trading</div>
-                                        <img src={official} alt="" />
-                                    </div>
-                                </div>
-
-                                <div className="mb-4">
-                                    <div className="text-sm mb-2">Số Lượng</div>
-                                    <div className="flex items-center">
-                                        <button
-                                            onClick={decreaseQuantity}
-                                            className="border border-gray-300 px-2 py-1 rounded-l"
-                                        >
-                                            <FaMinus size={12} />
-                                        </button>
-                                        <input
-                                            type="text"
-                                            value={quantity}
-                                            readOnly
-                                            className="border-t border-b border-gray-300 w-10 text-center py-1"
-                                        />
-                                        <button
-                                            onClick={increaseQuantity}
-                                            className="border border-gray-300 px-2 py-1 rounded-r"
-                                        >
-                                            <FaPlus size={12} />
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div className="mb-4">
-                                    <div className="text-sm mb-2">Tạm tính</div>
-                                    <div className="text-xl text-red-500 font-medium">110.000₫</div>
-                                </div>
-
-                                <button className="w-full bg-red-500 text-white py-2 rounded-md mb-2">
-                                    Mua ngay
-                                </button>
-                                <button className="w-full border border-blue-500 text-blue-500 py-2 rounded-md mb-2">
-                                    Thêm vào giỏ
-                                </button>
-                                <button className="w-full border border-blue-500 text-blue-500 py-2 rounded-md">
-                                    Mua trước trả sau
-                                </button>
+                            <div className="mb-4">
+                                <div className="text-sm mb-2">Tạm tính</div>
+                                <div className="text-xl text-red-500 font-medium">110.000₫</div>
                             </div>
+
+                            <button className="w-full bg-red-500 text-white py-2 rounded-md mb-2">
+                                Mua ngay
+                            </button>
+                            <button className="w-full border border-blue-500 text-blue-500 py-2 rounded-md mb-2">
+                                Thêm vào giỏ
+                            </button>
+                            <button className="w-full border border-blue-500 text-blue-500 py-2 rounded-md">
+                                Mua trước trả sau
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* Related products section */}
-            <div className="container mx-auto px-4 py-4">
-                <div className="bg-white rounded-md shadow-sm p-4 mb-4">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-medium">Sản phẩm tương tự</h2>
-                        <div className="flex space-x-2">
-                            <button className="border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center">
-                                <FaChevronLeft size={12} />
-                            </button>
-                            <button className="border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center">
-                                <FaChevronRight size={12} />
-                            </button>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-5 gap-4">
-                        {relatedProducts.map(product => renderProductCard(product))}
-                    </div>
-                </div>
-            </div>
-
-            {/* Top deals section */}
-            <div className="container mx-auto px-4 py-4">
-                <div className="bg-white rounded-md shadow-sm p-4 mb-4">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-medium">Top Deals</h2>
-                        <div className="flex space-x-2">
-                            <button className="border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center">
-                                <FaChevronLeft size={12} />
-                            </button>
-                            <button className="border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center">
-                                <FaChevronRight size={12} />
-                            </button>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-4 gap-4">
-                        {topDeals.map(product => renderProductCard(product))}
-                    </div>
-                </div>
-            </div>
-
-            {/* Buying info section */}
-            <div className="container mx-auto px-4 py-4">
-                <div className="bg-white rounded-md shadow-sm p-4 mb-4">
-                    <h2 className="text-lg font-medium mb-4">An tâm mua sắm</h2>
-                    <div className="space-y-3">
-                        <div className="flex items-start">
-                            <FaCheck className="text-blue-500 mt-1 mr-2" size={14} />
-                            <div className="text-sm">Được đồng kiểm khi nhận hàng</div>
-                        </div>
-                        <div className="flex items-start">
-                            <FaCheck className="text-blue-500 mt-1 mr-2" size={14} />
-                            <div className="text-sm">Được hoàn tiền 200% nếu là hàng giả</div>
-                        </div>
-                        <div className="flex items-start">
-                            <FaCheck className="text-blue-500 mt-1 mr-2" size={14} />
-                            <div className="text-sm">
-                                Đổi trả miễn phí trong 30 ngày. Được đổi ý.
-                                <div className="text-blue-500">Chi tiết</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     );
 }
 
 export default ProductDetail;
-
-
-
-
