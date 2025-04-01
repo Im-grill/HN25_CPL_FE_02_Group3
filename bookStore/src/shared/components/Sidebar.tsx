@@ -54,7 +54,7 @@ const toggleSubcategories = (categoryId) => {
         setOpenCategoryIds(prevOpenIds => {
             if (prevOpenIds.includes(categoryId)) {
                 return prevOpenIds.filter(id => id !== categoryId);
-            } 
+            }
             else {
                 return [...prevOpenIds, categoryId];
             }
