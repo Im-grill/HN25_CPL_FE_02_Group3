@@ -1,16 +1,17 @@
-import { useState } from 'react'
 import './App.css'
-import ProductDetail from './pages/customer/views/productDetail'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import CustomerLayout from './shared/layouts/CustomerLayout'
+import RelSearchTopSeller from './shared/components/RelSearchTopSeller'
+import ProductDetail from './pages/admin/productManagement/productDetail'
 function App() {
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/productdetail" element={<ProductDetail />} />
-
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+    <Routes>
+    <Route path='/' element={<CustomerLayout />}></Route>
+    <Route path='/sell' element={<RelSearchTopSeller />} />
+    <Route path="/productdetail" element={<ProductDetail />} />
+    </Routes>
+    </BrowserRouter>
   )
 }
 
