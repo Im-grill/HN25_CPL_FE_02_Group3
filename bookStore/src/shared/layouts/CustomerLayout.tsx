@@ -1,15 +1,15 @@
-import { ReactNode } from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import { Outlet } from 'react-router-dom'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
-const CustomerLayout = () => {
+import { Outlet } from 'react-router-dom'
+export default function CustomerLayout() {
     return (
         <div className="h-screen flex flex-col">
             <Header />
-            <Sidebar />
+            <main className="flex-grow">
+                <Outlet />
+            </main>
+            <Footer />
         </div>
     )
 }
-
-export default CustomerLayout;
