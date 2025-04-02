@@ -15,7 +15,7 @@ export default function BookSeries() {
         }
     ]
     return (
-        <div className='flex border flex-1'>
+        <div className='flex bg-white flex-1'>
             {/* 1980 books */}
             <div className="relative w-[186px] h-[186px] overflow-hidden">
                 {/* Ảnh nền */}

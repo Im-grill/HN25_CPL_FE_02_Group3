@@ -66,7 +66,7 @@ const toggleSubcategories = (categoryId) => {
     };
 
     return (
-        <aside className="flex flex-col rounded-md h-screen  w-64 bg-[#c2c2c2]" >
+        <aside className="flex flex-col rounded-md h-screen m-1.5 w-64 border-1" >
             <div className="sidebar-top border-b-1 border-[#c2c2c2] p-1.5">
                 <span className="ml-2.5 font-semibold ">Khám phá theo danh mục</span>
             </div>

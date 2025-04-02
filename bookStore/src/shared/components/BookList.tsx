@@ -18,9 +18,15 @@ export default function BookList() {
 
   return (
     <>
-      {data.map((book) =>
+    <div className='flex flex-wrap gap-2 w-full justify-between mt-4 '>
+
+    
+      {data.map((book,index) =>
+       <div key={index} className="w-[calc(25%-8px)]">
         <BookCard key={book.id} props={book} />
+        </div>
       )}
+      </div>
     </>
 
   )

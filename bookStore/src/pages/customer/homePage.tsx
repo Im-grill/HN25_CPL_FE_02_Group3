@@ -1,5 +1,5 @@
 import React from 'react'
-// import BookList from '../../shared/components/BookList'
+import BookList from '../../shared/components/BookList'
 import Sidebar from '../../shared/components/Sidebar'
 import Breadcrumb from '../../shared/components/Breadcrumb'
 import BannerCarousel from '../../shared/components/BannerCarousel'
@@ -15,7 +15,7 @@ export default function HomePage() {
         <Breadcrumb />
       </div>
       {/* main content */}
-      <div className='ml-6 flex flex-row '>
+      <div className='ml-6 mr-6 flex flex-row '>
         <Sidebar />
         {/* Carousel top sach*/}
         <div className='w-full ml-5 flex flex-col' >
@@ -29,9 +29,11 @@ export default function HomePage() {
           <DiscoverCate />
           {/* filter book */}
           <FilterBook/>
+          {/* list book data */}
+          <BookList/>
         </div>
 
-        {/* <BookList/> */}
+       
       </div>
 
     </div>
