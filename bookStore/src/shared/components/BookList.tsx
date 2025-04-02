@@ -9,7 +9,8 @@ export default function BookList() {
   const getBookData = async () => {
     const res = await getBook();
     setData(res)
-   
+
+    res.map((bok) => console.log(bok.images?.[0]?.base_url))
   }
 
   useEffect(() => {
