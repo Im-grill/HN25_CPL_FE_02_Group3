@@ -1,15 +1,13 @@
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import HomePage from './pages/customer/HomePage'
 import CustomerLayout from './shared/layouts/CustomerLayout'
 import BookSeries from './shared/components/BookSeries'
 import RelSearchTopSeller from './shared/components/RelSearchTopSeller'
 import ProductDetail from './pages/admin/productManagement/productDetail'
+import HomePage from './pages/customer/homePage'
 
 function App() {
-
-
   return (
    <BrowserRouter>
    <Routes>

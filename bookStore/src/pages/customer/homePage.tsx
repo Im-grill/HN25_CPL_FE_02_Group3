@@ -5,6 +5,7 @@ import Breadcrumb from '../../shared/components/Breadcrumb'
 import BannerCarousel from '../../shared/components/BannerCarousel'
 import DiscoverCate from '../../shared/components/DiscoverCate'
 import FilterBook from '../../shared/components/FilterBook'
+import RelSearchTopSeller from '../../shared/components/RelSearchTopSeller'
 
 export default function HomePage() {
   return (
@@ -31,6 +32,11 @@ export default function HomePage() {
           <FilterBook/>
           {/* list book data */}
           <BookList/>
+          {/* tim kiem lien quan */}
+          <div className='mt-15 mb-10'>
+          <RelSearchTopSeller/>
+          </div>
+      
         </div>
 
        
