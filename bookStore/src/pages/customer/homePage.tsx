@@ -2,7 +2,7 @@ import React from 'react'
 import BookList from '../../shared/components/BookList'
 import Sidebar from '../../shared/components/Sidebar'
 import Breadcrumb from '../../shared/components/Breadcrumb'
-import BannerCarousel from '../../shared/components/BannerCarousel'
+// import BannerCarousel from '../../shared/components/BannerCarousel'
 import DiscoverCate from '../../shared/components/DiscoverCate'
 import FilterBook from '../../shared/components/FilterBook'
 
@@ -23,7 +23,7 @@ export default function HomePage() {
             <span className='text-[28px] font-semibold'>Nhà Sách Tiki</span>
           </div>
           <div className='w-full mt-3'>
-            <BannerCarousel />
+            {/* <BannerCarousel /> */}
           </div>
           {/* kham pha danh muc */}
           <DiscoverCate />
