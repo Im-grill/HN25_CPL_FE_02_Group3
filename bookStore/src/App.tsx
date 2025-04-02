@@ -4,6 +4,8 @@ import './App.css'
 import HomePage from './pages/customer/HomePage'
 import CustomerLayout from './shared/layouts/CustomerLayout'
 import BookSeries from './shared/components/BookSeries'
+import RelSearchTopSeller from './shared/components/RelSearchTopSeller'
+import ProductDetail from './pages/admin/productManagement/productDetail'
 
 function App() {
 
@@ -16,6 +18,11 @@ function App() {
     <Route path="bookseries" element={<BookSeries/>}/>
     </Route>
    </Routes>
+   <Routes>
+    <Route path='/' element={<CustomerLayout />}></Route>
+    <Route path='/sell' element={<RelSearchTopSeller />} />
+    <Route path="/productdetail" element={<ProductDetail />} />
+    </Routes>
    </BrowserRouter>
   )
 }
