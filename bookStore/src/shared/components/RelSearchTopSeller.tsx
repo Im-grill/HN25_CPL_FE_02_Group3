@@ -34,9 +34,12 @@ const RelSearchTopSeller = () => {
                     <ul>
                         {products.map((product, index) => (
                             <li key={product.id}>
-                                <div className="catCtn items-center px-2 ">
-                                    <span className="font-mono">{index + 1}. </span>
-                                    <Link to={product.link} className=" text-blue-400 mb-3">{product.name}</Link>
+                                <div className="catCtn flex items-center">
+                                    <span className="font-mono">{index + 1}.</span>
+                                    <div className="flex justify-between pr-4 pl-1 w-full ">
+                                        <Link to={product.link} className=" text-blue-400">{product.name}</Link>
+                                        <span>{product.originalPrice}</span>
+                                    </div>
                                 </div>
                             </li>
                         ))}
