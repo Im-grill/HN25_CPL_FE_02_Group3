@@ -1,5 +1,5 @@
-import React from 'react'
-import { IBook } from '../../interfaces'
+
+import { IBook } from '../../interfaces/BookInterfaces'
 type BookCardProps = {
   props: IBook,
 }
@@ -9,13 +9,13 @@ export default function BookCard({ props }: BookCardProps) {
     <div className='relative z-0  rounded-2xl bg-white '>
       <span className='text-[10px] font-bold absolute top-2 right-2 z-1'>AD</span>
       {/* image */}
-      <div className='relative pt-[120%] overflow-hidden'> {/* Tỷ lệ 5:4 */}
+      <div className='relative pt-[100%]  overflow-hidden'> 
        
-        <div className='absolute inset-0 flex items-center justify-center '>
+        <div className='absolute inset-0 flex items-center justify-center top-6 hover:scale-[150%] '>
           <img 
             src={props.images?.[0].base_url} 
             alt={props.name || 'Book cover'} 
-            className='max-h-full max-w-full object-scale-down'
+            className='max-h-full max-w-full object-scale-down '
           />
           <img 
           src="/assets/Top_Free_Verify.png" 

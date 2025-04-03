@@ -6,7 +6,7 @@ import BookSeries from './shared/components/BookSeries'
 import RelSearchTopSeller from './shared/components/RelSearchTopSeller'
 import ProductDetail from './pages/admin/productManagement/productDetail'
 import HomePage from './pages/customer/homePage'
-
+import Confirm from './pages/customer/Confirm'
 function App() {
 
 
@@ -16,6 +16,8 @@ function App() {
     <Route path='/' element={<CustomerLayout/>}>
     <Route path="homepage" element={<HomePage/>}/>
     <Route path="bookseries" element={<BookSeries/>}/>
+    <Route path="confirm" element={<Confirm/>}/>
+
     </Route>
    </Routes>
    <Routes>

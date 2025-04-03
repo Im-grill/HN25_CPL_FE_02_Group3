@@ -6,7 +6,7 @@ export default function CustomerLayout() {
     return (
         <div className="h-screen flex flex-col">
             <Header />
-            <main className="flex-grow">
+            <main className="flex-grow bg-[#F5F5FA]">
                 <Outlet />
             </main>
             <Footer />
