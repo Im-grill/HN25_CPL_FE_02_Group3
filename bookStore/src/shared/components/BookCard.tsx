@@ -1,5 +1,5 @@
 import React from 'react'
-import { IBook } from '../../interfaces'
+import { IBook } from '../../interfaces.ts'
 type BookCardProps = {
   props: IBook,
 }
