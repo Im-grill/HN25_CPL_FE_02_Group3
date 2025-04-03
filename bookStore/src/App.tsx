@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import HomePage from './pages/customer/HomePage'
+import HomePage from './pages/customer/homePage'
 import CustomerLayout from './shared/layouts/CustomerLayout'
 import BookSeries from './shared/components/BookSeries'
 import RelSearchTopSeller from './shared/components/RelSearchTopSeller'
@@ -10,19 +10,17 @@ function App() {
 
 
   return (
-   <BrowserRouter>
-   <Routes>
-    <Route path='/' element={<CustomerLayout/>}>
-    <Route path="homepage" element={<HomePage/>}/>
-    <Route path="bookseries" element={<BookSeries/>}/>
-    </Route>
-   </Routes>
-   <Routes>
-    <Route path='/' element={<CustomerLayout />}></Route>
-    <Route path='/sell' element={<RelSearchTopSeller />} />
-    <Route path="/productdetail" element={<ProductDetail />} />
-    </Routes>
-   </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<CustomerLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="bookseries" element={<BookSeries />} />
+          <Route path="relsearchtopseller" element={<RelSearchTopSeller />} />
+          <Route path="productdetail" element={<ProductDetail />} />
+        </Route>
+      </Routes>
+
+    </BrowserRouter>
   )
 }
 
