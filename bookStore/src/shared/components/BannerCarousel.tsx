@@ -1,55 +1,67 @@
-import { useState } from 'react';
-import Carousel from 'react-bootstrap/Carousel';
+import { useState, useRef } from 'react';
 import BookSeries from './BookSeries';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-function BannerCarousel() {
-  const [index, setIndex] = useState(0);
+import { Carousel } from 'antd';
+import type { CarouselRef } from 'antd/es/carousel';
 
-  const handleSelect = (selectedIndex:number) => {
-    setIndex(selectedIndex);
+function BannerCarousel() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const carouselRef = useRef<CarouselRef>(null);
+
+  // Tạo cặp BookSeries cho mỗi slide
+  const slides = [
+    [1, 2], // Slide 0
+    [3, 4], // Slide 1
+    [5, 6]  // Slide 2
+  ];
+
+  const handleBeforeChange = (current: number, next: number) => {
+    setCurrentSlide(next);
+  };
+
+  const goToSlide = (slideIndex: number) => {
+    carouselRef.current?.goTo(slideIndex);
   };
 
   return (
-    <div className='relative'>
-    <Carousel activeIndex={index} onSelect={handleSelect}   
-    prevIcon={<div className=" bg-black/30 absolute left-0 px-1 pt-2 pb-2 "><FontAwesomeIcon icon={faChevronLeft}  className='text-white/50 opacity-75'/></div>} 
-    nextIcon={<div className=" bg-black/30 absolute right-0 px-1 pt-2 pb-2"><FontAwesomeIcon icon={faChevronRight} className='text-white/50 opacity-75'/></div>} 
-  indicators ={false}
-    >
-      <Carousel.Item>
-        <div className='flex gap-2 w-full justify-between'>
-        <BookSeries/>
-        <BookSeries/>
-        </div>
-        
-      </Carousel.Item>
-      <Carousel.Item>
-        <div className='flex'>
-        <BookSeries/>
-        <BookSeries/>
-        </div>
-        
-      </Carousel.Item>
-      <Carousel.Item>
-        <div className='flex'>
-        <BookSeries/>
-        <BookSeries/>
-        </div>
-        
-      </Carousel.Item>
-      
-    </Carousel>
-    <div className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 flex gap-2">
-        {[0, 1, 2].map((idx) => (
+    <div className=' w-[100%]'>
+      <Carousel
+        ref={carouselRef}
+        arrows
+        infinite={false}
+        beforeChange={handleBeforeChange}
+        dots={false}
+        slidesToShow={1}
+        slidesToScroll={1}
+        responsive={[
+          {
+            breakpoint: 768,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1
+            }
+          }
+        ]}
+      >
+        {slides.map((pair, index) => (
+          <div key={`slide-${index}`} className="flex gap-4 px-2">
+            <div className=" flex">
+              <BookSeries />
+              <BookSeries />
+            </div>
+
+          </div>
+          
+        ))}
+      </Carousel>
+
+      {/* Custom dots */}
+      <div className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 flex gap-2">
+        {slides.map((_, idx) => (
           <button
             key={idx}
-            className={`w-4 h-[2px] rounded-full transition-all ${
-              index === idx ? "bg-[#0A68FF] w-6 h-[2px]" : "bg-gray-400"
-            }`}
-            onClick={() => setIndex(idx)}
+            className={`w-4 h-[2px] rounded-full transition-all ${currentSlide === idx ? "bg-[#0A68FF] w-6 h-[2px]" : "bg-gray-400"
+              }`}
+            onClick={() => goToSlide(idx)}
           />
         ))}
       </div>
