@@ -15,9 +15,9 @@ export default function BookSeries() {
         }
     ]
     return (
-        <div className='flex bg-white flex-1 max-w-[500px] border-1'>
+        <div className='flex bg-white flex-1 w-auto rounded-sm'>
             {/* 1980 books */}
-            <div className="relative w-[186px] h-[186px] overflow-hidden">
+            <div className="relative w-[186px] h-[186px] overflow-hidden  rounded-bl-sm rounded-tl-sm">
                 {/* Ảnh nền */}
                 <img
                     src="/assets/BookListBg.png"
@@ -32,7 +32,7 @@ export default function BookSeries() {
             </div>
             <div className='pt-4 pl-4'>
                 <span className='text-[20px] font-medium'>Top Sach Ban Chay</span>
-                <div className='flex border'>
+                <div className='flex '>
                     <span className='text-[#808089] mr-1'>Tài trợ bởi </span>
                     <span className='font-medium mr-1'> 1980 Books Tại Tiki Trading</span>
                     <span className='text-[#808089] mr-1'>5/5 </span>
@@ -43,7 +43,7 @@ export default function BookSeries() {
                 <div className='flex mt-7'>
                     {books.map((book,index) =>
                         <div key={index} className='relative'>
-                            <img className='size-16 border' src={book.image} />
+                            <img className='size-16 ' src={book.image} />
                             <div className='flex absolute bottom-0 right-0 rounded-[8px] w-[35px] h-4 bg-red-500 items-center justify-center'>
                                 <span className="text-white text-[10px] font-bold  ">{book.discount}</span>
                             </div>

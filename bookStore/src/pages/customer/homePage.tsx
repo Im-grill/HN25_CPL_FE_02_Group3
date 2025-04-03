@@ -1,4 +1,4 @@
-import React from 'react'
+
 import BookList from '../../shared/components/BookList'
 import Sidebar from '../../shared/components/Sidebar'
 import Breadcrumb from '../../shared/components/Breadcrumb'
@@ -6,12 +6,12 @@ import BannerCarousel from '../../shared/components/BannerCarousel'
 import DiscoverCate from '../../shared/components/DiscoverCate'
 import FilterBook from '../../shared/components/FilterBook'
 import RelSearchTopSeller from '../../shared/components/RelSearchTopSeller'
-import BookSeries from '../../shared/components/BookSeries'
+
 
 export default function HomePage() {
   return (
 
-    <div className='w-full bg-[#F5F5FA] overflow-hidden'>
+    <div className='w-screen  bg-[#F5F5FA] overflow-x-hidden'>
       {/* breadcrumb */}
       <div className=' bg-[#F5F5FA] ml-6 h-[53px] flex items-center'>
         <Breadcrumb />
@@ -25,10 +25,10 @@ export default function HomePage() {
             <span className='text-[28px] font-semibold'>Nhà Sách Tiki</span>
           </div>
           <div>
-          {/* <BannerCarousel /> */}
+          <BannerCarousel />
           </div>
            
-          {/* <BookSeries/> */}
+
          
         
           {/* kham pha danh muc */}
@@ -36,7 +36,10 @@ export default function HomePage() {
           {/* filter book */}
           <FilterBook/>
           {/* list book data */}
+          <div className='overflow-hidden max-w-full'>
           <BookList/>
+          </div>
+         
           {/* tim kiem lien quan */}
           <div className='mt-15 mb-10'>
           <RelSearchTopSeller/>
