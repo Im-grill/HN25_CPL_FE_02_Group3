@@ -1,18 +1,18 @@
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import HomePage from './pages/customer/homePage'
+import HomePage from './pages/customer/views/homePage'
 import CustomerLayout from './shared/layouts/CustomerLayout'
-import BookSeries from './shared/components/BookSeries'
-import RelSearchTopSeller from './shared/components/RelSearchTopSeller'
 import ProductDetail from './pages/admin/productManagement/productDetail'
 import AdminLayout from './shared/layouts/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
 import CategoryList from './pages/admin/categoryManagement/CategoryList'
 import UserProvider from './shared/context/UserContext'
-import AlertContext, { AlertProvider } from './shared/context/AlertContext'
+import  { AlertProvider } from './shared/context/AlertContext'
 import Alert from './shared/components/admin/Alert'
 import UserProfile from './pages/customer/views/userProfile'
+import Confirm from './pages/customer/views/Confirm'
+import AddBook from './pages/admin/bookManagement/AddBook'
 function App() {
 
 
@@ -25,16 +25,16 @@ function App() {
             {/* Customer */}
             <Route path='/' element={<CustomerLayout />}>
               <Route path="homepage" element={<HomePage />} />
-              <Route path="bookseries" element={<BookSeries />} />
-              <Route path='/sell' element={<RelSearchTopSeller />} />
               <Route path="/productdetail" element={<ProductDetail />} />
               <Route path="/userprofile" element={<UserProfile />} />
+              <Route path="confirm" element={<Confirm />} />
             </Route>
 
             {/* Admin */}
             <Route path='admin' element={<AdminLayout />}>
               <Route index={true} element={<Dashboard />} />
               <Route path='category' element={<CategoryList />} />
+              <Route path='add/book' element={<AddBook />} />
             </Route>
           </Routes>
         </AlertProvider>
