@@ -12,6 +12,7 @@ import CategoryList from './pages/admin/categoryManagement/CategoryList'
 import UserProvider from './shared/context/UserContext'
 import AlertContext, { AlertProvider } from './shared/context/AlertContext'
 import Alert from './shared/components/admin/Alert'
+import UserProfile from './pages/customer/views/userProfile'
 function App() {
 
 
@@ -27,6 +28,7 @@ function App() {
               <Route path="bookseries" element={<BookSeries />} />
               <Route path='/sell' element={<RelSearchTopSeller />} />
               <Route path="/productdetail" element={<ProductDetail />} />
+              <Route path="/userprofile" element={<UserProfile />} />
             </Route>
 
             {/* Admin */}

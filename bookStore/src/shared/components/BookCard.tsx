@@ -9,7 +9,6 @@ export default function BookCard({ props }: BookCardProps) {
     <div className='relative z-0  rounded-2xl bg-white '>
       <span className='text-[10px] font-bold absolute top-2 right-2 z-1'>AD</span>
       {/* image */}
-<<<<<<< HEAD
       <div className='relative pt-[100%]  overflow-hidden'> 
        
         <div className='absolute inset-0 flex items-center justify-center top-6 hover:scale-[150%] '>
@@ -17,15 +16,6 @@ export default function BookCard({ props }: BookCardProps) {
             src={props.images?.[0].base_url} 
             alt={props.name || 'Book cover'} 
             className='max-h-full max-w-full object-scale-down '
-=======
-      <div className='relative pt-[120%] overflow-hidden'> {/* Tỷ lệ 5:4 */}
-       
-        <div className='absolute inset-0 flex items-center justify-center '>
-          <img 
-            src={props.images?.[0].base_url} 
-            alt={props.name || 'Book cover'} 
-            className='max-h-full max-w-full object-scale-down'
->>>>>>> 3c5df44a5dfe86d344dce69751b5aa2eeaf95148
           />
           <img 
           src="/assets/Top_Free_Verify.png" 
