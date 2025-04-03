@@ -16,7 +16,6 @@ function App() {
 
   return (
     <BrowserRouter>
-<<<<<<< HEAD
       <UserProvider>
         <AlertProvider>
           <Alert />
@@ -25,8 +24,8 @@ function App() {
             <Route path='/' element={<CustomerLayout />}>
               <Route path="homepage" element={<HomePage />} />
               <Route path="bookseries" element={<BookSeries />} />
-              <Route path="/productdetail" element={<ProductDetail />} />
               <Route path='/sell' element={<RelSearchTopSeller />} />
+              <Route path="/productdetail" element={<ProductDetail />} />
             </Route>
 
             {/* Admin */}
@@ -37,17 +36,6 @@ function App() {
           </Routes>
         </AlertProvider>
       </UserProvider>
-=======
-      <Routes>
-        <Route path='/' element={<CustomerLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="bookseries" element={<BookSeries />} />
-          <Route path="relsearchtopseller" element={<RelSearchTopSeller />} />
-          <Route path="productdetail" element={<ProductDetail />} />
-        </Route>
-      </Routes>
-
->>>>>>> 6be7ba4f8d52b9798e71d379bbb9ed9124d9285a
     </BrowserRouter>
   )
 }
