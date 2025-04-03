@@ -1,11 +1,12 @@
 
-import BookList from '../../shared/components/BookList'
-import Sidebar from '../../shared/components/Sidebar'
-import Breadcrumb from '../../shared/components/Breadcrumb'
-import BannerCarousel from '../../shared/components/BannerCarousel'
-import DiscoverCate from '../../shared/components/DiscoverCate'
-import FilterBook from '../../shared/components/FilterBook'
-import RelSearchTopSeller from '../../shared/components/RelSearchTopSeller'
+import BookList from '../../../shared/components/BookList'
+import Sidebar from '../../../shared/components/Sidebar'
+import Breadcrumb from '../../../shared/components/Breadcrumb'
+import BannerCarousel from '../../../shared/components/BannerCarousel'
+import DiscoverCate from '../../../shared/components/DiscoverCate'
+
+import RelSearchTopSeller from '../../../shared/components/RelSearchTopSeller'
+import FilterBook from '../../../shared/components/FilterBook'
 
 
 export default function HomePage() {
