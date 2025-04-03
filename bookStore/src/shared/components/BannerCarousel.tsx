@@ -16,7 +16,7 @@ function BannerCarousel() {
     [5, 6]  // Slide 2
   ];
 
-  const handleBeforeChange = (current: number, next: number) => {
+  const handleBeforeChange = (_current: number, next: number) => {
     setCurrentSlide(next);
   };
 

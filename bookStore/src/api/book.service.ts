@@ -1,4 +1,4 @@
-import { IBook } from "../interfaces.ts";
+import { IBook } from "../interfaces/BookInterfaces";
 import instance from "./api.service";
 
 export const getBook = async ():Promise<IBook[]> => {
