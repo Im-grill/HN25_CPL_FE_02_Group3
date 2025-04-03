@@ -4,6 +4,7 @@ import tikiLogo from '../../../assets/tiki-logo.png';
 import bookCover from '../../../assets/book-cover.png';
 import tikiheader from '../../../assets/tiki-head.png';
 import official from '../../../assets/official.png';
+import { Link } from 'react-router-dom';
 
 
 function ProductDetail() {
@@ -462,9 +463,11 @@ function ProductDetail() {
                                 <div className="text-xl text-red-500 font-medium">110.000₫</div>
                             </div>
 
-                            <button className="w-full bg-red-500 text-white py-2 rounded-md mb-2">
-                                Mua ngay
-                            </button>
+                            <Link to="/customer/order">
+                                <button className="w-full bg-red-500 text-white py-2 rounded-md mb-2">
+                                    Mua ngay
+                                </button>
+                            </Link>
                             <button className="w-full border border-blue-500 text-blue-500 py-2 rounded-md mb-2">
                                 Thêm vào giỏ
                             </button>
