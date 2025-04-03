@@ -19,18 +19,19 @@ function ProductDetail() {
         }
     };
 
-    const scrollRef = useRef<HTMLDivElement>(null);
+    const relatedProductsRef = useRef<HTMLDivElement>(null);
+    const topDealsRef = useRef<HTMLDivElement>(null);
 
-    const scroll = (direction: "left" | "right") => {
-        if (scrollRef.current) {
-            const { current } = scrollRef;
-            if (direction === "left") {
-                current.scrollBy({ left: -300, behavior: "smooth" });
-            } else {
-                current.scrollBy({ left: 300, behavior: "smooth" });
+    const scroll = (direction: "left" | "right", ref: React.RefObject<HTMLDivElement | null>) => {
+            if (ref.current) {
+                const { current } = ref;
+                if (direction === "left") {
+                    current.scrollBy({ left: -300, behavior: "smooth" });
+                } else {
+                    current.scrollBy({ left: 300, behavior: "smooth" });
+                }
             }
-        }
-    };
+        };
 
     // Sample related products data
     const relatedProducts = [
@@ -329,7 +330,7 @@ function ProductDetail() {
                             </div>
                         </div>
 
-                        {/* Related products section */}                      
+                        {/* Related products section */}
                         <div className="bg-white rounded-md shadow-sm p-4 mt-4 relative">
                             <div className="flex items-center justify-between mb-4">
                                 <h2 className="text-lg font-medium">Sản phẩm tương tự</h2>
@@ -337,12 +338,12 @@ function ProductDetail() {
                             <div className="relative">
                                 <button
                                     className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
-                                    onClick={() => scroll("left")}
+                                    onClick={() => scroll("left", relatedProductsRef)}
                                 >
                                     <FaChevronLeft size={12} />
                                 </button>
                                 <div
-                                    ref={scrollRef}
+                                    ref={relatedProductsRef}
                                     className="flex space-x-2 overflow-hidden scroll-smooth px-8"
                                 >
                                     {relatedProducts.map((product, index) => (
@@ -353,7 +354,7 @@ function ProductDetail() {
                                 </div>
                                 <button
                                     className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
-                                    onClick={() => scroll("right")}
+                                    onClick={() => scroll("right", relatedProductsRef)}
                                 >
                                     <FaChevronRight size={12} />
                                 </button>
@@ -368,12 +369,12 @@ function ProductDetail() {
                             <div className="relative">
                                 <button
                                     className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
-                                    onClick={() => scroll("left")}
+                                    onClick={() => scroll("left", topDealsRef)}
                                 >
                                     <FaChevronLeft size={12} />
                                 </button>
                                 <div
-                                    ref={scrollRef}
+                                    ref={topDealsRef}
                                     className="flex space-x-2 overflow-hidden scroll-smooth px-8"
                                 >
                                     {topDeals.map((product, index) => (
@@ -384,7 +385,7 @@ function ProductDetail() {
                                 </div>
                                 <button
                                     className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
-                                    onClick={() => scroll("right")}
+                                    onClick={() => scroll("right", topDealsRef)}
                                 >
                                     <FaChevronRight size={12} />
                                 </button>
