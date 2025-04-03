@@ -17,7 +17,7 @@ export default function DiscoverCate() {
         }
     ]
     return (
-        <div className='flex bg-white mt-[34px]   flex-col pb-2'>
+        <div className='flex bg-white mt-[20px]   flex-col pb-2'>
             <span className='font-semibold  mt-3 ml-4 '>Khám phá theo danh mục</span>
             <div className="flex ml-[45px] mt-2.5 pb-4  gap-10">
                 {cate.map((cat,index) => 
