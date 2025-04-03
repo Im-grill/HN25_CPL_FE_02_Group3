@@ -1,6 +1,9 @@
 import { useState, useRef } from 'react';
 import BookSeries from './BookSeries';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import { Carousel } from 'antd';
+import type { CarouselRef } from 'antd/es/carousel';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 function BannerCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
