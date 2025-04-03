@@ -36,17 +36,6 @@ function App() {
           </Routes>
         </AlertProvider>
       </UserProvider>
-=======
-      <Routes>
-        <Route path='/' element={<CustomerLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="bookseries" element={<BookSeries />} />
-          <Route path="relsearchtopseller" element={<RelSearchTopSeller />} />
-          <Route path="productdetail" element={<ProductDetail />} />
-        </Route>
-      </Routes>
-
->>>>>>> 6be7ba4f8d52b9798e71d379bbb9ed9124d9285a
     </BrowserRouter>
   )
 }
