@@ -29,7 +29,6 @@ function App() {
                             <Route path="/productdetail" element={<ProductDetail/>}/>
                             <Route path="/userprofile" element={<UserProfile/>}/>
                             <Route path='order' element={<Order/>}></Route>
-
                             <Route path="confirm" element={<Confirm/>}/>
                         </Route>
 
