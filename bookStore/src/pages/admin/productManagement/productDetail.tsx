@@ -19,11 +19,12 @@ function ProductDetail() {
         }
     };
 
-    const scrollRef = useRef<HTMLDivElement>(null);
+    const relatedProductsRef = useRef<HTMLDivElement>(null);
+    const topDealsRef = useRef<HTMLDivElement>(null);
 
-    const scroll = (direction: "left" | "right") => {
-        if (scrollRef.current) {
-            const { current } = scrollRef;
+    const scroll = (direction: "left" | "right", ref: React.RefObject<HTMLDivElement | null>) => {
+        if (ref.current) {
+            const { current } = ref;
             if (direction === "left") {
                 current.scrollBy({ left: -300, behavior: "smooth" });
             } else {
@@ -173,6 +174,7 @@ function ProductDetail() {
         setExpanded(!expanded);
     };
 
+    const [currentImage, setCurrentImage] = useState(bookCover);
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -199,30 +201,34 @@ function ProductDetail() {
                     <div className="col-span-3">
                         <div className="bg-white rounded-lg shadow-md">
                             <div className="p-6">
-                                <img src={bookCover} alt="Chat GPT Thực Chiến" className="w-full" />
+                                <img src={currentImage} alt="Chat GPT Thực Chiến" className="w-full" />
                             </div>
                             <div className="border-b border-gray-200 p-4">
-                                <div className="grid grid-cols-5 gap-2  ">
-                                    <div className="border border-blue-500 rounded-md overflow-hidden">
+                                <div className="grid grid-cols-5 gap-2">
+                                    <div
+                                        className="border border-blue-500 rounded-md overflow-hidden cursor-pointer"
+                                        onClick={() => setCurrentImage(bookCover)}
+                                    >
                                         <img src={bookCover} alt="Thumbnail 1" className="w-full" />
                                     </div>
-                                    <div className="border border-gray-200 rounded-md overflow-hidden">
-                                        <img src={bookCover} alt="Thumbnail 2" className="w-full" />
+                                    <div
+                                        className="border border-gray-200 rounded-md overflow-hidden cursor-pointer"
+                                        onClick={() => setCurrentImage(tikiLogo)}
+                                    >
+                                        <img src={tikiLogo} alt="Thumbnail 2" className="w-full" />
                                     </div>
                                 </div>
                             </div>
                             <div className="flex items-center mt-4 text-sm ml-6">
                                 <span className=""><img src={tikiheader} alt="icon-left" width={24} height={24} /></span>
                                 <div className="ml-2">
-                                    <span className=" text-gray-500">Xem thêm </span>
+                                    <span className="text-gray-500">Xem thêm </span>
                                     Tóm tắt nội dung sách
                                 </div>
                                 <div className="text-right ml-auto mr-3">
                                     <img src="https://salt.tikicdn.com/ts/ta/5c/76/e2/25aa7773e0480b23252d8f1c95a03d05.png" alt="icon-right" width="24" height="24"></img>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
 
@@ -329,7 +335,7 @@ function ProductDetail() {
                             </div>
                         </div>
 
-                        {/* Related products section */}                      
+                        {/* Related products section */}
                         <div className="bg-white rounded-md shadow-sm p-4 mt-4 relative">
                             <div className="flex items-center justify-between mb-4">
                                 <h2 className="text-lg font-medium">Sản phẩm tương tự</h2>
@@ -337,12 +343,12 @@ function ProductDetail() {
                             <div className="relative">
                                 <button
                                     className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
-                                    onClick={() => scroll("left")}
+                                    onClick={() => scroll("left", relatedProductsRef)}
                                 >
                                     <FaChevronLeft size={12} />
                                 </button>
                                 <div
-                                    ref={scrollRef}
+                                    ref={relatedProductsRef}
                                     className="flex space-x-2 overflow-hidden scroll-smooth px-8"
                                 >
                                     {relatedProducts.map((product, index) => (
@@ -353,7 +359,7 @@ function ProductDetail() {
                                 </div>
                                 <button
                                     className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
-                                    onClick={() => scroll("right")}
+                                    onClick={() => scroll("right", relatedProductsRef)}
                                 >
                                     <FaChevronRight size={12} />
                                 </button>
@@ -368,12 +374,12 @@ function ProductDetail() {
                             <div className="relative">
                                 <button
                                     className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
-                                    onClick={() => scroll("left")}
+                                    onClick={() => scroll("left", topDealsRef)}
                                 >
                                     <FaChevronLeft size={12} />
                                 </button>
                                 <div
-                                    ref={scrollRef}
+                                    ref={topDealsRef}
                                     className="flex space-x-2 overflow-hidden scroll-smooth px-8"
                                 >
                                     {topDeals.map((product, index) => (
@@ -384,7 +390,7 @@ function ProductDetail() {
                                 </div>
                                 <button
                                     className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
-                                    onClick={() => scroll("right")}
+                                    onClick={() => scroll("right", topDealsRef)}
                                 >
                                     <FaChevronRight size={12} />
                                 </button>

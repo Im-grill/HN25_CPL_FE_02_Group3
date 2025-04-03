@@ -53,3 +53,10 @@ export interface IBook extends IHasId {
     short_description?: string,
     specifications?: ISpecifications
 }
+
+
+
+
+  
+
+  
