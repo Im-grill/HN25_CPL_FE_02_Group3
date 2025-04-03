@@ -1,6 +1,6 @@
 
 import Header from '../components/Header'
-
+import Footer from '../components/Footer'
 import { Outlet } from 'react-router-dom'
 export default function CustomerLayout() {
     return (
@@ -9,7 +9,7 @@ export default function CustomerLayout() {
             <main className="flex-grow">
                 <Outlet />
             </main>
-            {/* <Footer /> */}
+            <Footer />
         </div>
     )
 }

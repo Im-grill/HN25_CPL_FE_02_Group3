@@ -19,7 +19,7 @@ function App() {
     </Route>
    </Routes>
    <Routes>
-    <Route path='/' element={<CustomerLayout />}></Route>
+    {/* <Route path='/' element={<CustomerLayout />}></Route> */}
     <Route path='/sell' element={<RelSearchTopSeller />} />
     <Route path="/productdetail" element={<ProductDetail />} />
     </Routes>

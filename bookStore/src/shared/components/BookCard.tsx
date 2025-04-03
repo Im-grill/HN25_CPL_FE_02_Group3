@@ -9,9 +9,22 @@ export default function BookCard({ props }: BookCardProps) {
     <div className='relative z-0  rounded-2xl bg-white '>
       <span className='text-[10px] font-bold absolute top-2 right-2 z-1'>AD</span>
       {/* image */}
-      <div className=' relative'>
-        <img src={props.images?.[0].base_url} alt='' className='size-[300px]' />
-        <img src="/assets/Top_Free_Verify.png" alt="" className=' bottom-0 absolute' />
+      <div className='relative pt-[120%] overflow-hidden'> {/* Tỷ lệ 5:4 */}
+       
+        <div className='absolute inset-0 flex items-center justify-center '>
+          <img 
+            src={props.images?.[0].base_url} 
+            alt={props.name || 'Book cover'} 
+            className='max-h-full max-w-full object-scale-down'
+          />
+          <img 
+          src="/assets/Top_Free_Verify.png" 
+          alt="Verified" 
+          className='absolute bottom-0 left-1/2 transform -translate-x-1/2 '
+        />
+        </div>
+        
+        
       </div>
       {/* price */}
       <div className='mt-2 ml-3 flex items-baseline'>
