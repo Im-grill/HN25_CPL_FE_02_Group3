@@ -14,6 +14,7 @@ import Confirm from './pages/customer/views/Confirm'
 import BookForm from './pages/admin/bookManagement/BookForm'
 import Order from './pages/customer/views/order'
 import BookListManagement from './pages/admin/bookManagement/BookList'
+import OrderList from './pages/admin/orderMangement/orderList'
 
 function App() {
 
@@ -39,6 +40,8 @@ function App() {
                             <Route path='category' element={<CategoryList/>}/>
                             <Route path='book/add' element={<BookForm/>}/>
                             <Route path='book/list' element={<BookListManagement/>}/>
+                            <Route path='book/add' element={<BookListManagement/>}/>
+                            <Route path='order' element={<OrderList/>}/>
                         </Route>
                     </Routes>
                 </AlertProvider>
