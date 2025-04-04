@@ -14,6 +14,7 @@ import Confirm from './pages/customer/views/Confirm'
 import AddBook from './pages/admin/bookManagement/AddBook'
 import Order from './pages/customer/views/order'
 
+
 function App() {
     return (
         <BrowserRouter>
@@ -29,13 +30,13 @@ function App() {
                             <Route path="confirm" element={<Confirm/>}/>
                         </Route>
                         <Route path='order' element={<Order/>}></Route>
-
                         {/* Admin */}
                         <Route path='admin' element={<AdminLayout/>}>
                             <Route index={true} element={<Dashboard/>}/>
                             <Route path='category' element={<CategoryList/>}/>
                             <Route path='add/book' element={<AddBook/>}/>
                         </Route>
+                        {/*Admin Login, Resgiter*/}
                     </Routes>
                 </AlertProvider>
             </UserProvider>
