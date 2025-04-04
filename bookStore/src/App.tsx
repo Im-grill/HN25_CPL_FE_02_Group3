@@ -11,8 +11,9 @@ import {AlertProvider} from './shared/context/AlertContext'
 import Alert from './shared/components/admin/Alert'
 import UserProfile from './pages/customer/views/userProfile'
 import Confirm from './pages/customer/views/Confirm'
-import AddBook from './pages/admin/bookManagement/AddBook'
+import BookForm from './pages/admin/bookManagement/BookForm'
 import Order from './pages/customer/views/order'
+import BookListManagement from './pages/admin/bookManagement/BookList'
 import OrderList from './pages/admin/orderMangement/orderList'
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
                         {/* Customer */}
                         <Route path='customer' element={<CustomerLayout/>}>
                             <Route path="homepage" element={<HomePage/>}/>
-                            <Route path="productdetail" element={<ProductDetail/>}/>
+                            <Route path="productdetail/:id" element={<ProductDetail/>}/>
                             <Route path="userprofile" element={<UserProfile/>}/>
                             <Route path="order" element={<Order/>}/>
                             <Route path="confirm" element={<Confirm/>}/>
@@ -37,7 +38,9 @@ function App() {
                         <Route path='admin' element={<AdminLayout/>}>
                             <Route index={true} element={<Dashboard/>}/>
                             <Route path='category' element={<CategoryList/>}/>
-                            <Route path='book/add' element={<AddBook/>}/>
+                            <Route path='book/add' element={<BookForm/>}/>
+                            <Route path='book/list' element={<BookListManagement/>}/>
+                            <Route path='book/add' element={<BookListManagement/>}/>
                             <Route path='order' element={<OrderList/>}/>
                         </Route>
                     </Routes>

@@ -1,14 +1,19 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaStar, FaAngleRight, FaChevronLeft, FaChevronRight, FaMinus, FaPlus } from 'react-icons/fa';
 import tikiLogo from '../../../assets/tiki-logo.png';
 import bookCover from '../../../assets/book-cover.png';
 import tikiheader from '../../../assets/tiki-head.png';
 import official from '../../../assets/official.png';
+import IBook from '../../../interfaces/BookInterfaces';
+interface props{
+    book :IBook
+}
 
-
-function ProductDetail() {
+function ProductDetail({book}:props) {
     const [quantity, setQuantity] = useState(1);
-
+useEffect(()=>{
+    console.log("link "+ book.images?.[0].base_url)
+},[])
     const increaseQuantity = () => {
         setQuantity(prevQuantity => prevQuantity + 1);
     };

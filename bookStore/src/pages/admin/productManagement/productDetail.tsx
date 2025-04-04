@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 function ProductDetail() {
     const [quantity, setQuantity] = useState(1);
-
+ 
     const increaseQuantity = () => {
         setQuantity(prevQuantity => prevQuantity + 1);
     };

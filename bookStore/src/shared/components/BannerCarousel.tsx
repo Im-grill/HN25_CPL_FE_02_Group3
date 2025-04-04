@@ -27,7 +27,7 @@ function BannerCarousel() {
   const next = () => carouselRef.current?.next();
   const prev = () => carouselRef.current?.prev();
   return (
-    <div className='w-full overflow-hidden  mt-6'>
+    <div className='w-full overflow-hidden  mt-6  '>
       <div className='relative h-[200px] mx-auto max-w-[1200px]'>
         <Carousel
           ref={carouselRef}

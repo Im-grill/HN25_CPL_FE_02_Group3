@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 type IFormInput = {
     name: string,
+    author:string,
     categories: string
     seller_price: number,
     original_price: number,
@@ -15,7 +16,7 @@ type IFormInput = {
     number_of_page: number
 
 }
-export default function AddBook() {
+export default function BookForm() {
     const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>();
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         console.log(data);
@@ -47,7 +48,23 @@ export default function AddBook() {
                                 </div>
                             </div>
                         </div>
-
+                        <div className="sm:col-span-4">
+                            <label htmlFor="author" className="block text-sm/6 font-medium text-gray-900">
+                                Tác giả
+                            </label>
+                            <div className="mt-2">
+                                <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                                    {/* <div className="shrink-0 text-base text-gray-500 select-none sm:text-sm/6">workcation.com/</div> */}
+                                    <input
+                                        id="author"
+                                        type="text"
+                                        placeholder="Nhập tên tác giá"
+                                        {...register("author")}
+                                        className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                                    />
+                                </div>
+                            </div>
+                        </div>
                         <div className="col-span-full">
                             <label htmlFor="categories" className="block text-sm/6 font-medium text-gray-900">
                                 Danh mục
@@ -170,7 +187,8 @@ export default function AddBook() {
                                 <input
                                     id="publisher"
                                     {...register("publisher")}
-                                    type="number"
+                                    type="text"
+                                    placeholder="Nhập tên nhà xuất bản"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 />
                             </div>
