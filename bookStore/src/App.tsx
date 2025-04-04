@@ -13,6 +13,7 @@ import UserProfile from './pages/customer/views/userProfile'
 import Confirm from './pages/customer/views/Confirm'
 import BookForm from './pages/admin/bookManagement/BookForm'
 import Order from './pages/customer/views/order'
+import BookListManagement from './pages/admin/bookManagement/BookList'
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
                             <Route index={true} element={<Dashboard/>}/>
                             <Route path='category' element={<CategoryList/>}/>
                             <Route path='book/add' element={<BookForm/>}/>
+                            <Route path='book/list' element={<BookListManagement/>}/>
                         </Route>
                     </Routes>
                 </AlertProvider>
