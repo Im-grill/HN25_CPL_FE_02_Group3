@@ -39,7 +39,7 @@ interface ISpecifications {
     name: string,
     attributes: IAttributes[]
 }
-export interface IBook extends IHasId {
+export  default interface IBook extends IHasId {
     author?: IAuthor[],
     category?: ICategory[],
     current_seller?: ISeller,

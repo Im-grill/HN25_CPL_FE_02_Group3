@@ -6,7 +6,7 @@ type BookCardProps = {
 export default function BookCard({ props }: BookCardProps) {
   return (
 
-    <div className='relative z-0  rounded-2xl bg-white shadow-black/20 hover:shadow-xl cursor-pointer '>
+    <div className='relative z-0  rounded-2xl bg-white shadow-black/20 hover:shadow-xl cursor-pointer  ' >
       <span className='text-[10px] font-bold absolute top-2 right-2 z-1'>AD</span>
       {/* image */}
       <div className='relative h-[300px]  overflow-hidden'> 

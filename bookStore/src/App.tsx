@@ -27,7 +27,7 @@ function App() {
                         {/* Customer */}
                         <Route path='customer' element={<CustomerLayout/>}>
                             <Route path="homepage" element={<HomePage/>}/>
-                            <Route path="productdetail" element={<ProductDetail/>}/>
+                            <Route path="productdetail/:id" element={<ProductDetail/>}/>
                             <Route path="userprofile" element={<UserProfile/>}/>
                             <Route path="order" element={<Order/>}/>
                             <Route path="confirm" element={<Confirm/>}/>
