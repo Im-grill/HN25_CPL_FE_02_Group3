@@ -1,5 +1,4 @@
-
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import './App.css'
 import HomePage from './pages/customer/views/homePage'
 import CustomerLayout from './shared/layouts/CustomerLayout'
@@ -8,42 +7,42 @@ import AdminLayout from './shared/layouts/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
 import CategoryList from './pages/admin/categoryManagement/CategoryList'
 import UserProvider from './shared/context/UserContext'
-import  { AlertProvider } from './shared/context/AlertContext'
+import {AlertProvider} from './shared/context/AlertContext'
 import Alert from './shared/components/admin/Alert'
 import UserProfile from './pages/customer/views/userProfile'
 import Confirm from './pages/customer/views/Confirm'
 import BookForm from './pages/admin/bookManagement/BookForm'
-import BookListManagement from './pages/admin/bookManagement/BookList'
+import Order from './pages/customer/views/order'
+
 function App() {
 
 
-  return (
-    <BrowserRouter>
-      <UserProvider>
-        <AlertProvider>
-          <Alert />
-          <Routes>
-            {/* Customer */}
-            <Route path='/' element={<CustomerLayout />}>
-              <Route path="homepage" element={<HomePage />} />
-              <Route path="/productdetail" element={<ProductDetail />} />
-              <Route path="/userprofile" element={<UserProfile />} />
-              <Route path="confirm" element={<Confirm />} />
-            </Route>
+    return (
+        <BrowserRouter>
+            <UserProvider>
+                <AlertProvider>
+                    <Alert/>
+                    <Routes>
+                        {/* Customer */}
+                        <Route path='customer' element={<CustomerLayout/>}>
+                            <Route path="homepage" element={<HomePage/>}/>
+                            <Route path="productdetail" element={<ProductDetail/>}/>
+                            <Route path="userprofile" element={<UserProfile/>}/>
+                            <Route path="order" element={<Order/>}/>
+                            <Route path="confirm" element={<Confirm/>}/>
+                        </Route>
 
-            {/* Admin */}
-            <Route path='admin' element={<AdminLayout />}>
-              <Route index={true} element={<Dashboard />} />
-              <Route path='category' element={<CategoryList />} />
-              <Route path='add/book' element={<BookForm />} />
-              <Route path='booklist' element={<BookListManagement />} />
-
-            </Route>
-          </Routes>
-        </AlertProvider>
-      </UserProvider>
-    </BrowserRouter>
-  )
+                        {/* Admin */}
+                        <Route path='admin' element={<AdminLayout/>}>
+                            <Route index={true} element={<Dashboard/>}/>
+                            <Route path='category' element={<CategoryList/>}/>
+                            <Route path='book/add' element={<BookForm/>}/>
+                        </Route>
+                    </Routes>
+                </AlertProvider>
+            </UserProvider>
+        </BrowserRouter>
+    )
 }
 
 export default App

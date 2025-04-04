@@ -37,7 +37,7 @@ const Header = (props) => {
             </div>
 
             <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-                <Link to="/" className="flex flex-col items-center">
+                <Link to="/customer/homepage" className="flex flex-col items-center">
                     <img src={TikiLogo} alt="Tiki Logo" className="h-8" />
                     <span className="mt-1 text-sm font-semibold text-blue-500">Tốt & Nhanh</span>
                 </Link>
@@ -59,7 +59,7 @@ const Header = (props) => {
                     </button>
                 </div>
                 <div className="flex items-center space-x-4">
-                    <Link to="/" className="flex items-center text-gray-600 hover:text-blue-500 text-xs">
+                    <Link to="/customer/homepage" className="flex items-center text-gray-600 hover:text-blue-500 text-xs">
                         <FontAwesomeIcon icon={faHome} className="h-5 w-5 mr-1" />
                         Trang chủ
                     </Link>
@@ -67,7 +67,7 @@ const Header = (props) => {
                         <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1" />
                         Tài khoản
                     </button>
-                    <Link to="/cart" className="relative flex items-center text-gray-600 hover:text-blue-500 text-xs">
+                    <Link to="/customer/userprofile" className="relative flex items-center text-gray-600 hover:text-blue-500 text-xs">
                         <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5 mr-1 text-blue-500" />
                         <span className="absolute top-[-15px] right-[-8px] bg-red-500 text-white rounded-full text-xs px-[6px]">
                             0

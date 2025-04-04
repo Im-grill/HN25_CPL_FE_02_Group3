@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 
 export default function Confirm() {
     return (
@@ -21,9 +22,11 @@ export default function Confirm() {
                         <span className="text-[#38383D] font-normal text-lg">110.000 ₫</span>
                     </div>
                     <div className="ml-[30%] text-center mr-5 ">
-                        <button type="button" className="border-[#0B74E5] border-1 w-full p-3 rounded-sm cursor-pointer hover:underline decoration-[#0B74E5]">
-                            <span className="text-[#0B74E5] ">Quay về trang chủ</span>
-                        </button>
+                        <Link to="/customer/homepage">
+                            <button type="button" className="border-[#0B74E5] border-1 w-full p-3 rounded-sm cursor-pointer hover:underline decoration-[#0B74E5]">
+                                <span className="text-[#0B74E5] ">Quay về trang chủ</span>
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -42,8 +45,8 @@ export default function Confirm() {
                 {/* thong tin detail sach */}
                 <div className="flex items-center mt-2 p-3">
                     <img src="https://s3-alpha-sig.figma.com/img/a537/15f3/c0c30196f4e6e29db52b15ccd96b5f88?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=NhnGSdqanArML1F8V1tyutsns-983OWnZEWvaMyOlkDLVbBEGtx~Ik5NxCdS31ExD-YaKWDD~k9ZPyj1~IGPU3jllble8jASZpzAbRNcf3tgefzM0vSWoQ2chDQOkWFz7SUSBPCRuQJICSUwj795qzYoeaX9RqKdzqQmr8~ItgQOKlCe3z9jZtFHW3UqtdJYrRv0tG~aBivb96WqLcCqQKrpx3GJlVJ8fzBE6no0YIchNs3qBVi5lzfzdDyx64SCDfTsZ5bGKO-awGCxpaeoenRUkf9Ak8eaNARjvFMWJFOTa-j6ehfQ0BC2rWbiwyFlVPIRea6bJYCGvzEsV8Nn8A__"
-                    alt=""
-                    className="size-[50px]"/>
+                        alt=""
+                        className="size-[50px]" />
                     <span className="text-sm font-normal text-[#808089]">Chat GPT Thực Chiến</span>
                 </div>
             </div>
