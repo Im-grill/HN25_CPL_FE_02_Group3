@@ -12,7 +12,8 @@ import  { AlertProvider } from './shared/context/AlertContext'
 import Alert from './shared/components/admin/Alert'
 import UserProfile from './pages/customer/views/userProfile'
 import Confirm from './pages/customer/views/Confirm'
-import AddBook from './pages/admin/bookManagement/AddBook'
+import BookForm from './pages/admin/bookManagement/BookForm'
+import BookListManagement from './pages/admin/bookManagement/BookList'
 function App() {
 
 
@@ -34,7 +35,9 @@ function App() {
             <Route path='admin' element={<AdminLayout />}>
               <Route index={true} element={<Dashboard />} />
               <Route path='category' element={<CategoryList />} />
-              <Route path='add/book' element={<AddBook />} />
+              <Route path='add/book' element={<BookForm />} />
+              <Route path='booklist' element={<BookListManagement />} />
+
             </Route>
           </Routes>
         </AlertProvider>
