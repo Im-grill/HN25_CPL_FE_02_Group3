@@ -15,8 +15,6 @@ import AddBook from './pages/admin/bookManagement/AddBook'
 import Order from './pages/customer/views/order'
 
 function App() {
-
-
     return (
         <BrowserRouter>
             <UserProvider>
@@ -30,7 +28,7 @@ function App() {
                             <Route path="/userprofile" element={<UserProfile/>}/>
                             <Route path="confirm" element={<Confirm/>}/>
                         </Route>
-                        <Route path = 'order' element={<Order/>}></Route>
+                        <Route path='order' element={<Order/>}></Route>
 
                         {/* Admin */}
                         <Route path='admin' element={<AdminLayout/>}>
