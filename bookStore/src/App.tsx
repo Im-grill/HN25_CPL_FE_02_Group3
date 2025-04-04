@@ -13,9 +13,11 @@ import UserProfile from './pages/customer/views/userProfile'
 import Confirm from './pages/customer/views/Confirm'
 import AddBook from './pages/admin/bookManagement/AddBook'
 import Order from './pages/customer/views/order'
-
+import OrderList from './pages/admin/orderMangement/orderList'
 
 function App() {
+
+
     return (
         <BrowserRouter>
             <UserProvider>
@@ -23,20 +25,21 @@ function App() {
                     <Alert/>
                     <Routes>
                         {/* Customer */}
-                        <Route path='/' element={<CustomerLayout/>}>
+                        <Route path='customer' element={<CustomerLayout/>}>
                             <Route path="homepage" element={<HomePage/>}/>
-                            <Route path="/productdetail" element={<ProductDetail/>}/>
-                            <Route path="/userprofile" element={<UserProfile/>}/>
+                            <Route path="productdetail" element={<ProductDetail/>}/>
+                            <Route path="userprofile" element={<UserProfile/>}/>
+                            <Route path="order" element={<Order/>}/>
                             <Route path="confirm" element={<Confirm/>}/>
                         </Route>
-                        <Route path='order' element={<Order/>}></Route>
+
                         {/* Admin */}
                         <Route path='admin' element={<AdminLayout/>}>
                             <Route index={true} element={<Dashboard/>}/>
                             <Route path='category' element={<CategoryList/>}/>
-                            <Route path='add/book' element={<AddBook/>}/>
+                            <Route path='book/add' element={<AddBook/>}/>
+                            <Route path='order' element={<OrderList/>}/>
                         </Route>
-                        {/*Admin Login, Resgiter*/}
                     </Routes>
                 </AlertProvider>
             </UserProvider>
