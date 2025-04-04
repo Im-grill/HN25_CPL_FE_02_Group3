@@ -56,21 +56,8 @@ export interface IBook extends IHasId {
 
 
 
-<<<<<<<< HEAD:bookStore/src/interfaces/BookInterfaces.ts
+
 
   
 
-========
-export interface ICategory {
-    id?: number,
-    name: string,
-    createdAt: string,
-  }
-  
-  export interface IUser {
-    id?: number,
-    email: string,
-    password?: string
-  }
->>>>>>>> 29e2130 (Added Category CRUD  in Admin views and added API for category):bookStore/src/interfaces.ts
   
