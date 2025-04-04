@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faHome, faUser, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
-const Header = () => {
+const Header = (props) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLogin, setIsLogin] = useState(true);
@@ -31,6 +31,11 @@ const Header = () => {
 
     return (
         <header className="bg-white sticky top-0 z-50 shadow-md">
+            {/* Freeship */}
+            <div className="bg-green-100 py-1 text-xs text-green-700 text-center font-bold ">
+           Freeship từ đơn 45k, giảm nhiều hơn cùng <span className="italic"><span className="text-blue-700">FREESHIP</span> XTRA</span>
+            </div>
+
             <div className="container mx-auto px-4 py-3 flex items-center justify-between">
                 <Link to="/" className="flex flex-col items-center">
                     <img src={TikiLogo} alt="Tiki Logo" className="h-8" />

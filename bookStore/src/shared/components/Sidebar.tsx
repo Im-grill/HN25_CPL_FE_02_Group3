@@ -66,14 +66,14 @@ const toggleSubcategories = (categoryId) => {
     };
 
     return (
-        <aside className="flex flex-col rounded-md h-screen m-1.5 w-64 border-1" >
+        <aside className="flex flex-col rounded-md h-screen m-1.5 w-64  bg-white" >
             <div className="sidebar-top border-b-1 border-[#c2c2c2] p-1.5">
                 <span className="ml-2.5 font-semibold ">Khám phá theo danh mục</span>
             </div>
             <div className="menuCtn flex flex-col">
-                <ul>
+                <ul className="p-0">
                     {categories.map((category) => (
-                        <li key={category.id} className="border-b-1 border-[#c2c2c2] p-2">
+                        <li key={category.id} className="border-b-1 w-full border-[#c2c2c2] p-2">
                             <div className="catCtn flex justify-between items-center px-2 ">
                                 <Link to={category.link} className="text-sm hover:text-blue-400 hover:underline ">{category.name}</Link>
                                 <button type="button" onClick={() => toggleSubcategories(category.id)} className="p-1 hover:bg-gray-300 cursor-pointer rounded-md">
