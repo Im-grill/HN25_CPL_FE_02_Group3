@@ -65,9 +65,6 @@ const Header = (props) => {
             const userData: IUser = {
                 email: email,
                 password: password,
-                // Lưu ý: API interface của bạn không có trường fullName,
-                // bạn có thể cần điều chỉnh interface hoặc backend API nếu cần.
-                // Tạm thời chúng ta sẽ không gửi fullName đi nếu API không yêu cầu.
             };
             const response = await registerService(userData);
             console.log('Đăng ký thành công:', response);
