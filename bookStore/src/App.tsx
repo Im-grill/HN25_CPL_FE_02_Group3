@@ -15,6 +15,7 @@ import BookForm from './pages/admin/bookManagement/BookForm'
 import Order from './pages/customer/views/order'
 import BookListManagement from './pages/admin/bookManagement/BookList'
 import OrderList from './pages/admin/orderMangement/orderList'
+import UserList from './pages/admin/userManagement/userList'
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
                             <Route path='book/add' element={<BookForm/>}/>
                             <Route path='book/list' element={<BookListManagement/>}/>
                             <Route path='order' element={<OrderList/>}/>
+                            <Route path='user' element={<UserList/>}/>
                         </Route>
                     </Routes>
                 </AlertProvider>
