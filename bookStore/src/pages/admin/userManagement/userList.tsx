@@ -4,6 +4,7 @@ import { getUsers } from '../../../api/user.service.ts';
 import AlertContext from '../../../shared/context/AlertContext.tsx';
 import UserItem from './userItem.tsx';
 import UserModal from './userModal.tsx';
+import UserForm from './userForm.tsx';
 
 
 
@@ -13,10 +14,21 @@ const UserList = () => {
   const [updateUserId, setUpdateUserId] = useState<number | null>()
   const alert = useContext(AlertContext);
 
-  const getListUsers = async () => {
-    const data = await getUsers()
-    setUsers(data);
-  }
+  const getListUsers = async (filteredUsers?: IUser[]) => {
+    try{
+      if(filteredUsers){
+        //if filtered users are provided, use them
+        setUsers(filteredUsers);
+      }else{
+        //otherwise fetch all users
+        const data = await getUsers();
+        setUsers(data)
+      }
+    }catch(error){
+      alert?.error("Cannot find users list.");
+      console.error("Error fetching users: ", error)
+    }
+  };
 
   const updateUser = (id?: number) => {
     if (id) {
@@ -35,9 +47,9 @@ const UserList = () => {
   }, [])
 
   return (
-    <section className='relative'>
-      <h1 className="text-3xl">User List</h1>
-      
+    <section className='relative mt-10'>
+      <h1 className="text-3xl mb-5">User List</h1>
+      <UserForm onGetUsers={getListUsers}/>
       <div className="overflow-x-auto rounded-lg border border-gray-200">
         <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
           <thead className="ltr:text-left rtl:text-right">
@@ -45,7 +57,7 @@ const UserList = () => {
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">ID</th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Email</th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Date</th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Action</th>
+              <th className=" px-4 py-2 font-medium text-gray-900 text-center w-1/3">Action</th>
             </tr>
           </thead>
 
