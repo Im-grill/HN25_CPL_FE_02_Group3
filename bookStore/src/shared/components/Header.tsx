@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TikiLogo from '../../assets/logo/tiki-logo.png';
 import TikiImage from '../../assets/tiki-image.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,9 +13,20 @@ const Header = (props) => {
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
+    const [emailInput, setEmailInput] = useState('');
     const [fullName, setFullName] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [loggedInEmail, setLoggedInEmail] = useState('');
+
+    useEffect(() => {
+        const token = localStorage.getItem('accessToken');
+        const storedEmail = localStorage.getItem('loggedInEmail');
+        if (token && storedEmail) {
+            setIsLoggedIn(true);
+            setLoggedInEmail(storedEmail);
+        }
+    }, []);
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -34,8 +45,8 @@ const Header = (props) => {
         setPassword(event.target.value);
     };
 
-    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
+    const handleEmailInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmailInput(e.target.value);
     };
 
     const handleFullNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,16 +57,25 @@ const Header = (props) => {
         setErrorMessage('');
         try {
             const userData: IUser = {
-                email: email,
+                email: emailInput,
                 password: password,
             };
             const response = await loginService(userData);
             console.log('Đăng nhập thành công:', response);
             localStorage.setItem('accessToken', response.accessToken);
+            if (response.user?.email) {
+                setLoggedInEmail(response.user.email);
+                localStorage.setItem('loggedInEmail', response.user.email); // Store email in localStorage
+            }
+            setIsLoggedIn(true);
             setIsModalOpen(false);
         } catch (error: any) {
             console.error('Lỗi đăng nhập:', error);
             setErrorMessage(error?.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.');
+            setIsLoggedIn(false);
+            setLoggedInEmail('');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('loggedInEmail');
         }
     };
 
@@ -63,7 +83,7 @@ const Header = (props) => {
         setErrorMessage('');
         try {
             const userData: IUser = {
-                email: email,
+                email: emailInput,
                 password: password,
             };
             const response = await registerService(userData);
@@ -82,6 +102,13 @@ const Header = (props) => {
         } else {
             handleRegister();
         }
+    };
+
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+        setLoggedInEmail('');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('loggedInEmail');
     };
 
     return (
@@ -118,10 +145,21 @@ const Header = (props) => {
                         <FontAwesomeIcon icon={faHome} className="h-5 w-5 mr-1" />
                         Trang chủ
                     </Link>
-                    <button onClick={() => setIsModalOpen(true)} className="flex items-center text-gray-600 hover:text-blue-500 text-xs">
-                        <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1" />
-                        Tài khoản
-                    </button>
+
+                    {/* User */}
+                    {isLoggedIn ? (
+                        <div className="flex items-center text-gray-600 text-xs">
+                            <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1" />
+                            {loggedInEmail}
+                            <button onClick={handleLogout} className="ml-2 text-blue-500 hover:underline text-sm">Đăng xuất</button>
+                        </div>
+                    ) : (
+                        <button onClick={() => setIsModalOpen(true)} className="flex items-center text-gray-600 hover:text-blue-500 text-xs">
+                            <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1" />
+                            Tài khoản
+                        </button>
+                    )}
+                    {/* End of User */}
                     <Link to="/customer/userprofile" className="relative flex items-center text-gray-600 hover:text-blue-500 text-xs">
                         <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5 mr-1 text-blue-500" />
                         <span className="absolute top-[-15px] right-[-8px] bg-red-500 text-white rounded-full text-xs px-[6px]">
@@ -152,8 +190,8 @@ const Header = (props) => {
                                         type="email"
                                         placeholder="abc@email.com"
                                         className="w-full py-2 border-none outline-none bg-transparent" /* Loại bỏ border và background */
-                                        value={email}
-                                        onChange={handleEmailChange}
+                                        value={emailInput}
+                                        onChange={handleEmailInputChange}
                                         required
                                     />
                                 </div>
