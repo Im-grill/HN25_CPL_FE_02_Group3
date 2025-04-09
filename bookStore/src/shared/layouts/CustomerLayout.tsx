@@ -1,15 +1,16 @@
-
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { Outlet } from 'react-router-dom'
-export default function CustomerLayout() {
+import {Outlet} from 'react-router-dom'
+
+const CustomerLayout = () => {
     return (
         <div className="h-screen flex flex-col">
-            <Header />
+            <Header/>
             <main className="flex-grow bg-[#F5F5FA]">
-                <Outlet />
+                <Outlet/>
             </main>
-            <Footer />
+            <Footer/>
         </div>
     )
 }
+export default CustomerLayout;
