@@ -4,7 +4,7 @@ import TikiImage from '../../assets/tiki-image.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faHome, faUser, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { IUser } from '../../interfaces';
+import { IUser } from '../../interfaces/UserInterface';
 import { login as loginService, register as registerService } from '../../api/auth.service';
 
 const Header = (props) => {
