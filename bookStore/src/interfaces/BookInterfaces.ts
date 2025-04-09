@@ -39,7 +39,7 @@ interface ISpecifications {
     name: string,
     attributes: IAttributes[]
 }
-export interface IBook extends IHasId {
+export   interface IBook extends IHasId {
     author?: IAuthor[],
     category?: ICategory[],
     current_seller?: ISeller,
@@ -57,6 +57,7 @@ export interface IBook extends IHasId {
 
 
 <<<<<<<< HEAD:bookStore/src/interfaces/BookInterfaces.ts
+
 
   
 

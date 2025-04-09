@@ -6,21 +6,24 @@ type BookCardProps = {
 export default function BookCard({ props }: BookCardProps) {
   return (
 
-    <div className='relative z-0  rounded-2xl bg-white '>
+    <div className='relative z-0  rounded-2xl bg-white shadow-black/20 hover:shadow-xl cursor-pointer  ' >
       <span className='text-[10px] font-bold absolute top-2 right-2 z-1'>AD</span>
       {/* image */}
-      <div className='relative pt-[100%]  overflow-hidden'> 
+      <div className='relative h-[300px]  overflow-hidden'> 
        
-        <div className='absolute inset-0 flex items-center justify-center top-6 hover:scale-[150%] '>
+        <div className='absolute inset-0 flex items-center justify-center top-6'>
+      
           <img 
             src={props.images?.[0].base_url} 
             alt={props.name || 'Book cover'} 
-            className='max-h-full max-w-full object-scale-down '
+            className='max-h-full max-w-full object-fill '
           />
+        
+        
           <img 
           src="/assets/Top_Free_Verify.png" 
           alt="Verified" 
-          className='absolute bottom-0 left-1/2 transform -translate-x-1/2 '
+          className='absolute bottom-0 left-0 '
         />
         </div>
         

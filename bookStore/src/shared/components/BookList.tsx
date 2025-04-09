@@ -10,8 +10,6 @@ export default function BookList() {
   const getBookData = async () => {
     const res = await getBook();
     setData(res)
-
-    res.map((bok) => console.log(bok.images?.[0]?.base_url))
   }
 
   useEffect(() => {
@@ -26,7 +24,7 @@ export default function BookList() {
         {data.map((book, index) =>
           <div key={index} className="w-[calc(25%-8px)]">
             {/* <Link to={`/customer/productdetail/${book.id}`} key={book.id}></Link> */}
-            <Link to={`/customer/productdetail`} key={book.id}>
+            <Link to={`/customer/productdetail/${book.id}`} >
               <BookCard props={book} />
             </Link>
           </div>
