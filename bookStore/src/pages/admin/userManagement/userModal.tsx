@@ -10,6 +10,7 @@ type UserModalProps = {
 
 type Inputs = {
   email: string,
+  fullname:string,
   createdAt: string
 }
 
@@ -59,7 +60,19 @@ const UserModal = ({ onClose, id }: UserModalProps) => {
               {...register("email", { required: true })}
               type="text"
               className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
-              placeholder="Nhập vào email"
+              placeholder="Enter new email"
+            />
+          </div>
+        </div>
+        <div>
+          <label htmlFor="fullname" className="sr-only">Name</label>
+
+          <div className="relative">
+            <input
+              {...register("fullname", { required: true })}
+              type="text"
+              className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
+              placeholder="Enter new name"
             />
           </div>
         </div>
