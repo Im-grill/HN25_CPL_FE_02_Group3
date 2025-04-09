@@ -16,8 +16,6 @@ import Order from './pages/customer/views/order'
 import OrderList from './pages/admin/orderMangement/orderList'
 
 function App() {
-
-
     return (
         <BrowserRouter>
             <UserProvider>
@@ -38,7 +36,7 @@ function App() {
                             <Route index={true} element={<Dashboard/>}/>
                             <Route path='category' element={<CategoryList/>}/>
                             <Route path='book/add' element={<AddBook/>}/>
-                            <Route path='order' element={<OrderList/>}/>
+                            <Route path='order' element={<OrderList/>}/>x
                         </Route>
                     </Routes>
                 </AlertProvider>
