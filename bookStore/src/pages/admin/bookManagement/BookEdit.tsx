@@ -1,41 +1,40 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IBook } from "../../../interfaces/BookInterfaces";
-import { useEffect } from "react";
+import { useEffect,useContext } from "react";
 import { updateBook } from "../../../api/book.service";
+import AlertContext from "../../../shared/context/AlertContext";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  bookData: IBook ,
+  bookData: IBook,
 }
 
 export default function BookEdit({ isOpen, onClose, bookData }: Props) {
+  const alert = useContext(AlertContext)
   const { register, handleSubmit, reset } = useForm<IBook>({
     defaultValues: {
       // book: {
-        name: bookData?.name,
-        authors: [{ name: bookData?.authors?.[0]?.name }],
-        specifications: [{ attributes: [{ value: bookData?.specifications?.[0]?.attributes?.[0]?.value }] }],
-        original_price: bookData?.original_price,
-        images: [{ base_url: bookData?.images?.[0]?.base_url }]
+      name: bookData?.name,
+      authors: [{ name: bookData?.authors?.[0]?.name }],
+      specifications: [{ attributes: [{ value: bookData?.specifications?.[0]?.attributes?.[0]?.value }] }],
+      original_price: bookData?.original_price,
+      images: [{ base_url: bookData?.images?.[0]?.base_url }]
       // }
     }
   });
-  const onSubmit: SubmitHandler<IBook> = async (data:IBook) => {
+  const onSubmit: SubmitHandler<IBook> = async (data: IBook) => {
     try {
-
-  const res = await updateBook(bookData.id,data );
-
-  if (res) {
-    console.log("update sucessfull")
-  
-  }
- 
-     
-
     
-    
+       const res = await updateBook(bookData.id, data);
+      
+      if (res) {
+        alert?.success("Cap nhat thanh cong",3)
+        closeModal()
+
+      }
     } catch (error) {
+      alert?.error("cap nhat that bai")
       console.log(error)
     }
 
@@ -44,11 +43,11 @@ export default function BookEdit({ isOpen, onClose, bookData }: Props) {
     if (bookData) {
       reset({
         // book: {
-          name: bookData.name || "",
-          authors: [{ name: bookData?.authors?.[0]?.name }],
-          specifications: [{ attributes: [{ value: bookData?.specifications?.[0]?.attributes?.[0]?.value }] }],
-          original_price: bookData?.original_price,
-          images: [{ base_url: bookData?.images?.[0]?.base_url }]
+        name: bookData.name || "",
+        authors: [{ name: bookData?.authors?.[0]?.name }],
+        specifications: [{ attributes: [{ value: bookData?.specifications?.[0]?.attributes?.[0]?.value }] }],
+        original_price: bookData?.original_price,
+        images: [{ base_url: bookData?.images?.[0]?.base_url }]
         // }
       });
 

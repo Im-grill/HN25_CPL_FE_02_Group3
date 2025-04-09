@@ -17,6 +17,7 @@ const Breadcrumb = () => {
           <FontAwesomeIcon icon={faChevronRight} className="text-[#808089]" />
             <Link to={routeTo} className="text-[#27272A]">
               {decodeURIComponent(" "+name)}
+          
             </Link>
           </span>
         );

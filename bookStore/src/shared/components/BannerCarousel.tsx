@@ -27,8 +27,8 @@ function BannerCarousel() {
   const next = () => carouselRef.current?.next();
   const prev = () => carouselRef.current?.prev();
   return (
-    <div className='w-full overflow-hidden  mt-6  '>
-      <div className='relative h-[200px] mx-auto max-w-[1200px]'>
+    <div className='w-full   mt-6  overflow-x-hidden '>
+      <div className='relative h-[200px]   '>
         <Carousel
           ref={carouselRef}
           arrows={false}
@@ -41,7 +41,7 @@ function BannerCarousel() {
 
           {slides.map((_, index) => (
             <div key={`slide-${index}`} className="h-full ">
-              <div className="flex h-full gap-4 ">
+              <div className="flex h-full gap-4   ">
                 <div className="flex-1 min-w-0">
                   <BookSeries />
                 </div>

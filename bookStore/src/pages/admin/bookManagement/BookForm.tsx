@@ -1,8 +1,10 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { addNewBook } from "../../../api/book.service";
 import { IBook } from "../../../interfaces/BookInterfaces";
-
+import AlertContext from "../../../shared/context/AlertContext";
+import { useContext } from "react";
 export default function BookForm() {
+      const alert = useContext(AlertContext)
     const { register, handleSubmit, formState: { errors } } = useForm<IBook>();
     const onSubmit: SubmitHandler<IBook> = async (data) => {
         try {
@@ -10,14 +12,17 @@ export default function BookForm() {
             console.log(localStorage.getItem("accessToken"))
             const res = await addNewBook(data);
             if (res) {
-                console.log("add success full")
+                alert?.success("them moi thanh cong",3)
+                
             }
             if (errors) {
                 console.log(errors)
+                alert?.error("them moi that bai",3)
             }
 
 
         } catch (error) {
+            alert?.error("them moi that bai",3)
             console.log(error)
         }
 

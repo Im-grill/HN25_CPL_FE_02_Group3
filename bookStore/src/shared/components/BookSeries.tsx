@@ -14,7 +14,7 @@ export default function BookSeries() {
         }
     ]
     return (
-        <div className='flex bg-white flex-1 w-auto rounded-sm'>
+        <div className='flex bg-white  w-auto rounded-sm '>
             {/* 1980 books */}
             <div className="relative w-[186px] h-[186px] overflow-hidden  rounded-bl-sm rounded-tl-sm">
                 {/* Ảnh nền */}
