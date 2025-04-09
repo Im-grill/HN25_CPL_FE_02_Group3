@@ -4,7 +4,7 @@ import tikiLogo from '../../../assets/tiki-logo.png';
 import bookCover from '../../../assets/book-cover.png';
 import tikiheader from '../../../assets/tiki-head.png';
 import official from '../../../assets/official.png';
-import IBook from '../../../interfaces/BookInterfaces';
+import {IBook} from '../../../interfaces/BookInterfaces';
 interface props{
     book :IBook
 }

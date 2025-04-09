@@ -1,12 +1,12 @@
 interface IHasId {
-    id: number
+    id: string 
 }
 interface IAuthor extends IHasId {
     name: string
 }
 interface ICategory extends IHasId {
     name: string,
-    is_leaf: boolean
+    is_leaf: boolean| false
 }
 interface ISeller extends IHasId {
     sku: string
@@ -40,8 +40,9 @@ interface ISpecifications {
     attributes: IAttributes[]
 }
 export   interface IBook extends IHasId {
-    author?: IAuthor[],
-    category?: ICategory[],
+    
+    authors?: IAuthor[],
+    category?: ICategory,
     current_seller?: ISeller,
     description?: string,
     images?: IImage[],
@@ -51,7 +52,7 @@ export   interface IBook extends IHasId {
     quantity_sold?: IQuanTitySold,
     rating_average?: number,
     short_description?: string,
-    specifications?: ISpecifications
+    specifications?: ISpecifications[]
 }
 
 

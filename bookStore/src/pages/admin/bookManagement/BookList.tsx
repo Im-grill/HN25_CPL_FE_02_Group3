@@ -1,19 +1,159 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import BookEdit from "./BookEdit"
-
+import { useNavigate } from "react-router-dom"
+import { IBook } from "../../../interfaces/BookInterfaces";
+import { deleteBook, getBook } from "../../../api/book.service";
+import { useForm, SubmitHandler } from "react-hook-form";
+type IFormInput = {
+    search: string
+    sort: number
+}
 export default function BookListManagement() {
+    const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false)
-
-    const isOpenModal = () => {
-        setOpenModal(!openModal)
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+    const [data, setData] = useState<IBook[]>([])
+    const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>();
+    const [searchItems, setSearchItems] = useState<IBook[]>([])
+    const [currentBook, setCurrentBook] = useState<IBook>()
+    const totalPages = Math.ceil(searchItems.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentItems = searchItems.slice(startIndex, endIndex);
+     
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+    const isOpenModal = (book:IBook) => {
+        setOpenModal(true)
+        setCurrentBook(book)
+    }
+    const isCloseModal = () => {
+        setOpenModal(false)
     }
 
+const handleDeleteBook = async (_id:string)=>{
+ try {
+  const res =   await deleteBook(_id);
+  if(res){
+  console.log("delete ok")
+  }
+ } catch (error) {
+    console.log(error)
+ }
+  
+}
+    const getBookData = async () => {
+        const res = await getBook();
+        setData(res)
+        setSearchItems(res)
+    }
+    const seachBook: SubmitHandler<IFormInput> = (e) => {
+        try {
+            if (e.search.length > 0) {
+                console.log("ok")
+
+                const book = data.filter((item) => item.name?.trim().toLowerCase().includes(e.search.trim().toLowerCase()))
+                setSearchItems(book)
+                return;
+            }
+            setSearchItems(data)
+        } catch {
+            console.log(errors)
+        }
+
+    }
+    const sortByPrice = (e: string) => {
+        const sortData = [...data]
+        if (e.localeCompare("asc")) {
+            setSearchItems(sortData.sort((a, b) => (b.current_seller?.price || 0) - (a.current_seller?.price || 0)))
+            return;
+        }
+        if (e.localeCompare("dsc")) {
+            setSearchItems(sortData.sort((a, b) => (a.current_seller?.price || 0) - (b.current_seller?.price || 0)))
+            return;
+        }
+        else setSearchItems(data)
+    }
+    useEffect(() => {
+        getBookData();
+    }, [currentItems])
     return (
 
 
-        <div className="relative ">
+        <div className="relative  max-w-full overflow-x-auto ">
             <span className='text-3xl font-bold block pb-5'>List Book </span>
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+            {/* add new book button */}
+            <button
+                className="group relative inline-block text-sm font-medium text-indigo-600 focus:ring-3 focus:outline-hidden mb-3"
+                onClick={() => navigate('/admin/book/add')}
+            >
+                <span
+                    className="absolute inset-0 translate-x-0.5 translate-y-0.5 bg-indigo-600 transition-transform group-hover:translate-x-0 group-hover:translate-y-0"
+                ></span>
+
+                <span className="relative block border border-current bg-white px-8 py-3"> Add new book </span>
+            </button>
+            {/* search button */}
+            <div className="mb-2.5">
+                <form onSubmit={handleSubmit(seachBook)}>
+                    <label htmlFor="Search">
+                        <div className="relative">
+                            <input
+                                type="text"
+                                id="Search"
+                                placeholder="Enter book name..."
+                                {...register('search')}
+                                className="mt-0.5 w-full rounded border-gray-300 pe-10 shadow-sm sm:text-sm border-1 p-2 outline-0"
+                            />
+                            <span className="absolute inset-y-0 right-2 grid w-8 place-content-center">
+                                <button
+                                    type="submit"
+
+
+                                    className="rounded-full p-1.5  text-gray-700 transition-colors hover:bg-gray-100"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        className="size-4"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                                        />
+                                    </svg>
+                                </button>
+                            </span>
+                        </div>
+                    </label>
+                </form>
+
+            </div>
+            {/* sort by price */}
+            <div>
+                <label htmlFor="Headline">
+
+                    <select
+                        name="Headline"
+                        id="Headline"
+                        className="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm border-1 p-2 mb-4 outline-0"
+                        onChange={e => sortByPrice(e.target.value)}
+                    >
+                        <option value="">Sort by price</option>
+                        <option value='asc'>Low to high</option>
+                        <option value="des">High to low</option>
+                    </select>
+
+                </label>
+            </div>
+            {/* table data of books */}
+            <table className="min-w-full text-sm text-left rtl:text-right text-gray-500 overflow-x-auto">
                 <thead className="text-xs text-white uppercase bg-gray-700 ">
                     <tr>
                         <th scope="col" className="px-6 py-3">
@@ -40,54 +180,65 @@ export default function BookListManagement() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className="bg-white border-b   border-gray-500">
-                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                            0
-                        </th>
-                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                            Sách thiếu nhi
-                        </th>
-                        <td className="px-6 py-4">
-                            Kim đồng
-                        </td>
-                        <td className="px-6 py-4">
-                            VN
-                        </td>
-                        <td className="px-6 py-4">
-                            100.000
-                        </td>
-                        <td className="px-6 py-4">
-                            <img src='https://s3-alpha-sig.figma.com/img/92f7/bcbe/caa9e65eaddb052d78527d6b1f5789a5?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=pz2auDE-dTU0tNx3XDGaCwB7M9AR6-ilh1z4mQyKbTSi825h1NrNiobV2ZN-CVtSTpab6fAJp6zQOa8P6noMQyME~fcAH9jVJC9dtUnGZa6Z6CRlS7zAkcOZ6q-EJNPv4YNJ9OQk~kVc~aqxGQzfcHwfXFCSLM2nexdTJw4WFantUY4a-zsppUlqHuC1Sw~IBeJAUaSyNuYDGMx3sNDmFMAvH3ldbC-HVgXUpk8xYRJkf6dB-45eJ~F0p~2H23GeUWpoLS1oCvTKQy~KYYg09xnF~bqqUx5XeHXh2FhTe994YEYxW0~cYE-i0Cew4~U5mzr6kyUXX-mtJRFGuAgrvQ__'
-                                className='h-max max-w-[100px]'
-                            />
-                        </td>
-                        <td className="px-6 py-4 ">
-                            <button
-                                className=" flex-1 cursor-pointer inline-flex items-center gap-2 rounded-sm border border-indigo-600 bg-indigo-600 px-8 py-3 text-white hover:bg-transparent hover:text-indigo-600 focus:ring-3 focus:outline-hidden"
-                                type='button'
-                                onClick={isOpenModal}
-                            >
+                    {currentItems.map((book, index) =>
+                        <tr key={index} className="bg-white border-b   border-gray-500">
+                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                {index}
+                            </th>
+                            <th scope="row" className="px-6 py-4 font-medium text-gray-900  ">
+                                {book.name}
+                            </th>
+                            <td className="px-6 py-4">
+                                {book.authors?.[0].name}
+                            </td>
+                            <td className="px-6 py-4">
+                                {book.specifications?.[0].attributes?.[0].value}
+                            </td>
+                            <td className="px-6 py-4">
+                                {book.current_seller?.price}
+                            </td>
+                            <td className="px-6 py-4">
+                                <img src={book.images?.[0].base_url}
+                                    className='h-max max-w-[100px]'
+                                />
+                            </td>
+                            <td className=" px-6 py-4 ">
+                                <div className="flex">
+                                    <button
+                                        className=" flex-1 cursor-pointer inline-flex items-center gap-2 rounded-sm border border-indigo-600 bg-indigo-600 px-8 py-3 text-white hover:bg-transparent hover:text-indigo-600 focus:ring-3 focus:outline-hidden"
+                                        type='button'
+                                        onClick={()=>isOpenModal(book)}
+                                    >
 
-                                <span className="text-sm font-medium"> Chỉnh sửa </span>
-                            </button>
-                            <button
-                                className=" flex-1  ml-2 cursor-pointer inline-flex items-center gap-2 rounded-sm border border-indigo-600 bg-indigo-600 px-8 py-3 text-white hover:bg-transparent hover:text-indigo-600 focus:ring-3 focus:outline-hidden"
-                                type='button'
-                            >
+                                        <span className="text-sm font-medium  whitespace-nowrap ">Chỉnh sửa</span>
+                                    </button>
+                                        {/* <!-- Main modal --> */}
+          
 
-                                <span className="text-sm font-medium text-center"> Xóa</span>
-                            </button>
-                        </td>
-                    </tr>
+                                    <button
+                                        className=" flex-1  ml-2 cursor-pointer inline-flex items-center gap-2 rounded-sm border border-indigo-600 bg-indigo-600 px-8 py-3 text-white hover:bg-transparent hover:text-indigo-600 focus:ring-3 focus:outline-hidden"
+                                        type='button'
+                                        onClick={()=>handleDeleteBook(book.id)}
+                                    >
+
+                                        <span className="text-sm font-medium text-center"> Xóa</span>
+                                    </button>
+                                </div>
+
+                            </td>
+                        </tr>
+                    )}
+
 
                 </tbody>
             </table>
             {/* pagination */}
             <ul className="flex justify-center gap-1 text-gray-900 mt-5">
                 <li>
-                    <a
-                        href="#"
-                        className="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180"
+                    <button
+                        onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                        disabled={currentPage === 1}
+                        className="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180 disabled:opacity-50"
                         aria-label="Previous page"
                     >
                         <svg
@@ -102,46 +253,25 @@ export default function BookListManagement() {
                                 clipRule="evenodd"
                             />
                         </svg>
-                    </a>
+                    </button>
                 </li>
+
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                    <li key={page}>
+                        <button
+                            onClick={() => handlePageChange(page)}
+                            className={`block size-8 rounded border ${currentPage === page ? 'border-indigo-600 bg-indigo-600 text-white' : 'border-gray-200 hover:bg-gray-50'} text-center text-sm/8 font-medium`}
+                        >
+                            {page}
+                        </button>
+                    </li>
+                ))}
 
                 <li>
-                    <a
-                        href="#"
-                        className="block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50"
-                    >
-                        1
-                    </a>
-                </li>
-
-                <li
-                    className="block size-8 rounded border border-indigo-600 bg-indigo-600 text-center text-sm/8 font-medium text-white"
-                >
-                    2
-                </li>
-
-                <li>
-                    <a
-                        href="#"
-                        className="block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50"
-                    >
-                        3
-                    </a>
-                </li>
-
-                <li>
-                    <a
-                        href="#"
-                        className="block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50"
-                    >
-                        4
-                    </a>
-                </li>
-
-                <li>
-                    <a
-                        href="#"
-                        className="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180"
+                    <button
+                        onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                        disabled={currentPage === totalPages}
+                        className="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180 disabled:opacity-50"
                         aria-label="Next page"
                     >
                         <svg
@@ -156,14 +286,12 @@ export default function BookListManagement() {
                                 clipRule="evenodd"
                             />
                         </svg>
-                    </a>
+                    </button>
                 </li>
             </ul>
-          
+          {currentBook ?  <BookEdit isOpen={openModal} onClose={isCloseModal} bookData={currentBook} />:null} 
 
-            {/* <!-- Main modal --> */}
-            <BookEdit isOpen={openModal} onClose={isOpenModal} />
-
+        
 
 
 

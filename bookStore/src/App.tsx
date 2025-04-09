@@ -40,7 +40,6 @@ function App() {
                             <Route path='category' element={<CategoryList/>}/>
                             <Route path='book/add' element={<BookForm/>}/>
                             <Route path='book/list' element={<BookListManagement/>}/>
-                            <Route path='book/add' element={<BookListManagement/>}/>
                             <Route path='order' element={<OrderList/>}/>
                         </Route>
                     </Routes>
