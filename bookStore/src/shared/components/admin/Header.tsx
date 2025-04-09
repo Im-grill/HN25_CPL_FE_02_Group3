@@ -207,13 +207,7 @@ const Header = () => {
                                     <div className="flex justify-between text-sm mt-2">
                                         {isLogin ? (
                                             <div className="flex flex-col space-y-2">
-                                                <a href="#" className="text-blue-500">Quên mật khẩu?</a>
-                                                <div className="flex items-center space-x-1">
-                                                    <span className="text-gray-700 font-light">Chưa có tài khoản?</span>
-                                                    <button onClick={() => setIsLogin(false)}
-                                                            className="text-blue-500">Tạo tài khoản
-                                                    </button>
-                                                </div>
+
                                             </div>
                                         ) : (
                                             <button onClick={() => setIsLogin(true)} className="text-blue-500">Đã có tài
