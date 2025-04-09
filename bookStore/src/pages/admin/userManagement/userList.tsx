@@ -56,6 +56,7 @@ const UserList = () => {
             <tr>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">ID</th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Email</th>
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Full Name</th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Date</th>
               <th className=" px-4 py-2 font-medium text-gray-900 text-center w-1/3">Action</th>
             </tr>

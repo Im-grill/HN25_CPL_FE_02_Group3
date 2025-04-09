@@ -7,7 +7,8 @@ import iconBell from "../../../assets/icon_bell.png";
 import shipLogo from "../../../assets/now.png";
 import returnBadge from "../../../assets/return-badge.png";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 
 const UserProfile = () => {
@@ -22,27 +23,41 @@ const UserProfile = () => {
             "id": "36",
             "sku": "7572869544871"
         },
-    ])
+    ]);
+    const [userInfo, setUserInfo] = useState({
+        fullname:"",
+        email: "",
+        fullName: "",
+    });
 
-    // Tính tổng giá sản phẩm
+    useEffect(() =>{
+        const storedName = localStorage.getItem('loggedInEmail');
+        if(storedName){
+            setUserInfo((prev) =>({
+                ...prev,
+                fullname:storedName
+            }));
+        }
+    },[]);
+
+    // calculate sum of products' price
     const calOriginalTotal = () => {
         return products.reduce((total, product) => {
-            // Giả sử mỗi sản phẩm có giá (originalPrice) và số lượng (quantity)
             return total + product.originalPrice;
         }, 0);
     };
 
-    // Giả sử các giá trị phí vận chuyển và giảm giá
+    // assume shipping fee and shipping discount
     const shippingFee = 30000; // VND
     const shippingDiscount = 15000; // VND
 
-    // Tính tổng cộng
+    // calculate total after counting fee and discount
     const calculateTotal = () => {
         const orgTotal = calOriginalTotal();
         return orgTotal + shippingFee - shippingDiscount;
     };
 
-    // Định dạng giá tiền theo VND
+    // VND format
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat('vi-VN', {
             style: 'currency',
@@ -52,8 +67,10 @@ const UserProfile = () => {
     return (
         <main className=" bg-[#F5F5FA]">
             {/* breadcrumb */}
-            <div className='mx-26 h-[53px] flex items-center'>
-                <Breadcrumb />
+            <div className='navLine mx-26 h-[53px] flex items-center gap-1.5 text-[14px]'>
+                 <Link to="/" className="text-[#808089] hover:underline">Trang chủ </Link>
+                 <FontAwesomeIcon icon={faChevronRight} size="sm" style={{color: "#bdbfc2",}}/>                 
+                 <span>Đơn hàng của tôi</span>
             </div>
 
             <div className="mainContent flex mx-26">
@@ -64,7 +81,7 @@ const UserProfile = () => {
                         </div>
                         <div className="username flex flex-col">
                             <span className="text-sm">Tài khoản của</span>
-                            <span className="text-lg">username here</span>
+                            <span className="text-lg">{userInfo.fullName }</span>
                         </div>
                     </div>
                     <button type="button" className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
@@ -96,7 +113,7 @@ const UserProfile = () => {
                                 ĐỊA CHỈ NGƯỜI NHẬN
                             </div>
                             <div className="detail bg-white p-2.5 h-full">
-                                <div className="font-medium text-sm mb-1 mt-1.5">USERNAME GOES HERE</div>
+                                <div className="font-medium text-sm mb-1 mt-1.5">{userInfo.fullName }</div>
                                 <div className="text-sm mb-1 mt-1.5">
                                     <span>Địa chỉ: </span>
                                     <span>số 17 Duy Tân, phường Dịch Vọng Hậu, quận Cầu Giấy, Hà Nội, Việt Nam</span>
