@@ -19,6 +19,7 @@ const UserItem = ({ user, onGetUsers, onUpdateUser }: UserItemProps) => {
   return <tr>
     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{user.id}</td>
     <td className="whitespace-nowrap px-4 py-2 text-gray-700">{user.email}</td>
+    <td className="whitespace-nowrap px-4 py-2 text-gray-700">{user.fullname}</td>
     <td className="whitespace-nowrap px-4 py-2 text-gray-700">{user.createdAt}</td>
     <td className="whitespace-nowrap px-4 py-2 text-gray-700 flex justify-center items-center gap-3 ">  
       <button onClick={onUpdateUser}

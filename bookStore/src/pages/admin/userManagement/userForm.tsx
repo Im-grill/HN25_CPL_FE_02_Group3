@@ -1,11 +1,12 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { createCategory } from '../../../api/category.service';
 import AlertContext from '../../../shared/context/AlertContext';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { createUser, getUsers } from '../../../api/user.service';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { IUser } from '../../../interfaces/UserInterface';
+import { IUser } from '../../../interfaces/UserInterface.ts';
+
 
 type Inputs = {
   searchKey: string;
