@@ -1,26 +1,26 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-type IFormInput = {
-    name: string,
-    author:string,
-    categories: string
-    seller_price: number,
-    original_price: number,
-    description: string,
-    short_description: string,
-    quantity_sold: number,
-    average_rating: number,
-    publisher: string,
-    publication_date: Date,
-    dimensions: string,
-    book_cover: string,
-    number_of_page: number
+import { addNewBook } from "../../../api/book.service";
+import { IBook } from "../../../interfaces/BookInterfaces";
 
-}
 export default function BookForm() {
-    const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>();
-    const onSubmit: SubmitHandler<IFormInput> = (data) => {
-        console.log(data);
-        console.log(errors)
+    const { register, handleSubmit, formState: { errors } } = useForm<IBook>();
+    const onSubmit: SubmitHandler<IBook> = async (data) => {
+        try {
+            localStorage.setItem("accessToken", import.meta.env.VITE_TOKEN)
+            console.log(localStorage.getItem("accessToken"))
+            const res = await addNewBook(data);
+            if (res) {
+                console.log("add success full")
+            }
+            if (errors) {
+                console.log(errors)
+            }
+
+
+        } catch (error) {
+            console.log(error)
+        }
+
     }
     return (
         // author name, categories, current seller(price),description, image,listprice,name, quantity sold,rating average,short description,specification
@@ -42,7 +42,7 @@ export default function BookForm() {
                                         id="name"
                                         type="text"
                                         placeholder="Nhập tên sách"
-                                        {...register("name")}
+                                        {...register("name", { required: true })}
                                         className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                                     />
                                 </div>
@@ -59,7 +59,7 @@ export default function BookForm() {
                                         id="author"
                                         type="text"
                                         placeholder="Nhập tên tác giá"
-                                        {...register("author")}
+                                        {...register("authors.0.name", { required: true })}
                                         className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                                     />
                                 </div>
@@ -70,8 +70,9 @@ export default function BookForm() {
                                 Danh mục
                             </label>
                             <select id="categories" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                {...register("categories")}>
-                                <option selected>Chọn danh mục</option>
+                                {...register("category.name", { required: true })}
+                                defaultValue="">
+                                <option >Chọn danh mục</option>
                                 <option value="sd">United States</option>
                                 <option value="CA">Canada</option>
                                 <option value="FR">France</option>
@@ -87,20 +88,7 @@ export default function BookForm() {
                                 Chọn ảnh sách
                             </label>
                             <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                                <div className="text-center">
-
-                                    <div className="mt-4 flex text-sm/6 text-gray-600">
-                                        <label
-                                            htmlFor="file-upload"
-                                            className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 focus-within:outline-hidden hover:text-indigo-500"
-                                        >
-                                            <span>Upload a file</span>
-                                            <input id="file-upload" name="file-upload" type="file" className="sr-only" />
-                                        </label>
-                                        <p className="pl-1">or drag and drop</p>
-                                    </div>
-                                    <p className="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-                                </div>
+                                <input type="text" className="w-full border-1 block" {...register("images.0.base_url", { required: true })} />
                             </div>
                         </div>
                     </div>
@@ -115,7 +103,7 @@ export default function BookForm() {
                             <div className="mt-2">
                                 <input
                                     id="seller_price"
-                                    {...register("seller_price")}
+                                    {...register("current_seller.price", { required: true, min: 0 })}
                                     type="number"
                                     autoComplete="given-name"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -125,12 +113,12 @@ export default function BookForm() {
 
                         <div className="sm:col-span-3">
                             <label htmlFor="original_price" className="block text-sm/6 font-medium text-gray-900">
-                                GIá nguyên bản
+                                Giá nguyên bản
                             </label>
                             <div className="mt-2">
                                 <input
                                     id="original_price"
-                                    {...register("original_price")}
+                                    {...register("original_price", { required: true, min: 0 })}
                                     type="number"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 />
@@ -141,7 +129,7 @@ export default function BookForm() {
 
                             <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Description</label>
                             <textarea id="description" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter discription of book"
-                                {...register("description")}
+                                {...register("description", { required: true })}
                             />
 
                         </div>
@@ -149,7 +137,7 @@ export default function BookForm() {
 
                             <label htmlFor="short_description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Short description</label>
                             <textarea id="short_description" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter discription of book"
-                                {...register("short_description")}
+                                {...register("short_description", { required: true })}
                             />
 
                         </div>
@@ -173,7 +161,7 @@ export default function BookForm() {
                             <div className="mt-2">
                                 <input
                                     id="average_rating"
-                                    {...register("average_rating")}
+                                    {...register("rating_average", { required: true, min: 0, max: 5 })}
                                     type="number"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 />
@@ -186,7 +174,7 @@ export default function BookForm() {
                             <div className="mt-2">
                                 <input
                                     id="publisher"
-                                    {...register("publisher")}
+                                    {...register("specifications.0.attributes.0.value", { required: true })}
                                     type="text"
                                     placeholder="Nhập tên nhà xuất bản"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -200,7 +188,7 @@ export default function BookForm() {
                             <div className="mt-2">
                                 <input
                                     id="publication_date"
-                                    {...register("publication_date")}
+                                    {...register("specifications.0.attributes.1.value", { required: true })}
                                     type="Date"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 />
@@ -213,7 +201,7 @@ export default function BookForm() {
                             <div className="mt-2">
                                 <input
                                     id="dimensions"
-                                    {...register("dimensions")}
+                                    {...register("specifications.0.attributes.2.value", { required: true })}
                                     type="text"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 />
@@ -226,7 +214,7 @@ export default function BookForm() {
                             <div className="mt-2">
                                 <input
                                     id="book_cover"
-                                    {...register("book_cover")}
+                                    {...register("specifications.0.attributes.3.value", { required: true })}
                                     type="text"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 />
@@ -239,7 +227,7 @@ export default function BookForm() {
                             <div className="mt-2">
                                 <input
                                     id="number_of_page"
-                                    {...register("number_of_page")}
+                                    {...register("specifications.0.attributes.4.value", { required: true })}
                                     type="text"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 />
@@ -257,7 +245,7 @@ export default function BookForm() {
                     type="submit"
                     className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                    Save
+                    Add new
                 </button>
             </div>
         </form>

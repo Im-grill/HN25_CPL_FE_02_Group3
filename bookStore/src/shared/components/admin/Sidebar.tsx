@@ -38,7 +38,7 @@ const Sidebar = () => {
     }, []);
 
     return (
-        <aside className={`flex flex-col bg-white border-t-1 border-r-1 border-[#c2c2c2] h-[calc(100vh-64px)] ${isExpanded ? "w-64" : "w-12"}`}>
+        <aside className={`shrink-0 flex flex-col bg-white border-t-1 border-r-1 border-[#c2c2c2] h-[calc(100vh-64px)] ${isExpanded ? "w-64" : "w-12"}`}>
             <div className="sidebar-menu flex-grow">
                 {menuItems.map((item: any) => (
                     <Link key={item.id} to={item.link} className="border-b border-slate-100 flex items-center hover:bg-[#33adff] hover:text-white">
