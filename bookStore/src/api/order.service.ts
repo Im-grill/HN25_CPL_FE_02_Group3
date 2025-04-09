@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { IOrder } from '../interfaces';
 
-const API_URL = 'http://localhost:8080/orders';
+const API_URL = 'http://localhost:8080/order';
 
 export const getOrders = async (): Promise<IOrder[]> => {
     try {

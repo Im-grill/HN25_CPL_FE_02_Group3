@@ -9,7 +9,7 @@ const OrderDetails = () => {
     const [status, setStatus] = useState("pending");
 
     const [error, setError] = useState("");
-    const apiUrl: string = 'http://localhost:8080/orders';
+    const apiUrl: string = 'http://localhost:8080/order';
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
