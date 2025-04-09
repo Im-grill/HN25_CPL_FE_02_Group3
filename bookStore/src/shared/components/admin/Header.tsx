@@ -1,10 +1,12 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Logo from '../../../assets/tiki-logo.png';
 import {Link, NavLink, useNavigate} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBars, faUser} from '@fortawesome/free-solid-svg-icons';
 import {UserContext} from '../../context/UserContext.tsx';
 import TikiImage from "../../../assets/tiki-image.png";
+import {IUser} from "../../../interfaces.ts";
+import {login as loginService, register as registerService} from "../../../api/auth.service.ts";
 
 const Header = () => {
     const userStore = useContext(UserContext)
@@ -15,6 +17,20 @@ const Header = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
+    const [emailInput, setEmailInput] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [loggedInEmail, setLoggedInEmail] = useState('');
+
+    useEffect(() => {
+        const token = localStorage.getItem('accessToken');
+        const storedEmail = localStorage.getItem('loggedInEmail');
+        if (token && storedEmail) {
+            setIsLoggedIn(true);
+            setLoggedInEmail(storedEmail);
+        }
+    }, []);
 
     const toggleProfile = () => {
         setIsShowProfile(!isShowProfile);
@@ -30,16 +46,71 @@ const Header = () => {
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
+    const handleEmailInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmailInput(e.target.value);
+    };
 
-    const logout = () => {
-        // Clear UserContext
-        userStore?.setUser(undefined);
-        // Clear localStorage
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("user");
-        navigate("/login")
+    const handleFullNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFullName(e.target.value);
+    };
 
-    }
+    const handleLogin = async () => {
+        setErrorMessage('');
+        try {
+            const userData: IUser = {
+                email: emailInput,
+                password: password,
+            };
+            const response = await loginService(userData);
+            console.log('Đăng nhập thành công:', response);
+            localStorage.setItem('accessToken', response.accessToken);
+            if (response.user?.email) {
+                setLoggedInEmail(response.user.email);
+                localStorage.setItem('loggedInEmail', response.user.email); // Store email in localStorage
+            }
+            setIsLoggedIn(true);
+            setIsModalOpen(false);
+        } catch (error: any) {
+            console.error('Lỗi đăng nhập:', error);
+            setErrorMessage(error?.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.');
+            setIsLoggedIn(false);
+            setLoggedInEmail('');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('loggedInEmail');
+        }
+    };
+
+    const handleRegister = async () => {
+        setErrorMessage('');
+        try {
+            const userData: IUser = {
+                email: emailInput,
+                password: password,
+            };
+            const response = await registerService(userData);
+            console.log('Đăng ký thành công:', response);
+            setIsLogin(true);
+        } catch (error: any) {
+            console.error('Lỗi đăng ký:', error);
+            setErrorMessage(error?.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại.');
+        }
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (isLogin) {
+            handleLogin();
+        } else {
+            handleRegister();
+        }
+    };
+
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+        setLoggedInEmail('');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('loggedInEmail');
+    };
     return (
         <header className='bg-white shadow-md relative'>
             <nav className='navbar w-4/5 m-auto flex justify-between items-center'>
@@ -55,15 +126,26 @@ const Header = () => {
                              className={({isActive}) => `${isActive ? "bg-[#33adff] text-white" : ""}`}>Dashboard</NavLink>
                 </div>
                 <div className="profile-menu relative" onClick={toggleProfile} aria-hidden="true">
+
                     <div>
-                        <button onClick={() => setIsModalOpen(true)}
-                                className="flex items-center text-gray-600 hover:text-blue-500 text-xs">
-                            <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1"/>
-                            Tài khoản
-                        </button>
+                        {/* User */}
+                        {isLoggedIn ? (
+                            <div className="flex items-center text-gray-600 text-xs">
+                                <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1" />
+                                {loggedInEmail}
+                                <button onClick={handleLogout} className="ml-2 text-blue-500 hover:underline text-sm">Đăng xuất</button>
+                            </div>
+                        ) : (
+                            <button onClick={() => setIsModalOpen(true)} className="flex items-center text-gray-600 hover:text-blue-500 text-xs">
+                                <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1" />
+                                Tài khoản
+                            </button>
+                        )}
                     </div>
+                    {/* Login & Register Modal */}
                     {isModalOpen && (
-                        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center">
+                        <div
+                            className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
                             <div className="bg-white rounded-lg shadow-lg w-[800px] flex relative"
                                  style={{bottom: '100px'}}>
                                 {/*Button "<" */}
@@ -77,42 +159,51 @@ const Header = () => {
                                     <br/>
                                     <h2 className="text-xl font-semibold mb-2">{isLogin ? 'Đăng nhập bằng email' : 'Tạo tài khoản'}</h2>
                                     <p className="text-sm mb-4">{isLogin ? 'Nhập email và mật khẩu tài khoản Tiki' : 'Đăng ký tài khoản để mua sắm'}</p>
-                                    <div className="border-b-2 mb-4 border-gray-300">
-                                        <input
-                                            type="email"
-                                            placeholder="abc@email.com"
-                                            className="w-full py-2 border-none outline-none bg-transparent" /* Loại bỏ border và background */
-                                        />
-                                    </div>
-                                    <div className="relative border-b-2 mb-4 border-gray-300">
-                                        <input
-                                            type={showPassword ? 'text' : 'password'}
-                                            placeholder="Mật khẩu"
-                                            className="w-full py-2 border-none outline-none bg-transparent pr-24"
-                                            value={password}
-                                            onChange={handlePasswordChange}
-                                        />
-                                        <button
-                                            type="button"
-                                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-500 cursor-pointer text-sm"
-                                            onClick={toggleShowPassword}
-                                        >
-                                            {showPassword ? 'Ẩn' : 'Hiện'}
-                                        </button>
-                                    </div>
-                                    {!isLogin && (
+                                    <form onSubmit={handleSubmit}>
                                         <div className="border-b-2 mb-4 border-gray-300">
                                             <input
-                                                type="text"
-                                                placeholder="Họ và tên"
+                                                type="email"
+                                                placeholder="abc@email.com"
                                                 className="w-full py-2 border-none outline-none bg-transparent" /* Loại bỏ border và background */
+                                                value={emailInput}
+                                                onChange={handleEmailInputChange}
+                                                required
                                             />
                                         </div>
-                                    )}
-                                    <button
-                                        className={`w-full ${isLogin ? 'bg-red-500' : 'bg-blue-500'} text-white py-2 rounded`}>
-                                        {isLogin ? 'Đăng nhập' : 'Đăng ký'}
-                                    </button>
+                                        <div className="relative border-b-2 mb-4 border-gray-300">
+                                            <input
+                                                type={showPassword ? 'text' : 'password'}
+                                                placeholder="Mật khẩu"
+                                                className="w-full py-2 border-none outline-none bg-transparent pr-24"
+                                                value={password}
+                                                onChange={handlePasswordChange}
+                                                required
+                                            />
+                                            <button
+                                                type="button"
+                                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-500 cursor-pointer text-sm"
+                                                onClick={toggleShowPassword}
+                                            >
+                                                {showPassword ? 'Ẩn' : 'Hiện'}
+                                            </button>
+                                        </div>
+                                        {!isLogin && (
+                                            <div className="border-b-2 mb-4 border-gray-300">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Họ và tên"
+                                                    className="w-full py-2 border-none outline-none bg-transparent" /* Loại bỏ border và background */
+                                                    value={fullName}
+                                                    onChange={handleFullNameChange}
+                                                />
+                                            </div>
+                                        )}
+                                        {errorMessage && <p className="text-red-500 text-sm mb-2">{errorMessage}</p>}
+                                        <button type="submit"
+                                                className={`w-full ${isLogin ? 'bg-red-500' : 'bg-blue-500'} text-white py-2 rounded`}>
+                                            {isLogin ? 'Đăng nhập' : 'Đăng ký'}
+                                        </button>
+                                    </form>
                                     <div className="flex justify-between text-sm mt-2">
                                         {isLogin ? (
                                             <div className="flex flex-col space-y-2">
