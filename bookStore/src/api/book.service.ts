@@ -10,6 +10,6 @@ export const addNewBook = async (data:IBook) => {
 export const deleteBook = async (id:string) => {
   return instance.delete(`books/${id}`)
 }
-export const updateBook = async (id:string ,data?:IBook) => {
+export const updateBook = async (id:string ,data:IBook) => {
   return instance.patch(`books/${id}`,data)
 }

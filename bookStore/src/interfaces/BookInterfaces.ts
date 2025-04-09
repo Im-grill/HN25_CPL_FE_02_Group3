@@ -1,3 +1,6 @@
+
+
+
 interface IHasId {
     id: string 
 }
@@ -40,19 +43,22 @@ interface ISpecifications {
     attributes: IAttributes[]
 }
 export   interface IBook extends IHasId {
-    
     authors?: IAuthor[],
     category?: ICategory,
-    current_seller?: ISeller,
+    current_seller: ISeller,
     description?: string,
     images?: IImage[],
     list_price?: number,
     name?: string,
-    original_price?: number,
+    original_price: number,
     quantity_sold?: IQuanTitySold,
-    rating_average?: number,
+    rating_average: number,
     short_description?: string,
-    specifications?: ISpecifications[]
+    specifications?: ISpecifications[],
+    top_deal:boolean|false,
+    freeship:boolean|false,
+    auth:true,
+    fastShip:boolean
 }
 
 

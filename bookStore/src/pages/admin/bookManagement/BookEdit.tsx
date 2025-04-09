@@ -1,8 +1,8 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IBook } from "../../../interfaces/BookInterfaces";
-import { useEffect,useContext } from "react";
-import { updateBook } from "../../../api/book.service";
+import { useEffect, useContext } from "react";
+import {   updateBook } from "../../../api/book.service";
 import AlertContext from "../../../shared/context/AlertContext";
 type Props = {
   isOpen: boolean;
@@ -19,20 +19,25 @@ export default function BookEdit({ isOpen, onClose, bookData }: Props) {
       authors: [{ name: bookData?.authors?.[0]?.name }],
       specifications: [{ attributes: [{ value: bookData?.specifications?.[0]?.attributes?.[0]?.value }] }],
       original_price: bookData?.original_price,
-      images: [{ base_url: bookData?.images?.[0]?.base_url }]
+      images: [{ base_url: bookData?.images?.[0]?.base_url }
+      ],
+      top_deal: bookData.top_deal,
+      freeship: bookData.freeship,
+      auth:bookData.auth,
+      fastShip:bookData.fastShip
       // }
     }
   });
   const onSubmit: SubmitHandler<IBook> = async (data: IBook) => {
     try {
-    
-       const res = await updateBook(bookData.id, data);
-      
-      if (res) {
-        alert?.success("Cap nhat thanh cong",3)
-        closeModal()
+      console.log(data)
+      const res = await updateBook(bookData.id, data);
 
+      if (res) {
+        alert?.success("Cap nhat thanh cong", 3)
+        closeModal()
       }
+      console.log(data)
     } catch (error) {
       alert?.error("cap nhat that bai")
       console.log(error)
@@ -42,13 +47,17 @@ export default function BookEdit({ isOpen, onClose, bookData }: Props) {
   useEffect(() => {
     if (bookData) {
       reset({
-        // book: {
+
         name: bookData.name || "",
         authors: [{ name: bookData?.authors?.[0]?.name }],
         specifications: [{ attributes: [{ value: bookData?.specifications?.[0]?.attributes?.[0]?.value }] }],
         original_price: bookData?.original_price,
-        images: [{ base_url: bookData?.images?.[0]?.base_url }]
-        // }
+        images: [{ base_url: bookData?.images?.[0]?.base_url }],
+        top_deal: bookData.top_deal,
+        freeship: bookData.freeship,
+        auth:bookData.auth,
+        fastShip:bookData.fastShip
+
       });
 
     }
@@ -151,14 +160,34 @@ export default function BookEdit({ isOpen, onClose, bookData }: Props) {
                 </label>
                 <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
 
-
-
-
                   <input id="file-upload" type="test" className="border-1 w-full" {...register("images.0.base_url")} />
-
-
-
                 </div>
+              </div>
+              <div className="flex flex-col items-start gap-3">
+                <label htmlFor="Option1" className="inline-flex items-center gap-3">
+                  <input type="checkbox" className="size-5 rounded border-gray-300 shadow-sm" id="Option1" {...register("top_deal")} defaultChecked={bookData.top_deal} />
+
+                  <span className="font-medium text-gray-700"> Top Deal </span>
+                </label>
+
+                <label htmlFor="Option2" className="inline-flex items-center gap-3">
+                  <input type="checkbox" className="size-5 rounded border-gray-300 shadow-sm" id="Option2" {...register("freeship")} defaultChecked={bookData.freeship} />
+
+                  <span className="font-medium text-gray-700"> Freeship extra </span>
+                </label>
+                <label htmlFor="Option3" className="inline-flex items-center gap-3">
+                  <input type="checkbox" className="size-5 rounded border-gray-300 shadow-sm" id="Option3" {...register("auth")} defaultChecked={bookData.auth} />
+
+                  <span className="font-medium text-gray-700"> Auth </span>
+                </label>
+                <label htmlFor="Option4" className="inline-flex items-center gap-3">
+                  <input type="checkbox" className="size-5 rounded border-gray-300 shadow-sm" id="Option4" {...register("fastShip")} defaultChecked={bookData.fastShip} />
+
+                  <span className="font-medium text-gray-700"> Fast ship </span>
+                </label>
+              
+
+
               </div>
             </div>
 

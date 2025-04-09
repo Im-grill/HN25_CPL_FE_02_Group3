@@ -4,25 +4,27 @@ import { IBook } from "../../../interfaces/BookInterfaces";
 import AlertContext from "../../../shared/context/AlertContext";
 import { useContext } from "react";
 export default function BookForm() {
-      const alert = useContext(AlertContext)
+    const alert = useContext(AlertContext)
     const { register, handleSubmit, formState: { errors } } = useForm<IBook>();
     const onSubmit: SubmitHandler<IBook> = async (data) => {
         try {
+            console.log("ok")
+            data.auth=true;
             localStorage.setItem("accessToken", import.meta.env.VITE_TOKEN)
-            console.log(localStorage.getItem("accessToken"))
+
+            console.log(data)
             const res = await addNewBook(data);
             if (res) {
-                alert?.success("them moi thanh cong",3)
-                
+                alert?.success("them moi thanh cong", 3)
+                console.log("p")
             }
             if (errors) {
                 console.log(errors)
-                alert?.error("them moi that bai",3)
+                alert?.error("loi form", 3)
             }
 
-
         } catch (error) {
-            alert?.error("them moi that bai",3)
+            alert?.error("them moi that bai", 3)
             console.log(error)
         }
 
@@ -33,7 +35,6 @@ export default function BookForm() {
             <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12">
                     <h2 className="text-2xl font-semibold text-gray-900">Add New Book</h2>
-
 
                     <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div className="sm:col-span-4">

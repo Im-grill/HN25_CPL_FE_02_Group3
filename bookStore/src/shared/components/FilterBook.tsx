@@ -10,6 +10,8 @@ export default function FilterBook() {
     const [checkboxes, setCheckboxes] = React.useState({
         option1: false,
         option2: false,
+        option3: false,
+        option4: false,
     });
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCheckboxes({
@@ -23,7 +25,8 @@ export default function FilterBook() {
 
             <FormGroup>
                 <div className=' flex gap-6 pb-10 pt-10'>
-                    <FormControlLabel control={<Checkbox name="option1" checked={checkboxes.option1}
+                    <FormControlLabel control={
+                        <Checkbox name="option1" checked={checkboxes.option1}
                         onChange={handleCheckboxChange} />} label={
                             <div className='flex justify-between items-center'>
                                 <img className='h-[17px] w-[34px] mr-2.5' src='https://s3-alpha-sig.figma.com/img/9f63/2df5/52d4ff178b5e56072899664c52a61fe5?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Nu1b-foWKNYD~a0rsOZFyJmprSlYBp81prQPQuPYuYNCszilUfG7bgc4B2ZIgvgqWxo0~hbZKf1CfC6N3Y4pejv~wsfGGC8IxPGgsdTtMNJYiytufPyjsSOopMdjWhwF2uYCo0LdCVLdUWZMoy~yj3l5hAsQxNYjEEg70B1Bmt3dT-eA~L7t7g-T1EoZ9TexjjV8WIpK0UvOPLSHIVtbiTTnDbaIswQeZ4Jr~WcJf2QhXhJ-fN3OQM7MATfI5r4pM4CZ8DByrPl5AMXsorbw1gbbG41xFx2AuOii54zjNpfSrcofgprELgw-Y-scOZEErGYxgWbIb0Vjh09FY38O2g__' alt='' />
@@ -40,7 +43,7 @@ export default function FilterBook() {
                             </div>
                         } />
                     <Divider orientation="vertical" variant="middle" flexItem />
-                    <FormControlLabel control={<Checkbox name="option2" checked={checkboxes.option2}
+                    <FormControlLabel control={<Checkbox name="option3" checked={checkboxes.option3}
                         onChange={handleCheckboxChange} />} label={
                             <div className='flex justify-between items-center '>
 
@@ -48,7 +51,7 @@ export default function FilterBook() {
                             </div>
                         } />
                     <Divider orientation="vertical" variant="middle" flexItem />
-                    <FormControlLabel control={<Checkbox name="option2" checked={checkboxes.option2}
+                    <FormControlLabel control={<Checkbox name="option4" checked={checkboxes.option4}
                         onChange={handleCheckboxChange} />} label={
                             <div className='flex justify-between items-center text-center gap-1'>
                                 <FontAwesomeIcon icon={faStar} className='text-yellow-500' />
@@ -71,10 +74,9 @@ export default function FilterBook() {
                     className="mt-0.5 pt-2 pb-2 rounded-2xl border-gray-300 border-1 shadow-sm sm:text-sm text-center"
                 >
                     <option value="">Phổ biến</option>
-                    <option value="JM">John Mayer</option>
-                    <option value="JM">John Mayer</option>
-                    <option value="JM">John Mayer</option>
-                    <option value="JM">John Mayer</option>
+                    <option value="asc">Gia cao den thap</option>
+                    <option value="desc">Gia cao den thap</option>
+                  
 
                 </select>
             </div>

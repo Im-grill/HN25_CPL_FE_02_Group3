@@ -79,7 +79,7 @@ const handleDeleteBook = async (_id:string)=>{
     }
     useEffect(() => {
         getBookData();
-    }, [currentBook])
+    }, [openModal])
     return (
 
 

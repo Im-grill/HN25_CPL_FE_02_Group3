@@ -1,18 +1,15 @@
-export default function BookSeries() {
-    const books = [
-        {
-            image: "https://s3-alpha-sig.figma.com/img/3baf/f054/9329b1d90b157988da41c763a18ef7b4?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Xi7JJyz1aM~2hloVHpwvfWpdbR-dTqOldkJ85hwfYkjn5fC8wbOueLqS0rEzGO7xYcSMvHry~8T0SfRfd~dndKTfQ1Oodju0AucIiqtefCvB3PVGjjyz4kOyPK~2tewDYGkHxzeBgW71b69VZqn8IqWriWNxRVQ6Z~5WdU9AePSfvdkskFFn1vivhfpUPrdayxQAaXKtWdIh3-JyTJkuVpzsd1aj1oknxN1Yk2lTk9X62RK-PRwHisa~2jBu9vAf4iV91Q6g-Bk8Ekh30ZsNJMeWDUVxteokAQ9irAxseuSutZjSf2JHH-e~paosuJiwABopqIUNf0xF0BaDy3XhtQ__"
-            , discount: "-32%"
-        },
-        {
-            image: "https://s3-alpha-sig.figma.com/img/866f/816d/467787ac76bacbc88e295991f23a5400?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=CWUEmAqovBmZJGhJBd4kUk8ti9fY~DsPabIBCNMtk7uM4PfJVoIlX7iOhGkLdMDzf5nQuFGgGlhJsfJpp7n5OyEgGXbY2GBTUnWchr-ceOJdz8z3nG6RYYX7nxIPQzPFOrRmCM-REgHMo1FBIPMndX6JC2Eijs30RlBVw0wVdceUWWt7vcJX2dyj~2UgxEbD3wDjW1mrHZzjkPyrB0wINSX~34CGEEHQfA6NPKdRKn7yEm9pHOdl8T7oMfZSZepZN7VQRnJsflVpIPPFrR31B7xlS6PlTj~kWBbv7idDtI1AIZsZoQ8VgGcVRLm0AXEd16NaXAphWSFkUFdPRs1iAw__"
-            , discount: "-32%"
-        },
-        {
-            image: "https://s3-alpha-sig.figma.com/img/62b8/11f7/4c7c3a7f71eb3efadf9235b4832ab141?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=ONZzu9Oh83BVqHZ8qBzENf2ULfjxSkXZzgk19oIWjhjuUfrlwLUGAXohRGvibBRW9lCLuVDPqrzjVO5rAZgppkTtgzVwPyz6mKRTg4ljjDOwmaDN2BHexaP5Eo3KjVO~ZWZVrSB~kzoFuWfdaar3sn7sboKE1hxO6DUY25jQZglye8TdJHKPS5HnwB~O3dB68kMsyLJqttbaHfbRCH~ympun6NVhlesE-f9Qyw~DHeY0dG6v9KIq0TF51ox-B9LGv2Sa6UER7yzYKwbLupFNxUyrgHCrcCaYQd8nOLiAYIqSxtscrd7oTu1To~BdRemSuqmTgpqj79qF0Kw~ehDByQ__"
-            , discount: "-37%"
-        }
-    ]
+
+  type Book = {
+    image: string;
+    discount: string;
+  };
+  
+  type Series = {
+    name: string;
+    books: Book[];
+  };
+export default function BookSeries({name,books}:Series) {
+  
     return (
         <div className='flex bg-white  w-auto rounded-sm '>
             {/* 1980 books */}
@@ -30,7 +27,7 @@ export default function BookSeries() {
                 </div>
             </div>
             <div className='pt-4 pl-4'>
-                <span className='text-[20px] font-medium'>Top Sach Ban Chay</span>
+                <span className='text-[20px] font-medium'>{name}</span>
                 <div className='flex '>
                     <span className='text-[#808089] mr-1'>Tài trợ bởi </span>
                     <span className='font-medium mr-1'> 1980 Books Tại Tiki Trading</span>
