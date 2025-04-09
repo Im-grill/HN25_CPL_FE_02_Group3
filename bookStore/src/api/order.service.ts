@@ -1,25 +1,53 @@
-import { AxiosResponse } from "axios";
-import { IOrder } from "../interfaces";
-import instance from "./api.service";
+import axios from 'axios';
+import { IOrder } from '../interfaces';
+
+const API_URL = 'http://localhost:8080/orders';
 
 export const getOrders = async (): Promise<IOrder[]> => {
-    return instance.get("orders")
-}
+    try {
+        const response = await axios.get(API_URL);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        throw error;
+    }
+};
 
 export const getOrderById = async (id: number): Promise<IOrder> => {
-    return instance.get("orders/" + id)
-}
+    try {
+        const response = await axios.get(`${API_URL}/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching order ${id}:`, error);
+        throw error;
+    }
+};
 
-export const createOrder = async (data: IOrder) => {
-    return instance.post("orders", data)
-}
+export const createOrder = async (order: IOrder): Promise<IOrder> => {
+    try {
+        const response = await axios.post(API_URL, order);
+        return response.data;
+    } catch (error) {
+        console.error('Error creating order:', error);
+        throw error;
+    }
+};
 
-// Update
-export const updateOrder = async (id: number, data: IOrder) => {
-    return instance.put("orders/" + id, data)
-}
+export const updateOrder = async (id: number, order: Partial<IOrder>): Promise<IOrder> => {
+    try {
+        const response = await axios.put(`${API_URL}/${id}`, order);
+        return response.data;
+    } catch (error) {
+        console.error(`Error updating order ${id}:`, error);
+        throw error;
+    }
+};
 
-// Delete
-export const deleteOrder = async (id: number) => {
-    return instance.delete("orders" + `/${id}`)
-}
+export const deleteOrder = async (id: number): Promise<void> => {
+    try {
+        await axios.delete(`${API_URL}/${id}`);
+    } catch (error) {
+        console.error(`Error deleting order ${id}:`, error);
+        throw error;
+    }
+};

@@ -1,62 +1,83 @@
-import { useContext, useEffect, useState } from 'react'
-import OrderForm from './orderForm.tsx';
-import { IOrder } from '../../../interfaces.ts';
+import { useContext, useEffect, useState } from 'react';
+import { IOrder } from '../../../interfaces';
 import { getOrders } from '../../../api/order.service';
-import OrderItem from './orderItem.tsx';
-import OrderModal from './orderModel.tsx';
-import AlertContext from '../../../shared/context/AlertContext.tsx';
+import AlertContext from '../../../shared/context/AlertContext';
+import OrderItem from './orderItem';
+import OrderModal from './orderModel';
+import OrderForm from './orderForm';
 
 const OrderList = () => {
-    // State of component - Noi luu tru du lieu trong component
+    // State of component
     const [orders, setOrders] = useState<IOrder[]>([]);
-    const [updateOrderId, setUpdateOrderId] = useState<number | null>()
+    const [updateOrderId, setUpdateOrderId] = useState<number | null>();
     const alert = useContext(AlertContext);
 
-    const getOrdersList = async () => {
-        const data = await getOrders()
-        setOrders(data);
-    }
+    const getListOrders = async (filteredOrders?: IOrder[]) => {
+        try {
+            if (filteredOrders) {
+                // if filtered orders are provided, use them
+                setOrders(filteredOrders);
+            } else {
+                // otherwise fetch all orders
+                const data = await getOrders();
+                setOrders(data);
+            }
+        } catch (error) {
+            alert?.error("Cannot fetch orders list.");
+            console.error("Error fetching orders: ", error);
+        }
+    };
 
-    const updateOrder = (id?: number) => {
+    const updateOrder = (id: number) => {
         if (id) {
-            setUpdateOrderId(id)
+            setUpdateOrderId(id);
         }
     }
 
     const closeModal = () => {
         setUpdateOrderId(null);
-        alert?.success("Cập nhật đơn hàng thành công")
-        getOrdersList()
+        alert?.success("Order updated successfully");
+        getListOrders();
     }
 
     useEffect(() => {
-        getOrdersList();
-    }, [])
+        getListOrders();
+    }, []);
 
     return (
-        <section className='relative'>
-            <h1 className="text-3xl">Danh sách đơn hàng</h1>
-            <OrderForm onGetOrders={getOrdersList} />
+        <section className='relative mt-10'>
+            <h1 className="text-3xl mb-5">Order List</h1>
+            <OrderForm onGetOrders={getListOrders} />
             <div className="overflow-x-auto rounded-lg border border-gray-200">
                 <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                     <thead className="ltr:text-left rtl:text-right">
                         <tr>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">ID</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Ngày tạo</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Email</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Tên sách</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Giá gốc</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Thao tác</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">User</th>
+                            <th className="px-4 py-2 font-medium text-gray-900">Book</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Qty</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Total</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Status</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Date</th>
+                            <th className="px-4 py-2 font-medium text-gray-900 text-center">Actions</th>
                         </tr>
                     </thead>
 
                     <tbody className="divide-y divide-gray-200">
-                        {orders.map((order) => <OrderItem key={order.id} onUpdateOrder={() => updateOrder(order.id)} onGetOrders={getOrdersList} order={order} />)}
+                        {orders.map((order) => (
+                            <OrderItem
+                                key={order.id}
+                                order={order}
+                                onGetOrders={getListOrders}
+                                onUpdateOrder={updateOrder}
+                            />
+                        ))}
                     </tbody>
                 </table>
             </div>
             {updateOrderId && <OrderModal id={updateOrderId} onClose={closeModal} />}
         </section>
-    )
+    );
 }
+
 export default OrderList;
