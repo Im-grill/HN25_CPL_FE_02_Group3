@@ -15,9 +15,69 @@ import couponBG from '../../../assets/order-logo/img_13.png'
 import freeShipLogo from '../../../assets/order-logo/img_14.png'
 import infoLogo1 from '../../../assets/order-logo/img_15.png'
 import arrowRightBlueLogo from '../../../assets/order-logo/img_16.png'
-import {Link} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import {useContext, useEffect, useState} from 'react';
+import {UserContext} from '../../../shared/context/UserContext.tsx';
 
 const Order = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const userContext = useContext(UserContext); // Lấy user từ UserContext
+    const orderData = location.state || {};
+    const [error, setError] = useState('');
+    const [loggedInFullName, setLoggedInFullName] = useState('');
+
+    useEffect(() => {
+        const storedFullName = localStorage.getItem('loggedInFullName');
+        if(storedFullName) {
+            setLoggedInFullName(storedFullName);
+        }
+    }, []);
+
+    const {
+        bookName = 'Chat GPT Thực Chiến',
+        listPrice = 110000,
+        originalPrice = 169000,
+        quantity = 1,
+        image = bookLogo,
+    } = orderData;
+
+    const totalPrice = listPrice * quantity; // Tổng tiền hàng
+    const shippingFee = 25000; // Phí vận chuyển
+    const shippingDiscount = 25000; // Giảm giá vận chuyển (theo hình ảnh là 25.000 ₫)
+    const discount = (originalPrice - listPrice) * quantity; // Giảm giá trực tiếp
+    const totalPayment = totalPrice + shippingFee - shippingDiscount; // Tổng thanh toán
+
+    const handlePlaceOrder = async () => {
+        if (!userContext?.user?.email) {
+            setError('Bạn cần đăng nhập để đặt hàng!');
+            navigate('/customer/homepage'); // Chuyển hướng về trang chủ nếu chưa đăng nhập
+            return;
+        }
+
+        const orderPayload = {
+            created_at: new Date().toISOString(),
+            users: {
+                email: userContext.user.email, // Lấy email từ UserContext
+            },
+            books: {
+                name: bookName,
+                original_price: originalPrice,
+            },
+            quantity,
+            total_price: totalPayment,
+            status: 'pending',
+        };
+
+        try {
+            await axios.post('http://localhost:8080/order', orderPayload);
+            navigate('/customer/confirm', { state: { order: orderPayload } });
+        } catch (err) {
+            console.error('Lỗi khi đặt hàng:', err);
+            setError('Không thể đặt hàng. Vui lòng thử lại!');
+        }
+    };
     return (
         <>
             <div className={'relative z-[999]'}>
@@ -31,7 +91,7 @@ const Order = () => {
             </div>
             <header className={'bg-white'}>
                 <div className={'flex flex-1 items-center h-[100px] w-[1270px] px-[15px] mx-auto'}>
-                    <a href="/">
+                    <a href="/customer/homepage">
                         <img src={logoTiki} alt="" className={'w-18 h-18'}/>
                     </a>
                     <span className={'w-[1px] h-[32px] bg-[#1A94FF] mx-4 block'}></span>
@@ -112,20 +172,20 @@ const Order = () => {
                                         <div className={'package-item-list'}>
                                             <div className={'flex py-3 items-center'}>
                                                 <div className={'mr-2 flex-shrink-0 max-h-12'}>
-                                                    <img src={bookLogo} alt="" className={'w-12 h-12'}/>
+                                                    <img src={image} alt="" className={'w-12 h-12'}/>
                                                 </div>
                                                 <div className={'text-sm leading-5 text-[rgb(128,128,137)] flex-1'}>
                                                     <div className={'mb-1 pr-5'}>
-                                                        <span>Chat GPT Thực Chiến</span>
+                                                        <span>{bookName}</span>
                                                     </div>
                                                     <div className={'flex mb-1 pr-4 justify-between w-[440px]'}>
-                                                        <span>SL: x1</span>
+                                                        <span>SL: {quantity}</span>
                                                         <div>
                                                             <div
                                                                 className="text-[rgb(255,66,78)] flex gap-4 items-center font-medium">
                                                                 <span
-                                                                    className={'original-price text-[rgb(128,128,137)] line-through text-xs font-normal leading-[18px]'}>169.000 ₫</span>
-                                                                <span>110.000 ₫</span>
+                                                                    className={'original-price text-[rgb(128,128,137)] line-through text-xs font-normal leading-[18px]'}>{(originalPrice * quantity).toLocaleString('vi-VN')}</span>
+                                                                <span>{(listPrice * quantity).toLocaleString('vi-VN')} ₫</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -487,7 +547,7 @@ const Order = () => {
                                 <a href="/" className={'text-[#0b74e5]'}>Thay đổi</a>
                             </div>
                             <div className="customer-info flex items-center mb-0.5 font-semibold text-[rgb(56,56,61)]">
-                                <p>Vũ Anh Tú</p>
+                                <p>{loggedInFullName}</p>
                                 <i className={'="block w-[1px] h-[20px] bg-[#EBEBF0] mx-2'}></i>
                                 <p>0123456789</p>
                             </div>
@@ -551,7 +611,7 @@ const Order = () => {
                                     <h3 className={'font-medium text-[rgb(56,56,61)]'}>Đơn hàng</h3>
                                 </div>
                                 <div className="flex items-center">
-                                    <p className={'text-[rgb(128,128,137)] m-0 mr-[4px]'}>1 sản phẩm.</p>
+                                    <p className={'text-[rgb(128,128,137)] m-0 mr-[4px]'}>{quantity} sản phẩm.</p>
                                     <p className={'text-[rgb(11,116,229)] font-normal'}>Xem thông tin</p>
                                     <svg
                                         className="sub-title-link__arrow transform rotate-[90deg] transition-all duration-500"
@@ -567,15 +627,15 @@ const Order = () => {
                             <div className="p-[8px_16px] grid gap-[8px] text-[14px] leading-[21px]">
                                 <div className="flex justify-between gap-x-[8px]">
                                     <span className={'text-[rgb(128,128,137)]'}>Tổng tiền hàng</span>
-                                    <span>169.000đ</span>
+                                    <span>{totalPrice.toLocaleString('vi-VN')}</span>
                                 </div>
                                 <div className="flex justify-between gap-x-[8px]">
                                     <span className={'text-[rgb(128,128,137)]'}>Phí vận chuyển</span>
-                                    <span>25.000đ</span>
+                                    <span>{shippingFee.toLocaleString('vi-VN')}</span>
                                 </div>
                                 <div className="flex justify-between gap-x-[8px]">
                                     <span className={'text-[rgb(128,128,137)]'}>Giảm giá trực tếp</span>
-                                    <span className={'text-[rgb(0,171,86)]'}>-59.000đ</span>
+                                    <span className={'text-[rgb(0,171,86)]'}>-{discount.toLocaleString('vi-VN')}₫</span>
                                 </div>
                                 <div className="flex justify-between gap-x-[8px]">
                                     <div className="flex items-center">
@@ -589,8 +649,8 @@ const Order = () => {
                             <div className={'p-[8px_16px] flex gap-x-2 justify-between'}>
                                 <span className={'font-medium text-sm'}>Tổng tiền thanh toán</span>
                                 <div className={'flex flex-col items-end'}>
-                                    <span className={'text-[rgb(255,66,78)] font-semibold text-[20px] leading-[30px]'}>110.000 ₫</span>
-                                    <span className={'text-[rgb(0,171,86)]'}>Tiết kiệm 84.000 ₫</span>
+                                    <span className={'text-[rgb(255,66,78)] font-semibold text-[20px] leading-[30px]'}>{totalPayment.toLocaleString('vi-VN')}</span>
+                                    <span className={'text-[rgb(0,171,86)]'}>Tiết kiệm {(discount + 25000).toLocaleString('vi-VN')}</span>
                                 </div>
                             </div>
                             <div className={'flex justify-between pt-0 pr-[8px] pb-[16px] pl-[8px]'}>
@@ -599,6 +659,7 @@ const Order = () => {
                             <div className="flex justify-between">
                                 <Link to="/customer/confirm">
                                     <button
+                                        onClick={handlePlaceOrder}
                                         className={'m-[0px_16px_16px] text-white bg-[#ff424e] border-none font-normal h-[40px] w-full items-center rounded-md cursor-pointer'}>
                                         Đặt hàng
                                     </button>
