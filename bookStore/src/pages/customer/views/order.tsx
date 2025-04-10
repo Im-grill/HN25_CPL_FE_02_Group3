@@ -15,10 +15,11 @@ import couponBG from '../../../assets/order-logo/img_13.png'
 import freeShipLogo from '../../../assets/order-logo/img_14.png'
 import infoLogo1 from '../../../assets/order-logo/img_15.png'
 import arrowRightBlueLogo from '../../../assets/order-logo/img_16.png'
-import {Link, useLocation, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {useContext, useEffect, useState} from 'react';
-import {UserContext} from '../../../shared/context/UserContext.tsx';
+import { useState, useContext } from 'react';
+import { UserContext } from '../../../shared/context/UserContext.tsx';
 
 const Order = () => {
     const location = useLocation();
@@ -26,14 +27,6 @@ const Order = () => {
     const userContext = useContext(UserContext); // Lấy user từ UserContext
     const orderData = location.state || {};
     const [error, setError] = useState('');
-    const [loggedInFullName, setLoggedInFullName] = useState('');
-
-    useEffect(() => {
-        const storedFullName = localStorage.getItem('loggedInFullName');
-        if(storedFullName) {
-            setLoggedInFullName(storedFullName);
-        }
-    }, []);
 
     const {
         bookName = 'Chat GPT Thực Chiến',
@@ -91,7 +84,7 @@ const Order = () => {
             </div>
             <header className={'bg-white'}>
                 <div className={'flex flex-1 items-center h-[100px] w-[1270px] px-[15px] mx-auto'}>
-                    <a href="/customer/homepage">
+                    <a href="/">
                         <img src={logoTiki} alt="" className={'w-18 h-18'}/>
                     </a>
                     <span className={'w-[1px] h-[32px] bg-[#1A94FF] mx-4 block'}></span>
@@ -547,7 +540,7 @@ const Order = () => {
                                 <a href="/" className={'text-[#0b74e5]'}>Thay đổi</a>
                             </div>
                             <div className="customer-info flex items-center mb-0.5 font-semibold text-[rgb(56,56,61)]">
-                                <p>{loggedInFullName}</p>
+                                <p>{userContext?.user?.fullname || 'Chưa có tên'}</p>
                                 <i className={'="block w-[1px] h-[20px] bg-[#EBEBF0] mx-2'}></i>
                                 <p>0123456789</p>
                             </div>
