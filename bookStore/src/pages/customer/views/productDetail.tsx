@@ -1,13 +1,12 @@
-import { useRef, useState, useEffect } from 'react';
-import { FaStar, FaAngleRight, FaChevronLeft, FaChevronRight, FaMinus, FaPlus } from 'react-icons/fa';
-import { useParams, Link } from 'react-router-dom';
+import {useEffect, useRef, useState} from 'react';
+import {FaAngleRight, FaChevronLeft, FaChevronRight, FaMinus, FaPlus, FaStar} from 'react-icons/fa';
+import {useNavigate, useParams} from 'react-router-dom';
 import tikiLogo from '../../../assets/tiki-logo.png';
 import bookCover from '../../../assets/book-cover.png';
 import tikiheader from '../../../assets/tiki-head.png';
 import official from '../../../assets/official.png';
-import { getBook } from '../../../api/book.service';
-import { IBook } from '../../../interfaces/BookInterfaces';
-import { useNavigate } from 'react-router-dom';
+import {getBook} from '../../../api/book.service';
+import {IBook} from '../../../interfaces/BookInterfaces';
 
 
 function ProductDetail() {
@@ -137,6 +136,7 @@ function ProductDetail() {
                 bookName: book.name,
                 listPrice: book.list_price,
                 originalPrice: book.original_price,
+                discountedPrice: book.current_seller.price,
                 quantity: quantity,
                 image: book.images?.[0]?.base_url || bookCover,
                 sellerName: book.current_seller?.name || 'Tiki Trading',
