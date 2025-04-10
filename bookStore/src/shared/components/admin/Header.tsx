@@ -131,13 +131,16 @@ const Header = () => {
                     <div>
                         {isLoggedIn ? (
                             <div className="flex items-center text-gray-600 text-xs">
-                                <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1" />
+                                <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1"/>
                                 {loggedInFullName}
-                                <button onClick={handleLogout} className="ml-2 text-blue-500 hover:underline text-sm">Đăng xuất</button>
+                                <button onClick={handleLogout}
+                                        className="ml-2 text-blue-500 hover:underline text-sm">Đăng xuất
+                                </button>
                             </div>
                         ) : (
-                            <button onClick={() => setIsModalOpen(true)} className="flex items-center text-gray-600 hover:text-blue-500 text-xs">
-                                <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1" />
+                            <button onClick={() => setIsModalOpen(true)}
+                                    className="flex items-center text-gray-600 hover:text-blue-500 text-xs">
+                                <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1"/>
                                 Tài khoản
                             </button>
                         )}
