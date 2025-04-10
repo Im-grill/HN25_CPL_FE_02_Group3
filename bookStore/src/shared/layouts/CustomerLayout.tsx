@@ -1,15 +1,18 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import {Outlet} from 'react-router-dom'
+import {Outlet, useLocation} from 'react-router-dom'
 
 const CustomerLayout = () => {
+    const location = useLocation();
+    const noHeaderFooterPaths = ['/customer/order'];
+    const shouldHideHeaderFooter = noHeaderFooterPaths.includes(location.pathname);
     return (
         <div className="h-screen flex flex-col">
-            <Header/>
+            {!shouldHideHeaderFooter && <Header />}
             <main className="flex-grow bg-[#F5F5FA]">
                 <Outlet/>
             </main>
-            <Footer/>
+            {!shouldHideHeaderFooter && <Footer />}
         </div>
     )
 }

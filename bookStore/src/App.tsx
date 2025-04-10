@@ -18,8 +18,6 @@ import OrderList from './pages/admin/orderMangement/orderList'
 import UserList from './pages/admin/userManagement/userList'
 
 function App() {
-
-
     return (
         <BrowserRouter>
             <UserProvider>
@@ -34,7 +32,6 @@ function App() {
                             <Route path="order" element={<Order/>}/>
                             <Route path="confirm" element={<Confirm/>}/>
                         </Route>
-
                         {/* Admin */}
                         <Route path='admin' element={<AdminLayout/>}>
                             <Route index={true} element={<Dashboard/>}/>
