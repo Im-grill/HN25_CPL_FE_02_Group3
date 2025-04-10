@@ -621,7 +621,7 @@ const Order = () => {
                             <div className="p-[8px_16px] grid gap-[8px] text-[14px] leading-[21px]">
                                 <div className="flex justify-between gap-x-[8px]">
                                     <span className={'text-[rgb(128,128,137)]'}>Tổng tiền hàng</span>
-                                    <span>{totalPrice.toLocaleString('vi-VN')}</span>
+                                    <span>{(originalPrice * quantity).toLocaleString('vi-VN')}</span>
                                 </div>
                                 <div className="flex justify-between gap-x-[8px]">
                                     <span className={'text-[rgb(128,128,137)]'}>Phí vận chuyển</span>
