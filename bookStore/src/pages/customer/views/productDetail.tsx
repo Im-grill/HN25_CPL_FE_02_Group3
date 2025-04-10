@@ -219,16 +219,16 @@ function ProductDetail() {
 
                             <div className="flex items-baseline mb-4">
                                 <span className="text-2xl text-red-500 font-medium">
-                                    {book.list_price?.toLocaleString('vi-VN')}₫
+                                    {book.current_seller.price?.toLocaleString('vi-VN')}₫
                                 </span>
                                 {book.original_price && (
                                     <span className="ml-2 text-gray-500 line-through text-sm">
                                         {book.original_price.toLocaleString('vi-VN')}₫
                                     </span>
                                 )}
-                                {book.list_price && book.original_price && (
+                                {book.current_seller.price && book.original_price && (
                                     <span className="ml-2 text-red-500 font-medium">
-                                        -{Math.round(((book.original_price - book.list_price) / book.original_price) * 100)}%
+                                        -{Math.round(((book.original_price - book.current_seller.price) / book.original_price) * 100)}%
                                     </span>
                                 )}
                             </div>
