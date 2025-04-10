@@ -7,45 +7,41 @@ import shipLogo from "../../../assets/now.png";
 import returnBadge from "../../../assets/return-badge.png";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { getOrders, updateOrder } from "../../../api/order.service";
+import { IOrder } from "../../../interfaces";
+import { all } from "axios";
 
 
 const UserProfile = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [products, setProducts] = useState([
-        {
-            "createdAt": "2025-02-27T07:45:08.910Z",
-            "name": "Combo 4 cuốn: ChatGPT + ChatGPT thực chiến + AI 5.0 + AI Công cụ nâng cao hiệu suất",
-            "image": "https://loremflickr.com/640/480/technics",
-            "originalPrice": 549000,
-            "description": "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
-            "id": "36",
-            "sku": "7572869544871"
-        },
-    ]);
 
+    const [currentOrder, setCurrentOrder] = useState<IOrder | null>(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState({
         fullName: "",
+        email: "",
     });
 
-     // Đồng bộ trạng thái đăng nhập khi component mount và khi localStorage thay đổi
-     useEffect(() => {
+    // Đồng bộ trạng thái đăng nhập khi component mount và khi localStorage thay đổi
+    useEffect(() => {
         // Function để kiểm tra đăng nhập và cập nhật thông tin người dùng
         const checkLoginAndUpdateInfo = () => {
             // Đảm bảo dùng cùng một key để kiểm tra đăng nhập
-            const token =localStorage.getItem('accessToken');
+            const token = localStorage.getItem('accessToken');
             const isUserLoggedIn = !!token;
-            
+
             setIsLoggedIn(isUserLoggedIn);
-            
+
             if (isUserLoggedIn) {
                 // Lấy tất cả thông tin người dùng từ localStorage
                 const storedFullName = localStorage.getItem('loggedInFullName') || "";
                 const storedEmail = localStorage.getItem('loggedInEmail') || "";
                 const storedPhone = localStorage.getItem('loggedInPhone') || "";
-                
+
                 setUserInfo({
                     fullName: storedFullName,
-                    // email: storedEmail,
+                    email: storedEmail,
                     // phone: storedPhone,
                     // Cập nhật các trường khác nếu có
                 });
@@ -53,52 +49,66 @@ const UserProfile = () => {
                 // Reset thông tin người dùng khi đăng xuất
                 setUserInfo({
                     fullName: "",
-                    // email: "",
+                    email: "",
                     // phone: "",
                     // Reset các trường khác
                 });
             }
         };
-        
+
         // Kiểm tra ngay khi component mount
         checkLoginAndUpdateInfo();
-        
-        // Lắng nghe sự kiện storage để phát hiện thay đổi từ các tab/window khác
-        const handleStorageChange = () => {
-            checkLoginAndUpdateInfo();
-        };
-        
-        window.addEventListener('storage', handleStorageChange);
-        
-        // Tạo sự kiện tùy chỉnh để lắng nghe từ component header
-        const handleLoginEvent = () => {
-            checkLoginAndUpdateInfo();
-        };
-        
-        window.addEventListener('userLoggedIn', handleLoginEvent);
-        
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-            window.removeEventListener('userLoggedIn', handleLoginEvent);
-        };
-    }, []);
 
-    // calculate sum of products' price
-    const calOriginalTotal = () => {
-        return products.reduce((total, product) => {
-            return total + product.originalPrice;
-        }, 0);
-    };
+        // Thiết lập interval để kiểm tra mỗi 1 giây
+        const intervalId = setInterval(checkLoginAndUpdateInfo, 1000);
 
-    // assume shipping fee and shipping discount
-    const shippingFee = 30000; // VND
-    const shippingDiscount = 15000; // VND
+        // Cleanup khi component unmount
+        return () => clearInterval(intervalId);
+    }, [isLoggedIn]);
 
-    // calculate total after counting fee and discount
-    const calculateTotal = () => {
-        const orgTotal = calOriginalTotal();
-        return orgTotal + shippingFee - shippingDiscount;
-    };
+
+    //lấy dữ liệu từ order
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const allOrders = await getOrders();
+                //lọc email trùng với email đã đăng nhập
+                const userOrders = allOrders.filter(order => order.users.email === userInfo.email);
+
+                if (userOrders.length > 0) {
+                    setCurrentOrder(userOrders[0])
+                    console.log("Found orders", userOrders[0]);
+                }
+            } catch (error) {
+                console.error("Error fetching orders: ", error);
+            }
+        };
+
+        //chỉ fetch khi đã đăng nhập và có email
+        if (isLoggedIn && userInfo.email) {
+            fetchOrders();
+        };
+    }, [isLoggedIn, userInfo.email])
+
+    const handleCancelOrder = async () => {
+        if (!currentOrder || !currentOrder.id) return;
+        //cập nhật trạng thái order
+        try {
+            await updateOrder(currentOrder.id, {
+                status: "canceled"
+            });
+            //cập nhật về state
+            setCurrentOrder({
+                ...currentOrder,
+                status: "Đã hủy"
+            });
+
+            alert("Hủy thành công đơn hàng.");
+        } catch (error) {
+            console.log("Error canceling order:", error);
+            alert("Có lỗi xảy ra khi hủy đơn hàng. Vui lòng thử lại sau!");
+        }
+    }
 
     // VND format
     const formatPrice = (price: number) => {
@@ -110,8 +120,11 @@ const UserProfile = () => {
     return (
         <main className=" bg-[#F5F5FA]">
             {/* breadcrumb */}
-            <div className='mx-26 h-[53px] flex items-center'>
-                <Breadcrumb />
+            <div className='mx-26 h-[40px] flex items-center gap-1 text-[14px] text-[#808089]'>
+                {/* <Breadcrumb /> */}
+                <Link to="/customer/homepage" className="">Trang chủ </Link>
+                <FontAwesomeIcon icon={faChevronRight} className="" size="sm" />
+                <span> Đơn hàng của tôi </span>
             </div>
 
             <div className="mainContent flex mx-26">
@@ -143,11 +156,11 @@ const UserProfile = () => {
                 </aside>
                 <section className="mainContentCtn  w-[75%]">
                     <div className="orderTitle text-lg mt-7">
-                        <span className="">Chi tiết đơn hàng #861977987 - </span>
-                        <span className="status font-medium"> Đang xử lý</span>
+                        <span className="">Chi tiết đơn hàng #{currentOrder?.id} - </span>
+                        <span className="status font-medium"> {currentOrder?.status}</span>
                     </div>
                     <div className="orderDate flex justify-end mb-3 text-sm">
-                        <span>Ngày đặt hàng: 10:47 28/03/2025</span>
+                        <span>Ngày đặt hàng: #{currentOrder?.created_at}</span>
                     </div>
 
                     <div className="shipDetail flex justify-between gap-4  mb-4 items-stretch">
@@ -217,22 +230,22 @@ const UserProfile = () => {
                             </thead>
 
                             <tbody className=" divide-gray-200">
-                                {products.map((product) => (
-                                    <tr key={product.id} className="border-b-1 border-[#c2c2c2]">
+                                {currentOrder ? (
+                                    <tr className="border-b-1 border-[#c2c2c2]">
                                         <td className="productDetail whitespace-wrap  px-4 py-5 text-gray-700">
                                             <div className="flex gap-2.5">
-                                                <img src={product.image} alt="productImage"
+                                                <img src={currentOrder?.books?.images?.[0]?.base_url} alt="productImage"
                                                     className="w-16 h-16 object-cover rounded" />
                                                 <div className="detailCtn">
-                                                    <div className="text-[15px]">{product.name}</div>
+                                                    <div className="text-[15px]">{currentOrder.books.name}</div>
                                                     <div className="text-[11px] mt-2.5">
                                                         <span>Cung cấp bởi </span>
                                                         <Link to="" className="cursor-pointer text-blue-500 ">
-                                                            Tiki Trading
+                                                            {currentOrder.books.current_seller ? currentOrder.books.current_seller.name : "No seller found"}
                                                         </Link>
                                                     </div>
                                                     <img src={returnBadge} alt="returnBadge" className="h-5 mt-2.5" />
-                                                    <div className="sku mt-2.5 text-sm">Sku: {product.sku}</div>
+                                                    <div className="sku mt-2.5 text-sm">Sku: {currentOrder.books.current_seller ? currentOrder.books.current_seller.sku : "N/A"}</div>
                                                     <button type="button"
                                                         className="bg-white border-1 rounded-[4px] px-4 py-1.5 mt-2.5 cursor-pointer hover:bg-gray-100 text-blue-500 text-sm">Chat
                                                         với nhà bán
@@ -240,48 +253,57 @@ const UserProfile = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">{product.originalPrice}</td>
-                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">quantity
-                                            goes here
+                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">{formatPrice(currentOrder.books.original_price)}</td>
+                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">{currentOrder.quantity}</td>
+                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">{formatPrice(currentOrder.books.original_price -
+                                            (currentOrder.books.current_seller.price ? currentOrder.books.current_seller.price : currentOrder.books.original_price))}
                                         </td>
-                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">discount
-                                            goes here
-                                        </td>
-                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top flex justify-end ">{formatPrice(0)}</td>
+                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top flex justify-end ">{formatPrice(currentOrder.total_price)}</td>
                                     </tr>
-                                ))}
+                                ) : (
+                                    <tr>
+                                        <td colSpan={5} className="whitespace-wrap px-4 py-5 text-gray-700 text-center">
+                                            Không có đơn hàng nào
+                                        </td>
+                                    </tr>
+                                )}
                             </tbody>
                             <tfoot className="text-sm">
                                 <tr className="sumPrice">
                                     <td colSpan={4} className="text-right pt-8 px-5 pb-1.5">
                                         <span>Tạm tính</span>
                                     </td>
-                                    <td className="text-right pt-8 px-5 pb-1.5">{formatPrice(calOriginalTotal())}</td>
+                                    <td className="text-right pt-8 px-5 pb-1.5">{currentOrder ? formatPrice(currentOrder.total_price) : "N/A"}</td>
                                 </tr>
                                 <tr>
                                     <td colSpan={4} className="text-right py-1.5 px-5 ">
                                         <span>Phí vận chuyển</span>
                                     </td>
-                                    <td className="text-right py-1.5 px-5">price goes here</td>
+                                    <td className="text-right py-1.5 px-5">{currentOrder?.books?.fastShip ? "Miễn phí" : formatPrice(25000)}</td>
                                 </tr>
                                 <tr>
                                     <td colSpan={4} className="text-right py-1.5 px-5 ">
                                         <span>Giảm giá vận chuyển</span>
                                     </td>
-                                    <td className="text-right py-1.5 px-5">price goes here</td>
+                                    <td className="text-right py-1.5 px-5">{currentOrder?.books?.freeship ? formatPrice(0) : formatPrice(-25000)}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td colSpan={4} className="text-right pt-1.5 px-5 pb-1.5">
                                         <span>Tổng cộng</span>
                                     </td>
-                                    <td className="text-right pt-1.5 px-5 pb-1.5 text-lg text-red-600">{formatPrice(calculateTotal())}</td>
+                                    <td className="text-right pt-1.5 px-5 pb-1.5 text-lg text-red-600">{currentOrder ? formatPrice(currentOrder.total_price) : "N/A"}</td>
                                 </tr>
                                 <tr>
                                     <td colSpan={5} className="text-right px-5 pb-8">
-                                        <button type="button"
-                                            className="bg-yellow-400 rounded-[4px] px-3 py-1.5  cursor-pointer hover:bg-yellow-500">Hủy
-                                            đơn hàng
-                                        </button>
+                                        {/*hiển thị nút khi đơn hàng chưa bị hủy */}
+                                        {currentOrder?.status !== "Đã hủy" && currentOrder?.status !== "completed" && (
+                                            <button type="button"
+                                                className="bg-yellow-400 rounded-[4px] px-3 py-1.5  cursor-pointer hover:bg-yellow-500" onClick={handleCancelOrder}>Hủy
+                                                đơn hàng
+                                            </button>
+                                        )}
+                                        
                                     </td>
                                 </tr>
                             </tfoot>
