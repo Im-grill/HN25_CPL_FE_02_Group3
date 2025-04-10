@@ -35,7 +35,6 @@ const Order = () => {
             setLoggedInFullName(storedFullName);
         }
     }, []);
-
     const {
         bookName = 'Chat GPT Thực Chiến',
         listPrice = 110000,
