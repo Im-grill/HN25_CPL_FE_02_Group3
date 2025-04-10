@@ -15,11 +15,10 @@ import couponBG from '../../../assets/order-logo/img_13.png'
 import freeShipLogo from '../../../assets/order-logo/img_14.png'
 import infoLogo1 from '../../../assets/order-logo/img_15.png'
 import arrowRightBlueLogo from '../../../assets/order-logo/img_16.png'
-import {Link} from 'react-router-dom';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import { useState, useContext } from 'react';
-import { UserContext } from '../../../shared/context/UserContext.tsx';
+import {useContext, useEffect, useState} from 'react';
+import {UserContext} from '../../../shared/context/UserContext.tsx';
 
 const Order = () => {
     const location = useLocation();
@@ -27,6 +26,14 @@ const Order = () => {
     const userContext = useContext(UserContext); // Lấy user từ UserContext
     const orderData = location.state || {};
     const [error, setError] = useState('');
+    const [loggedInFullName, setLoggedInFullName] = useState('');
+
+    useEffect(() => {
+        const storedFullName = localStorage.getItem('loggedInFullName');
+        if(storedFullName) {
+            setLoggedInFullName(storedFullName);
+        }
+    }, []);
 
     const {
         bookName = 'Chat GPT Thực Chiến',
@@ -540,7 +547,7 @@ const Order = () => {
                                 <a href="/" className={'text-[#0b74e5]'}>Thay đổi</a>
                             </div>
                             <div className="customer-info flex items-center mb-0.5 font-semibold text-[rgb(56,56,61)]">
-                                <p>{userContext?.user?.fullname || 'Chưa có tên'}</p>
+                                <p>{loggedInFullName}</p>
                                 <i className={'="block w-[1px] h-[20px] bg-[#EBEBF0] mx-2'}></i>
                                 <p>0123456789</p>
                             </div>
