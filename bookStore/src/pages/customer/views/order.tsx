@@ -15,67 +15,61 @@ import couponBG from '../../../assets/order-logo/img_13.png'
 import freeShipLogo from '../../../assets/order-logo/img_14.png'
 import infoLogo1 from '../../../assets/order-logo/img_15.png'
 import arrowRightBlueLogo from '../../../assets/order-logo/img_16.png'
-import {Link, useLocation, useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import {useContext, useEffect, useState} from 'react';
-import {UserContext} from '../../../shared/context/UserContext.tsx';
+import {useEffect, useState} from 'react';
 
 const Order = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const userContext = useContext(UserContext); // Lấy user từ UserContext
     const orderData = location.state || {};
     const [error, setError] = useState('');
+    const [loggedInEmail, setLoggedInEmail] = useState('');
     const [loggedInFullName, setLoggedInFullName] = useState('');
 
     useEffect(() => {
         const storedFullName = localStorage.getItem('loggedInFullName');
-        if(storedFullName) {
+        const storedEmail = localStorage.getItem('loggedInEmail');
+        if (storedFullName && storedEmail) {
+            setLoggedInEmail(storedEmail);
             setLoggedInFullName(storedFullName);
         }
     }, []);
-
     const {
         bookName = 'Chat GPT Thực Chiến',
         listPrice = 110000,
         originalPrice = 169000,
+        discountedPrice = listPrice, // Giá đã giảm, mặc định bằng listPrice nếu không có
         quantity = 1,
         image = bookLogo,
     } = orderData;
 
-    const totalPrice = listPrice * quantity; // Tổng tiền hàng
+    const totalPrice = discountedPrice * quantity; // Tổng tiền hàng (dùng giá đã giảm)
     const shippingFee = 25000; // Phí vận chuyển
-    const shippingDiscount = 25000; // Giảm giá vận chuyển (theo hình ảnh là 25.000 ₫)
-    const discount = (originalPrice - listPrice) * quantity; // Giảm giá trực tiếp
+    const shippingDiscount = 25000; // Giảm giá vận chuyển
+    const discount = (originalPrice - discountedPrice) * quantity; // Giảm giá trực tiếp (dùng discountedPrice)
     const totalPayment = totalPrice + shippingFee - shippingDiscount; // Tổng thanh toán
 
     const handlePlaceOrder = async () => {
-        if (!userContext?.user?.email) {
+        if (!loggedInEmail) {
             setError('Bạn cần đăng nhập để đặt hàng!');
-            navigate('/customer/homepage'); // Chuyển hướng về trang chủ nếu chưa đăng nhập
+            navigate('/customer/homepage');
             return;
         }
-
         const orderPayload = {
             created_at: new Date().toISOString(),
-            users: {
-                email: userContext.user.email, // Lấy email từ UserContext
-            },
-            books: {
-                name: bookName,
-                original_price: originalPrice,
-            },
+            users: {email: loggedInEmail},
+            books: {name: bookName, original_price: originalPrice},
             quantity,
             total_price: totalPayment,
             status: 'pending',
         };
-
         try {
-            await axios.post('http://localhost:8080/order', orderPayload);
-            navigate('/customer/confirm', { state: { order: orderPayload } });
+            await axios.post('http://localhost:8080/order', orderPayload)
+            navigate('/customer/confirm', {state: {order: orderPayload}});
         } catch (err) {
             console.error('Lỗi khi đặt hàng:', err);
-            setError('Không thể đặt hàng. Vui lòng thử lại!');
+            setError(`Không thể đặt hàng:`);
         }
     };
     return (
@@ -185,7 +179,7 @@ const Order = () => {
                                                                 className="text-[rgb(255,66,78)] flex gap-4 items-center font-medium">
                                                                 <span
                                                                     className={'original-price text-[rgb(128,128,137)] line-through text-xs font-normal leading-[18px]'}>{(originalPrice * quantity).toLocaleString('vi-VN')}</span>
-                                                                <span>{(listPrice * quantity).toLocaleString('vi-VN')} ₫</span>
+                                                                <span>{(discountedPrice * quantity).toLocaleString('vi-VN')} ₫</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -635,35 +629,36 @@ const Order = () => {
                                 </div>
                                 <div className="flex justify-between gap-x-[8px]">
                                     <span className={'text-[rgb(128,128,137)]'}>Giảm giá trực tếp</span>
-                                    <span className={'text-[rgb(0,171,86)]'}>-{discount.toLocaleString('vi-VN')}₫</span>
+                                    <span className={'text-[rgb(0,171,86)]'}>-{discount.toLocaleString('vi-VN')}</span>
                                 </div>
                                 <div className="flex justify-between gap-x-[8px]">
                                     <div className="flex items-center">
                                         <span className={'text-[rgb(128,128,137)]'}>Giảm giá vận chuyển</span>
                                         <img src={infoLogo} className={'w-[14px] h-[14px]'} alt=""/>
                                     </div>
-                                    <span className={'text-[rgb(0,171,86)]'}>-25.000đ</span>
+                                    <span
+                                        className={'text-[rgb(0,171,86)]'}>-{shippingDiscount.toLocaleString('vi-VN')}</span>
                                 </div>
                             </div>
                             <div className="h-[1px] bg-[#ebebf0]"></div>
                             <div className={'p-[8px_16px] flex gap-x-2 justify-between'}>
                                 <span className={'font-medium text-sm'}>Tổng tiền thanh toán</span>
                                 <div className={'flex flex-col items-end'}>
-                                    <span className={'text-[rgb(255,66,78)] font-semibold text-[20px] leading-[30px]'}>{totalPayment.toLocaleString('vi-VN')}</span>
-                                    <span className={'text-[rgb(0,171,86)]'}>Tiết kiệm {(discount + 25000).toLocaleString('vi-VN')}</span>
+                                    <span
+                                        className={'text-[rgb(255,66,78)] font-semibold text-[20px] leading-[30px]'}>{totalPayment.toLocaleString('vi-VN')}</span>
+                                    <span
+                                        className={'text-[rgb(0,171,86)]'}>Tiết kiệm {(discount + shippingDiscount).toLocaleString('vi-VN')}</span>
                                 </div>
                             </div>
                             <div className={'flex justify-between pt-0 pr-[8px] pb-[16px] pl-[8px]'}>
                                 <span className={'text-right text-xs text-[rgb(128,128,137)]'}>(Giá này đã bao gồm thuế GTGT, phí đóng gói, phí vận chuyển và các chi phí phát sinh khác)</span>
                             </div>
                             <div className="flex justify-between">
-                                <Link to="/customer/confirm">
-                                    <button
-                                        onClick={handlePlaceOrder}
-                                        className={'m-[0px_16px_16px] text-white bg-[#ff424e] border-none font-normal h-[40px] w-full items-center rounded-md cursor-pointer'}>
-                                        Đặt hàng
-                                    </button>
-                                </Link>
+                                <button
+                                    onClick={handlePlaceOrder}
+                                    className={'m-[0px_16px_16px] text-white bg-[#ff424e] border-none font-normal h-[40px] w-full items-center rounded-md cursor-pointer'}>
+                                    Đặt hàng
+                                </button>
                             </div>
                         </div>
                     </div>
