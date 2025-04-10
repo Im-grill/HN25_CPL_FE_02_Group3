@@ -91,7 +91,7 @@ const Order = () => {
             </div>
             <header className={'bg-white'}>
                 <div className={'flex flex-1 items-center h-[100px] w-[1270px] px-[15px] mx-auto'}>
-                    <a href="/">
+                    <a href="/customer/homepage">
                         <img src={logoTiki} alt="" className={'w-18 h-18'}/>
                     </a>
                     <span className={'w-[1px] h-[32px] bg-[#1A94FF] mx-4 block'}></span>
