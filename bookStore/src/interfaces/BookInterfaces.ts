@@ -60,6 +60,13 @@ export   interface IBook extends IHasId {
     auth:true,
     fastShip:boolean
 }
+export interface FilterOptions {
+    top_deal: boolean;
+    freeship: boolean ,
+    rating: boolean,
+    fastShip: boolean
+    sortBy: string;
+  }
 
 
 
