@@ -30,7 +30,7 @@ const Order = () => {
     useEffect(() => {
         const storedFullName = localStorage.getItem('loggedInFullName');
         const storedEmail = localStorage.getItem('loggedInEmail');
-        if (storedFullName && storedEmail ) {
+        if (storedFullName && storedEmail) {
             setLoggedInEmail(storedEmail);
             setLoggedInFullName(storedFullName);
         }
@@ -66,8 +66,8 @@ const Order = () => {
             status: 'pending',
         };
         try {
-                await axios.post('http://localhost:8080/order', orderPayload)
-                navigate('/customer/confirm', {state: {order: orderPayload}});
+            await axios.post('http://localhost:8080/order', orderPayload)
+            navigate('/customer/confirm', {state: {order: orderPayload}});
         } catch (err) {
             console.error('Lỗi khi đặt hàng:', err);
             setError(`Không thể đặt hàng:`);
