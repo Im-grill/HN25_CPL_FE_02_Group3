@@ -18,7 +18,7 @@ export default function BookList() {
 
   return (
     <>
-      <div className='flex flex-wrap gap-2 w-full justify-between mt-4 '>
+      <div className='flex flex-wrap gap-2   mt-4 '>
 
 
         {data.map((book, index) =>
