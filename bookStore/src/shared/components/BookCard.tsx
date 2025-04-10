@@ -37,6 +37,11 @@ export default function BookCard({ props }: BookCardProps) {
             alt="Verified"
             className='absolute bottom-0 left-0 '
           />}
+          {props.auth && props.freeship && !props.top_deal && <img
+            src="/assets/Free_Verify.png"
+            alt="Verified"
+            className='absolute bottom-0 left-0 '
+          />}
        
 
         </div>

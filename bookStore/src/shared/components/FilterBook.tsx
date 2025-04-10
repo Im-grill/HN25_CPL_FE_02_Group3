@@ -26,7 +26,6 @@ export default function FilterBook({ onFilterChange }: FilterBookProps) {
             ...checkboxes,
             [event.target.name]: event.target.checked,
         };
-        console.log(newCheckboxes)
         setCheckboxes(newCheckboxes);
         // Gửi dữ liệu lọc lên component cha
         onFilterChange({

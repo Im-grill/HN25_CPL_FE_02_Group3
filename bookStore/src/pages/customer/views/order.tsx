@@ -59,14 +59,15 @@ const Order = () => {
         const orderPayload = {
             created_at: new Date().toISOString(),
             users: {email: loggedInEmail},
-            books: {name: bookName, original_price: originalPrice},
+            books: {name: bookName, original_price: originalPrice,image:image},
             quantity,
             total_price: totalPayment,
             status: 'pending',
         };
         try {
-            await axios.post('http://localhost:8080/order', orderPayload)
-            navigate('/customer/confirm', {state: {order: orderPayload}});
+            console.log(orderPayload)
+            // await axios.post('http://localhost:8080/order', orderPayload)
+             navigate('/customer/confirm', {state: {order: orderPayload}});
         } catch (err) {
             console.error('Lỗi khi đặt hàng:', err);
             setError(`Không thể đặt hàng:`);

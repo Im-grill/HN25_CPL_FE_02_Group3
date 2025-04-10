@@ -7,7 +7,7 @@ import {faHome, faSearch, faShoppingCart, faUser} from '@fortawesome/free-solid-
 import {Link} from 'react-router-dom';
 import {IUser} from '../../interfaces/UserInterface';
 import {login as loginService, register as registerService} from '../../api/auth.service';
-
+import { useNavigate } from 'react-router-dom';
 const Header = (props) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,8 +20,9 @@ const Header = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedInEmail, setLoggedInEmail] = useState('');
     const [loggedInFullName, setLoggedInFullName] = useState('');
-
+    const navigate = useNavigate();
     useEffect(() => {
+       
         const token = localStorage.getItem('accessToken');
         const storedEmail = localStorage.getItem('loggedInEmail');
         const storedFullName = localStorage.getItem('loggedInFullName');
@@ -38,7 +39,8 @@ const Header = (props) => {
 
     const handleSearchSubmit = (event) => {
         event.preventDefault();
-        console.log('Tìm kiếm:', searchTerm);
+        navigate(`/customer/homepage?search=${(searchTerm)}`);
+      
     };
 
     const toggleShowPassword = () => {

@@ -11,9 +11,9 @@ import {IBook} from '../../../interfaces/BookInterfaces';
 
 function ProductDetail() {
     const navigate = useNavigate();
-    const { id } = useParams<{ id: string }>(); 
-    const [book, setBook] = useState<IBook | null>(null); 
-    const [allBooks, setAllBooks] = useState<IBook[]>([]); 
+    const { id } = useParams<{ id: string }>();
+    const [book, setBook] = useState<IBook | null>(null);
+    const [allBooks, setAllBooks] = useState<IBook[]>([]);
     const [quantity, setQuantity] = useState(1);
     const [loading, setLoading] = useState(true);
     const [currentImage, setCurrentImage] = useState('');
@@ -21,9 +21,9 @@ function ProductDetail() {
     useEffect(() => {
         const fetchBookDetail = async () => {
             try {
-                const response = await getBook(); 
-                setAllBooks(response); 
-                const bookData = response.find((b: IBook) => b.id === id); 
+                const response = await getBook();
+                setAllBooks(response);
+                const bookData = response.find((b: IBook) => b.id === id);
                 if (bookData) {
                     setBook(bookData);
                     setCurrentImage(bookData.images?.[0]?.base_url ?? '');
@@ -142,6 +142,7 @@ function ProductDetail() {
                 sellerName: book.current_seller?.name || 'Tiki Trading',
             };
             // Chuyển hướng đến trang Order và truyền dữ liệu qua    state
+
             navigate('/customer/order', { state: orderData });
         }
     };

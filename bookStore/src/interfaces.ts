@@ -1,3 +1,4 @@
+import { IBook } from "./interfaces/BookInterfaces";
 
 export interface ICategory {
     id?: number,
@@ -12,10 +13,7 @@ export interface IOrder {
   users: {
     email: string;
   };
-  books: {
-    name: string;
-    original_price: number;
-  };
+  books:IBook
   quantity: number;
   total_price: number;
   status: string;
