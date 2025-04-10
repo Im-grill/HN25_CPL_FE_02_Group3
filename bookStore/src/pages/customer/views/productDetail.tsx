@@ -6,10 +6,12 @@ import bookCover from '../../../assets/book-cover.png';
 import tikiheader from '../../../assets/tiki-head.png';
 import official from '../../../assets/official.png';
 import { getBook } from '../../../api/book.service'; 
-import { IBook } from '../../../interfaces/BookInterfaces'; 
+import { IBook } from '../../../interfaces/BookInterfaces';
+import { useNavigate } from 'react-router-dom';
 
 
 function ProductDetail() {
+    const navigate = useNavigate();
     const { id } = useParams<{ id: string }>(); 
     const [book, setBook] = useState<IBook | null>(null); 
     const [allBooks, setAllBooks] = useState<IBook[]>([]); 
@@ -128,7 +130,21 @@ function ProductDetail() {
     if (!book) {
         return <div className="text-center py-10">Không tìm thấy sản phẩm!</div>;
     }
-
+    const handleBuyNow = () => {
+        if (book) {
+            const orderData = {
+                bookId: book.id,
+                bookName: book.name,
+                listPrice: book.list_price,
+                originalPrice: book.original_price,
+                quantity: quantity,
+                image: book.images?.[0]?.base_url || bookCover,
+                sellerName: book.current_seller?.name || 'Tiki Trading',
+            };
+            // Chuyển hướng đến trang Order và truyền dữ liệu qua    state
+            navigate('/customer/order', { state: orderData });
+        }
+    };
     return (
         <div className="min-h-screen bg-gray-100">
             <div className="container mx-auto px-4 py-2">
@@ -387,7 +403,7 @@ function ProductDetail() {
                                         <FaMinus size={12} />
                                     </button>
                                     <input
-                                        type="text"
+                                        type="number"
                                         value={quantity}
                                         readOnly
                                         className="border-t border-b border-gray-300 w-10 text-center py-1"
@@ -407,12 +423,12 @@ function ProductDetail() {
                                     {((book.list_price ?? 0) * quantity).toLocaleString('vi-VN')}₫
                                 </div>
                             </div>
-
-                            <Link to="/customer/order">
-                                <button className="w-full bg-red-500 text-white py-2 rounded-md mb-2">
-                                    Mua ngay
-                                </button>
-                            </Link>
+                            <button
+                                onClick={handleBuyNow}
+                                className="w-full bg-red-500 text-white py-2 rounded-md mb-2"
+                            >
+                                Mua ngay
+                            </button>
                             <button className="w-full border border-blue-500 text-blue-500 py-2 rounded-md mb-2">
                                 Thêm vào giỏ
                             </button>

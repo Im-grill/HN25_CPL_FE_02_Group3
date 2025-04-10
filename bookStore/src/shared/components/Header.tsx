@@ -1,14 +1,16 @@
 // Header.tsx
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import TikiLogo from '../../assets/logo/tiki-logo.png';
 import TikiImage from '../../assets/tiki-image.png';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faHome, faSearch, faShoppingCart, faUser} from '@fortawesome/free-solid-svg-icons';
-import {Link} from 'react-router-dom';
-import {IUser} from '../../interfaces/UserInterface';
-import {login as loginService, register as registerService} from '../../api/auth.service';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import { IUser } from '../../interfaces/UserInterface';
+import { login as loginService, register as registerService } from '../../api/auth.service';
+import { UserContext } from '../context/UserContext.tsx';
 
-const Header = (props) => {
+const Header = () => {
+    const userContext = useContext(UserContext);
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLogin, setIsLogin] = useState(true);
@@ -29,14 +31,16 @@ const Header = (props) => {
             setIsLoggedIn(true);
             setLoggedInEmail(storedEmail);
             setLoggedInFullName(storedFullName);
+            // Đồng bộ với UserContext
+            userContext?.setUser({ email: storedEmail, fullname: storedFullName });
         }
-    }, []);
+    }, [userContext]);
 
-    const handleSearchChange = (event) => {
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
     };
 
-    const handleSearchSubmit = (event) => {
+    const handleSearchSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         console.log('Tìm kiếm:', searchTerm);
     };
@@ -45,7 +49,7 @@ const Header = (props) => {
         setShowPassword(!showPassword);
     };
 
-    const handlePasswordChange = (event) => {
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
     };
 
@@ -72,6 +76,11 @@ const Header = (props) => {
                 localStorage.setItem('loggedInEmail', response.user.email);
                 setLoggedInFullName(response.user.fullname);
                 localStorage.setItem('loggedInFullName', response.user.fullname);
+                // Cập nhật UserContext
+                userContext?.setUser({
+                    email: response.user.email,
+                    fullname: response.user.fullname,
+                });
             }
             setIsLoggedIn(true);
             setIsModalOpen(false);
@@ -84,6 +93,7 @@ const Header = (props) => {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('loggedInEmail');
             localStorage.removeItem('loggedInFullName');
+            userContext?.setUser(undefined); // Xóa user khỏi context
         }
     };
 
@@ -120,6 +130,7 @@ const Header = (props) => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('loggedInEmail');
         localStorage.removeItem('loggedInFullName');
+        userContext?.setUser(undefined); // Xóa user khỏi context
     };
 
     return (
