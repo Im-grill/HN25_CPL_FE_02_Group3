@@ -2,7 +2,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import './App.css'
 import HomePage from './pages/customer/views/homePage'
 import CustomerLayout from './shared/layouts/CustomerLayout'
-import ProductDetail from './pages/admin/productManagement/productDetail'
+import ProductDetail from './pages/customer/views/productDetail'
 import AdminLayout from './shared/layouts/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
 import CategoryList from './pages/admin/categoryManagement/CategoryList'
@@ -15,6 +15,7 @@ import BookForm from './pages/admin/bookManagement/BookForm'
 import Order from './pages/customer/views/order'
 import BookListManagement from './pages/admin/bookManagement/BookList'
 import OrderList from './pages/admin/orderMangement/orderList'
+import UserList from './pages/admin/userManagement/userList'
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
                             <Route path='book/add' element={<BookForm/>}/>
                             <Route path='book/list' element={<BookListManagement/>}/>
                             <Route path='order' element={<OrderList/>}/>
+                            <Route path='user' element={<UserList/>}/>
                         </Route>
                     </Routes>
                 </AlertProvider>

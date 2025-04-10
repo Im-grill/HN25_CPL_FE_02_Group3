@@ -1,19 +1,33 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { createOrder } from '../../../api/order.service';
+import { useContext, useEffect, useState } from 'react';
+import { getOrders } from '../../../api/order.service';
 import AlertContext from '../../../shared/context/AlertContext';
-import { useContext } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { IOrder } from '../../../interfaces';
 
 type Inputs = {
-    userId: string,
-    bookId: string
+    searchKey: string;
 }
 
 type OrderFormProps = {
-    onGetOrders: () => {}
+    onGetOrders: (filteredOrders?: IOrder[]) => void
 }
 
 const OrderForm = ({ onGetOrders }: OrderFormProps) => {
-    const alert = useContext(AlertContext)
+    const alert = useContext(AlertContext);
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [debouncedTerm, setDebouncedTerm] = useState<string>('');
+    const [orders, setOrders] = useState<IOrder[]>([]);
+
+    const getListOrders = async () => {
+        const data = await getOrders();
+        setOrders(data);
+    }
+
+    useEffect(() => {
+        getListOrders();
+    }, []);
 
     const {
         register,
@@ -21,64 +35,84 @@ const OrderForm = ({ onGetOrders }: OrderFormProps) => {
         formState: { errors },
     } = useForm<Inputs>();
 
-    const submitForm: SubmitHandler<Inputs> = async (data) => {
-        const { userId, bookId } = data;
-        const newOrder = {
-            created_at: new Date().toISOString(),
-            users: {
-                id: parseInt(userId)
-            },
-            books: {
-                id: parseInt(bookId)
-            }
+    // debounce function to delay search
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedTerm(searchTerm);
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    // effect to search when debounced term changes
+    useEffect(() => {
+        if (debouncedTerm !== undefined) {
+            searchForOrders(debouncedTerm);
         }
-        await createOrder(newOrder);
-        alert?.success("Thêm mới đơn hàng thành công");
-        onGetOrders()
+    }, [debouncedTerm]);
+
+    const searchForOrders = async (term: string) => {
+        try {
+            // get all orders
+            const allOrders = await getOrders();
+
+            // filter orders on search term - looking in user email, book name, and status
+            const filteredOrders = term
+                ? allOrders.filter((order: IOrder) =>
+                    order.users.email.toLowerCase().includes(term.toLowerCase()) ||
+                    order.books.name.toLowerCase().includes(term.toLowerCase()) ||
+                    order.status.toLowerCase().includes(term.toLowerCase())
+                )
+                : allOrders;
+
+            // update parent component with filtered result
+            onGetOrders(filteredOrders);
+
+            // show message if no results
+            if (term && filteredOrders.length === 0) {
+                alert?.error("No matching orders found", 3);
+            }
+        } catch (error) {
+            console.error("Error searching orders:", error);
+            alert?.error("Encountered error while searching. Please try again later.", 3);
+        }
     }
 
-    return <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-lg text-center">
-            <h1 className="text-2xl font-bold sm:text-3xl">Thêm mới đơn hàng</h1>
+    // submit form handler
+    const submitForm: SubmitHandler<Inputs> = async (data) => {
+        const { searchKey } = data;
+        setSearchTerm(searchKey);
+    };
+
+    // handle input change
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
+    }
+
+    return (
+        <div className="">
+            <form onSubmit={handleSubmit(submitForm)} className="flex gap-1 mb-3">
+                <div className="relative flex-grow">
+                    <input
+                        {...register("searchKey")}
+                        type="text"
+                        className="w-full rounded-lg border-[#c2c2c2] border-1 px-5 py-1.5 text-sm shadow-xs"
+                        placeholder="Search by email, book name or status"
+                        onChange={handleInputChange}
+                    />
+                </div>
+
+                <div className="flex items-center justify-between">
+                    <button
+                        title="search"
+                        type="submit"
+                        className="inline-block rounded-lg bg-blue-500 px-5 py-1.5 text-sm font-medium text-white hover:bg-blue-600 cursor-pointer"
+                    >
+                        <FontAwesomeIcon icon={faMagnifyingGlass} style={{ color: "#fff" }} />
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <form onSubmit={handleSubmit(submitForm)} className="mx-auto mt-8 mb-0 max-w-md space-y-4">
-            <div>
-                <label htmlFor="userId" className="block mb-2">ID người dùng</label>
-                <div className="relative">
-                    <input
-                        {...register("userId", { required: true })}
-                        type="text"
-                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
-                        placeholder="Nhập ID người dùng"
-                    />
-                    {errors.userId && <span className="text-red-500">User ID là bắt buộc</span>}
-                </div>
-            </div>
-
-            <div>
-                <label htmlFor="bookId" className="block mb-2">ID sách</label>
-                <div className="relative">
-                    <input
-                        {...register("bookId", { required: true })}
-                        type="text"
-                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
-                        placeholder="Nhập ID sách"
-                    />
-                    {errors.bookId && <span className="text-red-500">Book ID là bắt buộc</span>}
-                </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-                <button
-                    type="submit"
-                    className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
-                >
-                    Thêm mới
-                </button>
-            </div>
-        </form>
-    </div>
+    );
 }
 
-export default OrderForm
+export default OrderForm;
