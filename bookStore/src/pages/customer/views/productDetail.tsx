@@ -96,7 +96,7 @@ function ProductDetail() {
                     </div>
                     <div className="flex items-center">
                         <span className="text-red-500 font-medium text-sm">
-                            {product.list_price?.toLocaleString('vi-VN')}₫
+                            {product.current_seller.price?.toLocaleString('vi-VN')}₫
                         </span>
                         {product.original_price && (
                             <span className="ml-1 text-xs text-gray-400 line-through">
@@ -104,9 +104,9 @@ function ProductDetail() {
                             </span>
                         )}
                     </div>
-                    {product.list_price && product.original_price && (
+                    {product.current_seller.price && product.original_price && (
                         <span className="text-xs text-gray-500">
-                            -{Math.round(((product.original_price - product.list_price) / product.original_price) * 100)}%
+                            -{Math.round(((product.original_price - product.current_seller.price) / product.original_price) * 100)}%
                         </span>
                     )}
                 </div>
