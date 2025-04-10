@@ -404,7 +404,7 @@ function ProductDetail() {
                             <div className="mb-4">
                                 <div className="text-sm mb-2">Tạm tính</div>
                                 <div className="text-xl text-red-500 font-medium">
-                                    {((book.list_price ?? 0) * quantity).toLocaleString('vi-VN')}₫
+                                    {((book.current_seller.price ?? 0) * quantity).toLocaleString('vi-VN')}₫
                                 </div>
                             </div>
 
