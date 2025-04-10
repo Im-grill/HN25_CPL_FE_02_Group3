@@ -19,7 +19,7 @@ export const createUser = async (data: IUser) => {
 
 // Update
 export const updateUser = async (id: number, data: IUser) => {
-  return instance.put("users/" + id, data)
+  return instance.patch("users/" + id, data)
 }
 
 // Delete

@@ -11,6 +11,8 @@ type UserModalProps = {
 type Inputs = {
   email: string,
   fullname:string,
+  address: string,
+  phone:string,
   createdAt: string
 }
 
@@ -20,12 +22,20 @@ const UserModal = ({ onClose, id }: UserModalProps) => {
 
   const submitForm: SubmitHandler<Inputs> = async (data) => {
     // console.log(data);
-    await updateUser(id, data)
+    console.log("Form data:", data);
+    console.log("Current user data:", user);
+    const {email, fullname, address, phone, createdAt} =  data;
+    const updateData = {
+      email, fullname, address, phone, createdAt
+    };
+    console.log("Data being sent to API:", updateData);
+    await updateUser(id, updateData)
     onClose()
   }
 
   const fetchUserById = async () => {
     const data = await getUserById(id)
+    console.log("User data from API:", data);
     setUser(data)
   }
 
@@ -51,13 +61,13 @@ const UserModal = ({ onClose, id }: UserModalProps) => {
         </svg>
       </button>
       <form onSubmit={handleSubmit(submitForm)} className="mx-auto mt-8 mb-0 max-w-md space-y-4">
-        <h1 className="text-xl">Cập nhật user</h1>
+        <h1 className="text-xl">User Update</h1>
         <div>
           <label htmlFor="email" className="sr-only">Email</label>
 
           <div className="relative">
             <input
-              {...register("email", { required: true })}
+              {...register("email", { required: false })}
               type="text"
               className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
               placeholder="Enter new email"
@@ -69,10 +79,34 @@ const UserModal = ({ onClose, id }: UserModalProps) => {
 
           <div className="relative">
             <input
-              {...register("fullname", { required: true })}
+              {...register("fullname", { required: false })}
               type="text"
               className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
               placeholder="Enter new name"
+            />
+          </div>
+        </div>
+        <div>
+          <label htmlFor="address" className="sr-only">Address</label>
+
+          <div className="relative">
+            <input
+              {...register("address", { required: false })}
+              type="text"
+              className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
+              placeholder="Enter new address"
+            />
+          </div>
+        </div>
+        <div>
+          <label htmlFor="phone" className="sr-only">Phone</label>
+
+          <div className="relative">
+            <input
+              {...register("phone", { required: false })}
+              type="text"
+              className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
+              placeholder="Enter new phone"
             />
           </div>
         </div>
@@ -81,7 +115,7 @@ const UserModal = ({ onClose, id }: UserModalProps) => {
 
           <div className="relative">
             <input
-              {...register("createdAt", { required: true })}
+              {...register("createdAt", { required: false })}
               type="text"
               className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
               placeholder="Created at"

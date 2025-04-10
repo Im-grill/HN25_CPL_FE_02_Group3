@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 
 const UserProfile = () => {
-
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [products, setProducts] = useState([
         {
             "createdAt": "2025-02-27T07:45:08.910Z",
@@ -22,20 +22,65 @@ const UserProfile = () => {
             "sku": "7572869544871"
         },
     ]);
+
     const [userInfo, setUserInfo] = useState({
-        fullname:"",
-        email: "",
         fullName: "",
     });
 
-    useEffect(() => {
-        const storedFullName = localStorage.getItem('loggedInFullName');
-        if (storedFullName) {
-            setUserInfo((prev) => ({
-                ...prev,
-                fullName: storedFullName,
-            }));
-        }
+     // Đồng bộ trạng thái đăng nhập khi component mount và khi localStorage thay đổi
+     useEffect(() => {
+        // Function để kiểm tra đăng nhập và cập nhật thông tin người dùng
+        const checkLoginAndUpdateInfo = () => {
+            // Đảm bảo dùng cùng một key để kiểm tra đăng nhập
+            const token =localStorage.getItem('accessToken');
+            const isUserLoggedIn = !!token;
+            
+            setIsLoggedIn(isUserLoggedIn);
+            
+            if (isUserLoggedIn) {
+                // Lấy tất cả thông tin người dùng từ localStorage
+                const storedFullName = localStorage.getItem('loggedInFullName') || "";
+                const storedEmail = localStorage.getItem('loggedInEmail') || "";
+                const storedPhone = localStorage.getItem('loggedInPhone') || "";
+                
+                setUserInfo({
+                    fullName: storedFullName,
+                    // email: storedEmail,
+                    // phone: storedPhone,
+                    // Cập nhật các trường khác nếu có
+                });
+            } else {
+                // Reset thông tin người dùng khi đăng xuất
+                setUserInfo({
+                    fullName: "",
+                    // email: "",
+                    // phone: "",
+                    // Reset các trường khác
+                });
+            }
+        };
+        
+        // Kiểm tra ngay khi component mount
+        checkLoginAndUpdateInfo();
+        
+        // Lắng nghe sự kiện storage để phát hiện thay đổi từ các tab/window khác
+        const handleStorageChange = () => {
+            checkLoginAndUpdateInfo();
+        };
+        
+        window.addEventListener('storage', handleStorageChange);
+        
+        // Tạo sự kiện tùy chỉnh để lắng nghe từ component header
+        const handleLoginEvent = () => {
+            checkLoginAndUpdateInfo();
+        };
+        
+        window.addEventListener('userLoggedIn', handleLoginEvent);
+        
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener('userLoggedIn', handleLoginEvent);
+        };
     }, []);
 
     // calculate sum of products' price
@@ -73,26 +118,26 @@ const UserProfile = () => {
                 <aside className="sideSection w-[24%] mr-6">
                     <div className="avatarUsername flex items-center gap-[12px] mb-2">
                         <div className="avtCtn">
-                            <img alt="avatar" src={avatar} className="rounded-full"/>
+                            <img alt="avatar" src={avatar} className="rounded-full" />
                         </div>
                         <div className="username flex flex-col">
                             <span className="text-sm">Tài khoản của</span>
-                            <span className="text-lg">{userInfo.fullName }</span>
+                            <span className="text-lg">{userInfo.fullName}</span>
                         </div>
                     </div>
                     <button type="button"
-                            className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
-                        <img alt="iconOrder" src={iconUser}/>
+                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
+                        <img alt="iconOrder" src={iconUser} />
                         <span className="text-sm text-gray-600">Thông tin tài khoản</span>
                     </button>
                     <button type="button"
-                            className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
-                        <img alt="iconOrder" src={iconBell}/>
+                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
+                        <img alt="iconOrder" src={iconBell} />
                         <span className="text-sm text-gray-600">Thông báo của tôi</span>
                     </button>
                     <button type="button"
-                            className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full">
-                        <img alt="iconOrder" src={iconOrder} className="w-[18px] [h-20]"/>
+                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full">
+                        <img alt="iconOrder" src={iconOrder} className="w-[18px] [h-20]" />
                         <span className="text-sm text-gray-600">Quản lí đơn hàng</span>
                     </button>
                 </aside>
@@ -112,7 +157,7 @@ const UserProfile = () => {
                                 ĐỊA CHỈ NGƯỜI NHẬN
                             </div>
                             <div className="detail bg-white p-2.5 h-full">
-                                <div className="font-medium text-sm mb-1 mt-1.5">{userInfo.fullName }</div>
+                                <div className="font-medium text-sm mb-1 mt-1.5">{userInfo.fullName.toUpperCase()}</div>
                                 <div className="text-sm mb-1 mt-1.5">
                                     <span>Địa chỉ: </span>
                                     <span>số 17 Duy Tân, phường Dịch Vọng Hậu, quận Cầu Giấy, Hà Nội, Việt Nam</span>
@@ -131,7 +176,7 @@ const UserProfile = () => {
                             </div>
                             <div className="detail bg-white p-2.5 h-full">
                                 <div className="text-sm mb-1 mt-1.5 flex items-center gap-1">
-                                    <img alt="shipLogo" src={shipLogo}/>
+                                    <img alt="shipLogo" src={shipLogo} />
                                     <span>Giao Siêu Tốc</span>
                                 </div>
                                 <div className="text-sm mb-1 mt-1.5">Giao thứ 6, trước 13h, 28/03</div>
@@ -160,85 +205,85 @@ const UserProfile = () => {
                     <div className="orderDetail ">
                         <table className="min-w-full  divide-gray-200 bg-white rounded-md ">
                             <thead className="ltr:text-left rtl:text-right border-b-1 border-[#c2c2c2]">
-                            <tr>
-                                <th className="whitespace-wrap font-normal px-3.5 py-5  text-gray-500">Sản phẩm</th>
-                                <th className="whitespace-wrap font-normal px-3.5 py-5  text-gray-500">Giá</th>
-                                <th className="whitespace-wrap font-normal px-3.5 py-5  text-gray-500">Số lượng</th>
-                                <th className="whitespace-wrap font-normal px-3.5 py-5  text-gray-500">Giảm giá</th>
-                                <th className="whitespace-wrap font-normal px-3.5 py-5  text-gray-500 flex justify-end">Tạm
-                                    tính
-                                </th>
-                            </tr>
+                                <tr>
+                                    <th className="whitespace-wrap font-normal px-3.5 py-5  text-gray-500">Sản phẩm</th>
+                                    <th className="whitespace-wrap font-normal px-3.5 py-5  text-gray-500">Giá</th>
+                                    <th className="whitespace-wrap font-normal px-3.5 py-5  text-gray-500">Số lượng</th>
+                                    <th className="whitespace-wrap font-normal px-3.5 py-5  text-gray-500">Giảm giá</th>
+                                    <th className="whitespace-wrap font-normal px-3.5 py-5  text-gray-500 flex justify-end">Tạm
+                                        tính
+                                    </th>
+                                </tr>
                             </thead>
 
                             <tbody className=" divide-gray-200">
-                            {products.map((product) => (
-                                <tr key={product.id} className="border-b-1 border-[#c2c2c2]">
-                                    <td className="productDetail whitespace-wrap  px-4 py-5 text-gray-700">
-                                        <div className="flex gap-2.5">
-                                            <img src={product.image} alt="productImage"
-                                                 className="w-16 h-16 object-cover rounded"/>
-                                            <div className="detailCtn">
-                                                <div className="text-[15px]">{product.name}</div>
-                                                <div className="text-[11px] mt-2.5">
-                                                    <span>Cung cấp bởi </span>
-                                                    <Link to="" className="cursor-pointer text-blue-500 ">
-                                                        Tiki Trading
-                                                    </Link>
-                                                </div>
-                                                <img src={returnBadge} alt="returnBadge" className="h-5 mt-2.5"/>
-                                                <div className="sku mt-2.5 text-sm">Sku: {product.sku}</div>
-                                                <button type="button"
+                                {products.map((product) => (
+                                    <tr key={product.id} className="border-b-1 border-[#c2c2c2]">
+                                        <td className="productDetail whitespace-wrap  px-4 py-5 text-gray-700">
+                                            <div className="flex gap-2.5">
+                                                <img src={product.image} alt="productImage"
+                                                    className="w-16 h-16 object-cover rounded" />
+                                                <div className="detailCtn">
+                                                    <div className="text-[15px]">{product.name}</div>
+                                                    <div className="text-[11px] mt-2.5">
+                                                        <span>Cung cấp bởi </span>
+                                                        <Link to="" className="cursor-pointer text-blue-500 ">
+                                                            Tiki Trading
+                                                        </Link>
+                                                    </div>
+                                                    <img src={returnBadge} alt="returnBadge" className="h-5 mt-2.5" />
+                                                    <div className="sku mt-2.5 text-sm">Sku: {product.sku}</div>
+                                                    <button type="button"
                                                         className="bg-white border-1 rounded-[4px] px-4 py-1.5 mt-2.5 cursor-pointer hover:bg-gray-100 text-blue-500 text-sm">Chat
-                                                    với nhà bán
-                                                </button>
+                                                        với nhà bán
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">{product.originalPrice}</td>
-                                    <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">quantity
-                                        goes here
-                                    </td>
-                                    <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">discount
-                                        goes here
-                                    </td>
-                                    <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top flex justify-end ">{formatPrice(0)}</td>
-                                </tr>
-                            ))}
+                                        </td>
+                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">{product.originalPrice}</td>
+                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">quantity
+                                            goes here
+                                        </td>
+                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">discount
+                                            goes here
+                                        </td>
+                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top flex justify-end ">{formatPrice(0)}</td>
+                                    </tr>
+                                ))}
                             </tbody>
                             <tfoot className="text-sm">
-                            <tr className="sumPrice">
-                                <td colSpan={4} className="text-right pt-8 px-5 pb-1.5">
-                                    <span>Tạm tính</span>
-                                </td>
-                                <td className="text-right pt-8 px-5 pb-1.5">{formatPrice(calOriginalTotal())}</td>
-                            </tr>
-                            <tr>
-                                <td colSpan={4} className="text-right py-1.5 px-5 ">
-                                    <span>Phí vận chuyển</span>
-                                </td>
-                                <td className="text-right py-1.5 px-5">price goes here</td>
-                            </tr>
-                            <tr>
-                                <td colSpan={4} className="text-right py-1.5 px-5 ">
-                                    <span>Giảm giá vận chuyển</span>
-                                </td>
-                                <td className="text-right py-1.5 px-5">price goes here</td>
-                            </tr>
-                            <tr>
-                                <td colSpan={4} className="text-right pt-1.5 px-5 pb-1.5">
-                                    <span>Tổng cộng</span>
-                                </td>
-                                <td className="text-right pt-1.5 px-5 pb-1.5 text-lg text-red-600">{formatPrice(calculateTotal())}</td>
-                            </tr>
-                            <tr>
-                                <td colSpan={5} className="text-right px-5 pb-8">
-                                    <button type="button"
+                                <tr className="sumPrice">
+                                    <td colSpan={4} className="text-right pt-8 px-5 pb-1.5">
+                                        <span>Tạm tính</span>
+                                    </td>
+                                    <td className="text-right pt-8 px-5 pb-1.5">{formatPrice(calOriginalTotal())}</td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={4} className="text-right py-1.5 px-5 ">
+                                        <span>Phí vận chuyển</span>
+                                    </td>
+                                    <td className="text-right py-1.5 px-5">price goes here</td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={4} className="text-right py-1.5 px-5 ">
+                                        <span>Giảm giá vận chuyển</span>
+                                    </td>
+                                    <td className="text-right py-1.5 px-5">price goes here</td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={4} className="text-right pt-1.5 px-5 pb-1.5">
+                                        <span>Tổng cộng</span>
+                                    </td>
+                                    <td className="text-right pt-1.5 px-5 pb-1.5 text-lg text-red-600">{formatPrice(calculateTotal())}</td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={5} className="text-right px-5 pb-8">
+                                        <button type="button"
                                             className="bg-yellow-400 rounded-[4px] px-3 py-1.5  cursor-pointer hover:bg-yellow-500">Hủy
-                                        đơn hàng
-                                    </button>
-                                </td>
-                            </tr>
+                                            đơn hàng
+                                        </button>
+                                    </td>
+                                </tr>
                             </tfoot>
                         </table>
                     </div>
@@ -246,7 +291,7 @@ const UserProfile = () => {
                     <div className="navSection flex items-center mt-4 mb-8 text-sm gap-2.5">
                         <Link to="" className="text-blue-600">&lt;&lt; Quay lại đơn hàng của tôi</Link>
                         <button type="button"
-                                className="bg-yellow-400 rounded-md px-5 py-2 font-bold cursor-pointer hover:bg-yellow-500">Theo
+                            className="bg-yellow-400 rounded-md px-5 py-2 font-bold cursor-pointer hover:bg-yellow-500">Theo
                             dõi đơn hàng
                         </button>
                     </div>
