@@ -38,6 +38,7 @@ const handleDeleteBook = async (_id:string)=>{
   const res =   await deleteBook(_id);
   if(res){
   console.log("delete ok")
+  getBookData();
   }
  } catch (error) {
     console.log(error)
@@ -52,7 +53,7 @@ const handleDeleteBook = async (_id:string)=>{
     const seachBook: SubmitHandler<IFormInput> = (e) => {
         try {
             if (e.search.length > 0) {
-                console.log("ok")
+                
 
                 const book = data.filter((item) => item.name?.trim().toLowerCase().includes(e.search.trim().toLowerCase()))
                 setSearchItems(book)
@@ -78,7 +79,7 @@ const handleDeleteBook = async (_id:string)=>{
     }
     useEffect(() => {
         getBookData();
-    }, [currentItems])
+    }, [openModal])
     return (
 
 
@@ -233,7 +234,7 @@ const handleDeleteBook = async (_id:string)=>{
                 </tbody>
             </table>
             {/* pagination */}
-            <ul className="flex justify-center gap-1 text-gray-900 mt-5">
+            <ul className="flex justify-center gap-1 text-gray-900 mt-5 overflow-hidden">
                 <li>
                     <button
                         onClick={() => handlePageChange(Math.max(1, currentPage - 1))}

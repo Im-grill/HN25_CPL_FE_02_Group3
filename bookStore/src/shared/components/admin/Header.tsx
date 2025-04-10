@@ -1,15 +1,15 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Logo from '../../../assets/tiki-logo.png';
-import {Link, NavLink, useNavigate} from 'react-router-dom';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faBars, faUser} from '@fortawesome/free-solid-svg-icons';
-import {UserContext} from '../../context/UserContext.tsx';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faUser } from '@fortawesome/free-solid-svg-icons';
+import { UserContext } from '../../context/UserContext.tsx';
 import TikiImage from "../../../assets/tiki-image.png";
-import {IUser} from "../../../interfaces.ts";
-import {login as loginService, register as registerService} from "../../../api/auth.service.ts";
+import { IUser } from "../../../interfaces.ts";
+import { login as loginService, register as registerService } from "../../../api/auth.service.ts";
 
 const Header = () => {
-    const userStore = useContext(UserContext)
+    const userStore = useContext(UserContext);
     const [isShowProfile, setIsShowProfile] = useState<boolean>(false);
     const [isShowMainMenu, setIsShowMainMenu] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -18,17 +18,17 @@ const Header = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
     const [emailInput, setEmailInput] = useState('');
-    const [fullName, setFullName] = useState('');
+    const [fullNameInput, setFullNameInput] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [loggedInEmail, setLoggedInEmail] = useState('');
+    const [loggedInFullName, setLoggedInFullName] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
-        const storedEmail = localStorage.getItem('loggedInEmail');
-        if (token && storedEmail) {
+        const storedFullName = localStorage.getItem('loggedInFullName');
+        if (token && storedFullName) {
             setIsLoggedIn(true);
-            setLoggedInEmail(storedEmail);
+            setLoggedInFullName(storedFullName);
         }
     }, []);
 
@@ -50,8 +50,8 @@ const Header = () => {
         setEmailInput(e.target.value);
     };
 
-    const handleFullNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFullName(e.target.value);
+    const handleFullNameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFullNameInput(e.target.value);
     };
 
     const handleLogin = async () => {
@@ -64,9 +64,9 @@ const Header = () => {
             const response = await loginService(userData);
             console.log('Đăng nhập thành công:', response);
             localStorage.setItem('accessToken', response.accessToken);
-            if (response.user?.email) {
-                setLoggedInEmail(response.user.email);
-                localStorage.setItem('loggedInEmail', response.user.email); // Store email in localStorage
+            if (response.user?.email && response.user?.fullname) {
+                setLoggedInFullName(response.user.fullname);
+                localStorage.setItem('loggedInFullName', response.user.fullname);
             }
             setIsLoggedIn(true);
             setIsModalOpen(false);
@@ -74,9 +74,9 @@ const Header = () => {
             console.error('Lỗi đăng nhập:', error);
             setErrorMessage(error?.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.');
             setIsLoggedIn(false);
-            setLoggedInEmail('');
+            setLoggedInFullName('');
             localStorage.removeItem('accessToken');
-            localStorage.removeItem('loggedInEmail');
+            localStorage.removeItem('loggedInFullName');
         }
     };
 
@@ -86,6 +86,7 @@ const Header = () => {
             const userData: IUser = {
                 email: emailInput,
                 password: password,
+                fullname: fullNameInput,
             };
             const response = await registerService(userData);
             console.log('Đăng ký thành công:', response);
@@ -107,32 +108,31 @@ const Header = () => {
 
     const handleLogout = () => {
         setIsLoggedIn(false);
-        setLoggedInEmail('');
+        setLoggedInFullName('');
         localStorage.removeItem('accessToken');
-        localStorage.removeItem('loggedInEmail');
+        localStorage.removeItem('loggedInFullName');
     };
+
     return (
         <header className='bg-white shadow-md relative'>
             <nav className='navbar w-4/5 m-auto flex justify-between items-center'>
                 <button type="button" title='Toggle Sidebar' className='md:hidden' onClick={toggleMainMenu}>
-                    <FontAwesomeIcon icon={faBars} className='text-2xl'/>
+                    <FontAwesomeIcon icon={faBars} className='text-2xl' />
                 </button>
                 <Link to='/' className='flex gap-4 items-center'>
-                    <img src={Logo} alt="TikiLogo" className='w-14'/>
+                    <img src={Logo} alt="TikiLogo" className='w-14' />
                 </Link>
                 <div
                     className={`md:flex justify-center items-center *:block *:p-5 *:hover:bg-[#33adff] *:hover:text-white ${isShowMainMenu ? 'block absolute top-full left-0 w-full bg-slate-50 *:border-b *:border-slate-200' : 'hidden'}`}>
                     <NavLink to="/admin"
-                             className={({isActive}) => `${isActive ? "bg-[#33adff] text-white" : ""}`}>Dashboard</NavLink>
+                        className={({ isActive }) => `${isActive ? "bg-[#33adff] text-white" : ""}`}>Dashboard</NavLink>
                 </div>
                 <div className="profile-menu relative" onClick={toggleProfile} aria-hidden="true">
-
                     <div>
-                        {/* User */}
                         {isLoggedIn ? (
                             <div className="flex items-center text-gray-600 text-xs">
                                 <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1" />
-                                {loggedInEmail}
+                                {loggedInFullName}
                                 <button onClick={handleLogout} className="ml-2 text-blue-500 hover:underline text-sm">Đăng xuất</button>
                             </div>
                         ) : (
@@ -142,13 +142,11 @@ const Header = () => {
                             </button>
                         )}
                     </div>
-                    {/* Login & Register Modal */}
                     {isModalOpen && (
                         <div
                             className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
                             <div className="bg-white rounded-lg shadow-lg w-[800px] flex relative"
-                                 style={{bottom: '100px'}}>
-                                {/*Button "<" */}
+                                style={{ bottom: '100px' }}>
                                 <button
                                     className="absolute top-4 left-4 text-gray-500 hover:text-black text-xl"
                                     onClick={() => setIsModalOpen(false)}
@@ -156,7 +154,7 @@ const Header = () => {
                                     &nbsp;&lt;&nbsp;
                                 </button>
                                 <div className="w-1/2 p-6">
-                                    <br/>
+                                    <br />
                                     <h2 className="text-xl font-semibold mb-2">{isLogin ? 'Đăng nhập bằng email' : 'Tạo tài khoản'}</h2>
                                     <p className="text-sm mb-4">{isLogin ? 'Nhập email và mật khẩu tài khoản Tiki' : 'Đăng ký tài khoản để mua sắm'}</p>
                                     <form onSubmit={handleSubmit}>
@@ -164,7 +162,7 @@ const Header = () => {
                                             <input
                                                 type="email"
                                                 placeholder="abc@email.com"
-                                                className="w-full py-2 border-none outline-none bg-transparent" /* Loại bỏ border và background */
+                                                className="w-full py-2 border-none outline-none bg-transparent"
                                                 value={emailInput}
                                                 onChange={handleEmailInputChange}
                                                 required
@@ -192,22 +190,22 @@ const Header = () => {
                                                 <input
                                                     type="text"
                                                     placeholder="Họ và tên"
-                                                    className="w-full py-2 border-none outline-none bg-transparent" /* Loại bỏ border và background */
-                                                    value={fullName}
-                                                    onChange={handleFullNameChange}
+                                                    className="w-full py-2 border-none outline-none bg-transparent"
+                                                    value={fullNameInput}
+                                                    onChange={handleFullNameInputChange}
                                                 />
                                             </div>
                                         )}
                                         {errorMessage && <p className="text-red-500 text-sm mb-2">{errorMessage}</p>}
                                         <button type="submit"
-                                                className={`w-full ${isLogin ? 'bg-red-500' : 'bg-blue-500'} text-white py-2 rounded`}>
+                                            className={`w-full ${isLogin ? 'bg-red-500' : 'bg-blue-500'} text-white py-2 rounded`}>
                                             {isLogin ? 'Đăng nhập' : 'Đăng ký'}
                                         </button>
                                     </form>
                                     <div className="flex justify-between text-sm mt-2">
                                         {isLogin ? (
                                             <div className="flex flex-col space-y-2">
-
+                                                <button onClick={() => setIsLogin(false)} className="text-blue-500">Chưa có tài khoản? Đăng ký</button>
                                             </div>
                                         ) : (
                                             <button onClick={() => setIsLogin(true)} className="text-blue-500">Đã có tài
@@ -217,11 +215,9 @@ const Header = () => {
                                 </div>
                                 <div
                                     className="w-1/2 bg-blue-50 flex flex-col items-center justify-center p-4 text-center relative">
-                                    <img src={TikiImage} alt="Tiki" className="h-52 mb-2"/>
+                                    <img src={TikiImage} alt="Tiki" className="h-52 mb-2" />
                                     <p className="text-blue-500 font-semibold">Mua sắm tại Tiki</p>
                                     <p className="text-blue-500 text-sm">Siêu ưu đãi mỗi ngày</p>
-
-                                    {/* Button "X" */}
                                     <button
                                         className="absolute top-4 right-4 text-gray-500 hover:text-black text-xl"
                                         onClick={() => setIsModalOpen(false)}
@@ -235,7 +231,7 @@ const Header = () => {
                 </div>
             </nav>
         </header>
-    )
+    );
 }
 
 export default Header;

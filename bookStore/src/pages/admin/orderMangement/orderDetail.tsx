@@ -110,11 +110,11 @@ const OrderDetails = () => {
                             onChange={(e) => setStatus(e.target.value)}
                         >
                             <option value="pending">Pending</option>
-                            <option value="processing">Processing</option>
-                            <option value="shipped">Shipped</option>
-                            <option value="delivered">Delivered</option>
+                            
+                            <option value="shipping">Shipping</option>
+                            
                             <option value="completed">Completed</option>
-                            <option value="cancelled">Cancelled</option>
+                            
                         </select>
                     </div>
 

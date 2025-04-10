@@ -191,7 +191,7 @@ const OrderModal = ({ onClose, id }: OrderModalProps) => {
                             >
                                 <option value="pending">Pending</option>
                                 
-                                <option value="shipped">Shipping</option>
+                                <option value="shipping">Shipping</option>
                                 
                                 <option value="completed">Completed</option>
                                 

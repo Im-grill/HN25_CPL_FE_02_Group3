@@ -28,15 +28,15 @@ const UserProfile = () => {
         fullName: "",
     });
 
-    useEffect(() =>{
-        const storedName = localStorage.getItem('loggedInEmail');
-        if(storedName){
-            setUserInfo((prev) =>({
+    useEffect(() => {
+        const storedFullName = localStorage.getItem('loggedInFullName');
+        if (storedFullName) {
+            setUserInfo((prev) => ({
                 ...prev,
-                fullname:storedName
+                fullName: storedFullName,
             }));
         }
-    },[]);
+    }, []);
 
     // calculate sum of products' price
     const calOriginalTotal = () => {

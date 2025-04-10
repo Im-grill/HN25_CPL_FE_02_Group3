@@ -1,3 +1,6 @@
+
+
+
 interface IHasId {
     id: string 
 }
@@ -40,39 +43,26 @@ interface ISpecifications {
     attributes: IAttributes[]
 }
 export   interface IBook extends IHasId {
-    
     authors?: IAuthor[],
     category?: ICategory,
-    current_seller?: ISeller,
+    current_seller: ISeller,
     description?: string,
     images?: IImage[],
     list_price?: number,
     name?: string,
-    original_price?: number,
+    original_price: number,
     quantity_sold?: IQuanTitySold,
-    rating_average?: number,
+    rating_average: number,
     short_description?: string,
-    specifications?: ISpecifications[]
+    specifications?: ISpecifications[],
+    top_deal:boolean|false,
+    freeship:boolean|false,
+    auth:true,
+    fastShip:boolean
 }
 
 
 
-<<<<<<<< HEAD:bookStore/src/interfaces/BookInterfaces.ts
 
 
-  
-
-========
-export interface ICategory {
-    id?: number,
-    name: string,
-    createdAt: string,
-  }
-  
-  export interface IUser {
-    id?: number,
-    email: string,
-    password?: string
-  }
->>>>>>>> 29e2130 (Added Category CRUD  in Admin views and added API for category):bookStore/src/interfaces.ts
   
