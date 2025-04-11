@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 export default function Confirm() {
     const { state } = useLocation();
-  const { order } = state || {};
+    const { order } = state || {};
     return (
         <div className='flex justify-center  mt-6 mb-10 '>
             <div className="w-[742px]   ">

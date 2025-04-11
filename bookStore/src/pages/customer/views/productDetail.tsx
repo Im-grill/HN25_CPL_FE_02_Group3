@@ -132,18 +132,19 @@ function ProductDetail() {
     const handleBuyNow = () => {
         if (book) {
             const orderData = {
-                bookId: book.id,
-                bookName: book.name,
-                listPrice: book.list_price,
-                originalPrice: book.original_price,
-                discountedPrice: book.current_seller.price,
+                // bookId: book.id,
+                // bookName: book.name,
+                // listPrice: book.list_price,
+                // originalPrice: book.original_price,
+                // discountedPrice: book.current_seller.price,
                 quantity: quantity,
-                image: book.images?.[0]?.base_url || bookCover,
-                sellerName: book.current_seller?.name || 'Tiki Trading',
+                // image: book.images?.[0]?.base_url || bookCover,
+                // sellerName: book.current_seller?.name || 'Tiki Trading',
+                books:book
             };
             // Chuyển hướng đến trang Order và truyền dữ liệu qua    state
 
-            navigate('/customer/order', { state: orderData });
+             navigate('/customer/order', { state: orderData });
         }
     };
     return (
