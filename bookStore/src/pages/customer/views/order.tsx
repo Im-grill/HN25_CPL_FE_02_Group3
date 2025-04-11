@@ -66,7 +66,7 @@ const Order = () => {
         };
         try {
             console.log(orderPayload)
-            // await axios.post('http://localhost:8080/order', orderPayload)
+            await axios.post('http://localhost:8080/order', orderPayload)
              navigate('/customer/confirm', {state: {order: orderPayload}});
         } catch (err) {
             console.error('Lỗi khi đặt hàng:', err);

@@ -16,6 +16,7 @@ import Order from './pages/customer/views/order'
 import BookListManagement from './pages/admin/bookManagement/BookList'
 import OrderList from './pages/admin/orderMangement/orderList'
 import UserList from './pages/admin/userManagement/userList'
+import UserProfileListOrder from './pages/customer/views/userProfile_ListOrders'
 
 function App() {
     return (
@@ -28,7 +29,8 @@ function App() {
                         <Route path='customer' element={<CustomerLayout/>}>
                             <Route path="homepage" element={<HomePage/>}/>
                             <Route path="productdetail/:id" element={<ProductDetail/>}/>
-                            <Route path="userprofile" element={<UserProfile/>}/>
+                            <Route path="userprofile/order/:orderId" element={<UserProfile/>}/>
+                            <Route path="userprofile/orders" element={<UserProfileListOrder/>}/>
                             <Route path="order" element={<Order/>}/>
                             <Route path="confirm" element={<Confirm/>}/>
                         </Route>
