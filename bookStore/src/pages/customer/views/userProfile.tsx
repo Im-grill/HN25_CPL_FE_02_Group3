@@ -11,7 +11,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { getOrders, updateOrder } from "../../../api/order.service";
 import { IOrder } from "../../../interfaces";
-import { all } from "axios";
+import axios from "axios";
+import instance from "../../../api/api.service";
 
 
 const UserProfile = () => {
@@ -90,17 +91,25 @@ const UserProfile = () => {
         };
     }, [isLoggedIn, userInfo.email])
 
+    const patchOrderStatus = async (id: number, status: string) => {
+        try {
+          return  await instance.patch('/order/' + id, {status});
+        } catch (error) {
+          console.error(`Error patching order ${id}:`, error);
+          throw error;
+        }
+      };
+
     const handleCancelOrder = async () => {
         if (!currentOrder || !currentOrder.id) return;
         //cập nhật trạng thái order
         try {
-            await updateOrder(currentOrder.id, {
-                status: "canceled"
-            });
+            await patchOrderStatus(currentOrder.id, "canceled");
             //cập nhật về state
             setCurrentOrder({
                 ...currentOrder,
-                status: "Đã hủy"
+                status: "Đã hủy",
+                
             });
 
             alert("Hủy thành công đơn hàng.");
@@ -311,7 +320,7 @@ const UserProfile = () => {
                     </div>
 
                     <div className="navSection flex items-center mt-4 mb-8 text-sm gap-2.5">
-                        <Link to="" className="text-blue-600">&lt;&lt; Quay lại đơn hàng của tôi</Link>
+                        <Link to="../userprofile/orders" className="text-blue-600">&lt;&lt; Quay lại đơn hàng của tôi</Link>
                         <button type="button"
                             className="bg-yellow-400 rounded-md px-5 py-2 font-bold cursor-pointer hover:bg-yellow-500">Theo
                             dõi đơn hàng
