@@ -94,6 +94,19 @@ const UserProfileListOrder = () => {
             currency: 'VND'
         }).format(price);
     };
+
+    //date format
+    const formatDate = (dateString: string | undefined) => {
+        if (!dateString || dateString === undefined) return "N/A";
+        const date = new Date(dateString);
+        return date.toLocaleDateString('vi-VN', { 
+            year: 'numeric', 
+            month: '2-digit', 
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
     return (
         <main className=" bg-[#F5F5FA] mb-8">
             {/* breadcrumb */}
@@ -136,8 +149,7 @@ const UserProfileListOrder = () => {
                         <span className="">Đơn hàng của tôi </span>
                     </div>
 
-                    <div className="shipDetail flex justify-between text-[15px] mb-4 items-stretch">
-                        {/* Địa chỉ người nhận */}
+                    {/* <div className="shipDetail flex justify-between text-[15px] mb-4 items-stretch">
                         <div className="title flex flex-col flex-1">
                             <button type="button" className="detail bg-white h-full py-2 cursor-pointer hover:border-b-2 hover:border-blue-700">
                                 Tất cả đơn
@@ -168,15 +180,14 @@ const UserProfileListOrder = () => {
                                 Đã hủy
                             </button>
                         </div>
-
-                    </div>
+                    </div> */}
 
                     {userOrders && userOrders.length > 0 ? (
                         <div className="ordersList">
                             <table className="min-w-full  divide-gray-200 bg-white rounded-md ">
                                 <thead className="ltr:text-left rtl:text-right border-b-1 border-[#c2c2c2]">
                                     <tr>
-                                        <th className="whitespace-wrap font-normal px-3.5 py-1  text-gray-500">Sản phẩm</th>
+                                        <th className="whitespace-wrap font-normal px-3.5 py-1  text-gray-500">Chi tiết</th>
                                     </tr>
                                 </thead>
 
@@ -185,15 +196,11 @@ const UserProfileListOrder = () => {
                                         <tr key={order.id} className="border-b-1 border-[#c2c2c2]">
                                             <td className="productDetail whitespace-wrap  px-4 py-5 text-gray-700">
                                                 <div className="flex gap-2.5">
-                                                    <img src={order?.books?.images?.[0].base_url} alt="productImage"
-                                                        className="w-16 h-16 object-cover rounded" />
                                                     <div className="detailCtn">
-                                                        <Link to="../userprofile" className="text-[15px]">{order.books.name}</Link>
-                                                        <div className="text-[11px] mt-2.5">
-                                                            <span>Cung cấp bởi </span>
-                                                            <Link to="" className="cursor-pointer text-blue-500 ">
-                                                                {order.books.current_seller.name ? order.books.current_seller.name : "No seller found."}
-                                                            </Link>
+                                                        <Link to={`../userprofile/order/${order.id}`} className="text-[15px] hover:text-blue-600 hover:underline">Đơn hàng số: #{order.id}</Link>
+                                                        <div className="text-[14px] flex flex-col mt-2.5 mx-2">
+                                                            <span>Trạng thái: {order.status}</span>
+                                                            <span>Ngày tạo đơn: {formatDate(order.created_at)}</span>
                                                         </div>
                                                         <img src={returnBadge} alt="returnBadge" className="h-5 mt-2.5" />
                                                         <div className="sku mt-2.5 text-sm"></div>

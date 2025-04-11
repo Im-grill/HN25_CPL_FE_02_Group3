@@ -5,20 +5,20 @@ import iconUser from "../../../assets/icon_user.png";
 import iconBell from "../../../assets/icon_bell.png";
 import shipLogo from "../../../assets/now.png";
 import returnBadge from "../../../assets/return-badge.png";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { getOrders, updateOrder } from "../../../api/order.service";
+import { getOrderById, getOrders,  } from "../../../api/order.service";
 import { IOrder } from "../../../interfaces";
-import axios from "axios";
 import instance from "../../../api/api.service";
 
 
 const UserProfile = () => {
-
+    const {orderId} = useParams();
     const [currentOrder, setCurrentOrder] = useState<IOrder | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [userInfo, setUserInfo] = useState({
         fullName: "",
         email: "",
@@ -70,26 +70,39 @@ const UserProfile = () => {
 
     //lấy dữ liệu từ order
     useEffect(() => {
-        const fetchOrders = async () => {
+        const fetchOrderDetail = async () => {
             try {
-                const allOrders = await getOrders();
-                //lọc email trùng với email đã đăng nhập
-                const userOrders = allOrders.filter(order => order.users.email === userInfo.email);
-
-                if (userOrders.length > 0) {
-                    setCurrentOrder(userOrders[0])
-                    console.log("Found orders", userOrders[0]);
+                if(!orderId) return;
+                setLoading(true);
+                const orderIdNumber = parseInt(orderId);
+                if(isNaN(orderIdNumber)){
+                    setLoading(false);
+                     return;
+                }
+                
+                //gọi order theo id
+                const orderDetail = await getOrderById(orderIdNumber);
+                
+                //kiểm tra đúng đơn hàng của người dùng đang đăng nhập
+                if(orderDetail && orderDetail.users.email === userInfo.email){
+                    setCurrentOrder(orderDetail);
+                    console.log("Found order detail:", orderDetail);
+                }else{
+                    console.log("Order either not found nor unauthorized");
+                    console.log("Order email:", orderDetail?.users?.email, "User email:", userInfo.email);
                 }
             } catch (error) {
                 console.error("Error fetching orders: ", error);
+                setCurrentOrder(null);
+            }finally{
+                setLoading(false);
             }
         };
-
         //chỉ fetch khi đã đăng nhập và có email
         if (isLoggedIn && userInfo.email) {
-            fetchOrders();
+            fetchOrderDetail();
         };
-    }, [isLoggedIn, userInfo.email])
+    }, [isLoggedIn, userInfo.email, orderId])
 
     const patchOrderStatus = async (id: number, status: string) => {
         try {
