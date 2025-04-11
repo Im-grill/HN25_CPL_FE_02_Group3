@@ -82,7 +82,7 @@ const UserProfile = () => {
                 
                 //gọi order theo id
                 const orderDetail = await getOrderById(orderIdNumber);
-                
+                console.log("first"+orderDetail)
                 //kiểm tra đúng đơn hàng của người dùng đang đăng nhập
                 if(orderDetail && orderDetail.users.email === userInfo.email){
                     setCurrentOrder(orderDetail);

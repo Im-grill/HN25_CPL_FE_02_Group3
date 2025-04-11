@@ -35,7 +35,7 @@ export const createOrder = async (order: IOrder): Promise<IOrder> => {
 
 export const updateOrder = async (id: number, order: Partial<IOrder>): Promise<IOrder> => {
     try {
-        const response = await axios.put(`${API_URL}/${id}`, order);
+        const response = await axios.patch(`${API_URL}/${id}`, order);
         return response.data;
     } catch (error) {
         console.error(`Error updating order ${id}:`, error);

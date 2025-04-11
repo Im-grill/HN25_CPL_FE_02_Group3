@@ -37,15 +37,15 @@ const OrderModal = ({ onClose, id }: OrderModalProps) => {
         try {
             const updatedOrder: Partial<IOrder> = {
                 created_at: data.created_at,
-                users: {
-                    email: data.userEmail
-                },
-                books: {
-                    name: data.bookName,
-                    original_price: data.bookPrice
-                },
-                quantity: data.quantity,
-                total_price: data.total_price,
+                // users: {
+                //     email: data.userEmail
+                // },
+                // books: {
+                //     name: data.bookName,
+                //     original_price: data.bookPrice
+                // },
+                // quantity: data.quantity,
+                // total_price: data.total_price,
                 status: data.status
             };
 
@@ -60,6 +60,7 @@ const OrderModal = ({ onClose, id }: OrderModalProps) => {
     const fetchOrderById = async () => {
         try {
             const data = await getOrderById(id);
+         console.log(data)
             setOrder(data);
         } catch (error) {
             console.error(`Error fetching order ${id}:`, error);
@@ -69,19 +70,20 @@ const OrderModal = ({ onClose, id }: OrderModalProps) => {
 
     useEffect(() => {
         fetchOrderById();
+       
     }, [id]);
 
     useEffect(() => {
         if (order) {
             // Format the form data from the order object
             reset({
-                userEmail: order.users.email,
-                bookName: order.books.name,
-                bookPrice: order.books.original_price,
-                quantity: order.quantity,
-                total_price: order.total_price,
+                // userEmail: order.users.email,
+                // bookName: order.books.name,
+                // bookPrice: order.books.original_price,
+                // quantity: order.quantity,
+                // total_price: order.total_price,
                 status: order.status,
-                created_at: order.created_at
+                // created_at: order.created_at
             });
         }
     }, [order, reset]);
@@ -109,13 +111,14 @@ const OrderModal = ({ onClose, id }: OrderModalProps) => {
                     <div>
                         <label htmlFor="userEmail" className="block text-sm font-medium text-gray-700">User Email</label>
                         <div className="relative mt-1">
-                            <input
-                                {...register("userEmail", { required: "User email is required" })}
+                            {/* <input
+                                 {...register("userEmail", { required: "User email is required" })}
                                 type="email"
                                 id="userEmail"
-                                className="w-full rounded-lg border-gray-200 p-3 text-sm"
+                                className="w-full rounded-lg border-gray-200 p-3 text-sm "
                                 placeholder="User email"
-                            />
+                            /> */}
+                            <span>{order?.users.email}</span>
                             {errors.userEmail && <p className="text-red-500 text-xs mt-1">{errors.userEmail.message}</p>}
                         </div>
                     </div>
@@ -123,13 +126,14 @@ const OrderModal = ({ onClose, id }: OrderModalProps) => {
                     <div>
                         <label htmlFor="bookName" className="block text-sm font-medium text-gray-700">Book Name</label>
                         <div className="relative mt-1">
-                            <input
+                            {/* <input
                                 {...register("bookName", { required: "Book name is required" })}
                                 type="text"
                                 id="bookName"
                                 className="w-full rounded-lg border-gray-200 p-3 text-sm"
                                 placeholder="Book name"
-                            />
+                            /> */}
+                            <span>{order?.books.name}</span>
                             {errors.bookName && <p className="text-red-500 text-xs mt-1">{errors.bookName.message}</p>}
                         </div>
                     </div>
@@ -137,7 +141,7 @@ const OrderModal = ({ onClose, id }: OrderModalProps) => {
                     <div>
                         <label htmlFor="bookPrice" className="block text-sm font-medium text-gray-700">Book Price</label>
                         <div className="relative mt-1">
-                            <input
+                            {/* <input
                                 {...register("bookPrice", {
                                     required: "Book price is required",
                                     min: { value: 0, message: "Price must be positive" }
@@ -146,7 +150,8 @@ const OrderModal = ({ onClose, id }: OrderModalProps) => {
                                 id="bookPrice"
                                 className="w-full rounded-lg border-gray-200 p-3 text-sm"
                                 placeholder="Book price"
-                            />
+                            /> */}
+                            <span>{order?.books.current_seller?.price}</span>
                             {errors.bookPrice && <p className="text-red-500 text-xs mt-1">{errors.bookPrice.message}</p>}
                         </div>
                     </div>
@@ -154,7 +159,7 @@ const OrderModal = ({ onClose, id }: OrderModalProps) => {
                     <div>
                         <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">Quantity</label>
                         <div className="relative mt-1">
-                            <input
+                            {/* <input
                                 {...register("quantity", {
                                     required: "Quantity is required",
                                     min: { value: 1, message: "Quantity must be at least 1" }
@@ -163,7 +168,8 @@ const OrderModal = ({ onClose, id }: OrderModalProps) => {
                                 id="quantity"
                                 className="w-full rounded-lg border-gray-200 p-3 text-sm"
                                 placeholder="Quantity"
-                            />
+                            /> */}
+                            <span>{order?.quantity}</span>
                             {errors.quantity && <p className="text-red-500 text-xs mt-1">{errors.quantity.message}</p>}
                         </div>
                     </div>
@@ -171,13 +177,14 @@ const OrderModal = ({ onClose, id }: OrderModalProps) => {
                     <div>
                         <label htmlFor="total_price" className="block text-sm font-medium text-gray-700">Total Price</label>
                         <div className="relative mt-1">
-                            <input
+                            {/* <input
                                 {...register("total_price")}
                                 type="number"
                                 id="total_price"
                                 className="w-full rounded-lg border-gray-200 p-3 text-sm bg-gray-100"
                                 readOnly
-                            />
+                            /> */}
+                            <span>{order?.total_price}</span>
                         </div>
                     </div>
 
