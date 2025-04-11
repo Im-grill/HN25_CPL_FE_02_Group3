@@ -31,6 +31,11 @@ const Header = () => {
             setIsLoggedIn(true);
             setLoggedInFullName(storedFullName);
             setRole(storedRole);
+        } else {
+            setIsLoggedIn(false);
+            setLoggedInFullName('');
+            setRole('');
+            localStorage.clear();
         }
     }, []);
 
