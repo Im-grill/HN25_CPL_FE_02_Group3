@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { IUser } from "../interfaces.ts";
+import { IUser } from "../interfaces/UserInterface";
 import instance from "./api.service";
 
 

@@ -178,7 +178,7 @@ const Header = (props) => {
                         </button>
                     )}
                     {/* End of User */}
-                    <Link to="/customer/userprofile"
+                    <Link to="/customer/userprofile/orders"
                           className="relative flex items-center text-gray-600 hover:text-blue-500 text-xs">
                         <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5 mr-1 text-blue-500"/>
                         <span

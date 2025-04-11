@@ -36,39 +36,32 @@ const Order = () => {
         }
         console.log(orderData)
     }, []);
-    // const {
-    //     bookName = 'Chat GPT Thực Chiến',
-    //     listPrice = 110000,
-    //     originalPrice = 169000,
-    //     discountedPrice = listPrice, // Giá đã giảm, mặc định bằng listPrice nếu không có
-    //     quantity = 1,
-    //     image = bookLogo,
-    // } = orderData;
+    
 
-    const totalPrice = orderData.books.list_price * orderData.quantity; // Tổng tiền hàng (dùng giá đã giảm)
+    const totalPrice = orderData.books.current_seller.price * orderData.quantity; // Tổng tiền hàng (dùng giá đã giảm)
     const shippingFee = 25000; // Phí vận chuyển
     const shippingDiscount = 25000; // Giảm giá vận chuyển
     const discount = (orderData.books.original_price - orderData.books.current_seller.price) * orderData.quantity; // Giảm giá trực tiếp (dùng discountedPrice)
     const totalPayment = totalPrice + shippingFee - shippingDiscount; // Tổng thanh toán
 
     const handlePlaceOrder = async () => {
-        // if (!loggedInEmail) {
-        //     setError('Bạn cần đăng nhập để đặt hàng!');
-        //     navigate('/customer/homepage');
-        //     return;
-        // }
+        if (!loggedInEmail) {
+            setError('Bạn cần đăng nhập để đặt hàng!');
+            navigate('/customer/homepage');
+            return;
+        }
         const orderPayload = {
             created_at: new Date().toISOString(),
-            users: { email: loggedInEmail },
+            users: {email: loggedInEmail},
             books: orderData.books,
-            quantity: orderData.quantity,
+            quantity:orderData.quantity,
             total_price: totalPayment,
             status: 'pending',
         };
         try {
             console.log(orderPayload)
             await axios.post('http://localhost:8080/order', orderPayload)
-            //  navigate('/customer/confirm', {state: {order: orderPayload}});
+             navigate('/customer/confirm', {state: {order: orderPayload}});
         } catch (err) {
             console.error('Lỗi khi đặt hàng:', err);
             setError(`Không thể đặt hàng:`);
@@ -168,7 +161,7 @@ const Order = () => {
                                         <div className={'package-item-list'}>
                                             <div className={'flex py-3 items-center'}>
                                                 <div className={'mr-2 flex-shrink-0 max-h-12'}>
-                                                    <img src={orderData.books.images?.[0].base_url} alt="" className={'w-12 h-12'} />
+                                                    <img src={orderData.books.images[0].base_url} alt="" className={'w-12 h-12'}/>
                                                 </div>
                                                 <div className={'text-sm leading-5 text-[rgb(128,128,137)] flex-1'}>
                                                     <div className={'mb-1 pr-5'}>
@@ -179,9 +172,9 @@ const Order = () => {
                                                         <div>
                                                             <div
                                                                 className="text-[rgb(255,66,78)] flex gap-4 items-center font-medium">
-                                                                {/* <span
-                                                                    className={'original-price text-[rgb(128,128,137)] line-through text-xs font-normal leading-[18px]'}>{(originalPrice * quantity).toLocaleString('vi-VN')}</span>
-                                                                <span>{(discountedPrice * quantity).toLocaleString('vi-VN')} ₫</span> */}
+                                                                {<span
+                                                                    className={'original-price text-[rgb(128,128,137)] line-through text-xs font-normal leading-[18px]'}>{(orderData.books.original_price * orderData.quantity).toLocaleString('vi-VN')}</span>}
+                                                                {<span>{( totalPrice).toLocaleString('vi-VN')} ₫</span>}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -580,7 +573,7 @@ const Order = () => {
                                                     <h4 className={'text-[13px] leading-[20px] max-h-[20px] mr-[4px]'}>Giảm
                                                         10K</h4>
                                                     <div className="flex items-center flex-shrink-0 ml-auto">
-                                                        <button
+                                                        <button type="button" title="."
                                                             className={'ml-[-8px] bg-transparent outline-none border-none p-[8px] cursor-pointer leading-0'}>
                                                             <img src={infoLogo1} className={'w-4 h-4'} alt="" />
                                                         </button>
@@ -623,7 +616,7 @@ const Order = () => {
                             <div className="p-[8px_16px] grid gap-[8px] text-[14px] leading-[21px]">
                                 <div className="flex justify-between gap-x-[8px]">
                                     <span className={'text-[rgb(128,128,137)]'}>Tổng tiền hàng</span>
-                                    <span>{totalPrice.toLocaleString('vi-VN')}</span>
+                                    {<span>{(orderData.books.original_price * orderData.quantity).toLocaleString('vi-VN')}</span> }
                                 </div>
                                 <div className="flex justify-between gap-x-[8px]">
                                     <span className={'text-[rgb(128,128,137)]'}>Phí vận chuyển</span>
