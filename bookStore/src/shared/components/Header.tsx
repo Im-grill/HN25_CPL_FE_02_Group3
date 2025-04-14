@@ -62,8 +62,10 @@ const Header = () => {
 
             if (response.user?.fullname && response.user?.role) {
                 setLoggedInFullName(response.user.fullname);
-                localStorage.setItem('loggedInFullName', response.user.fullname);
+              
                 localStorage.setItem('role', response.user.role);
+                localStorage.setItem('loggedInFullName', response.user.fullname);
+                localStorage.setItem('loggedInEmail', response.user.email);
                 setRole(response.user.role);
                 // User role admin sẽ truy cập tới route admin
                 if (response.user.role === 'admin') {
@@ -90,7 +92,7 @@ const Header = () => {
                 fullname: fullNameInput,
                 email: emailInput,
                 password: password,
-                role: 'customer', // Khi đăng ký 1 tài khoản auto role customer
+                role: 'customer',
             };
             const response = await registerService(userData);
             console.log('Đăng ký thành công:', response);
