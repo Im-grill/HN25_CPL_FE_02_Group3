@@ -9,10 +9,6 @@ import CategoryList from './pages/admin/categoryManagement/CategoryList'
 import UserProvider from './shared/context/UserContext'
 import { AlertProvider } from './shared/context/AlertContext'
 import Alert from './shared/components/admin/Alert'
-<<<<<<< HEAD
-// import UserProfile from './pages/customer/views/userProfile'
-=======
->>>>>>> origin/main
 import Confirm from './pages/customer/views/Confirm'
 import BookForm from './pages/admin/bookManagement/BookForm'
 import Order from './pages/customer/views/order'

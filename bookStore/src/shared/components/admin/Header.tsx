@@ -121,7 +121,7 @@ const Header = () => {
                 <button type="button" title='Toggle Sidebar' className='md:hidden' onClick={toggleMainMenu}>
                     <FontAwesomeIcon icon={faBars} className='text-2xl' />
                 </button>
-                <Link to='/' className='flex gap-4 items-center'>
+                <Link to='/admin' className='flex gap-4 items-center'>
                     <img src={Logo} alt="TikiLogo" className='w-14' />
                 </Link>
                 <div
@@ -131,21 +131,13 @@ const Header = () => {
                 </div>
                 <div className="profile-menu relative" onClick={toggleProfile} aria-hidden="true">
                     <div>
-                        {isLoggedIn ? (
-                            <div className="flex items-center text-gray-600 text-xs">
-                                <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1"/>
-                                {loggedInFullName}
-                                <button onClick={handleLogout}
-                                        className="ml-2 text-blue-500 hover:underline text-sm">Đăng xuất
-                                </button>
-                            </div>
-                        ) : (
-                            <button onClick={() => setIsModalOpen(true)}
-                                    className="flex items-center text-gray-600 hover:text-blue-500 text-xs">
-                                <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1"/>
-                                Tài khoản
+                        <div className="flex items-center text-gray-600 text-xs">
+                            <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1" />
+                            {loggedInFullName}
+                            <button onClick={handleLogout}
+                                className="ml-2 text-blue-500 hover:underline text-sm">Đăng xuất
                             </button>
-                        )}
+                        </div>
                     </div>
                     {isModalOpen && (
                         <div
