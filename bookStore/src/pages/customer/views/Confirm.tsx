@@ -46,7 +46,7 @@ export default function Confirm() {
                 </div>
                 {/* thong tin detail sach */}
                 <div className="flex items-center mt-2 p-3">
-                    <img src={order.books.image}
+                    <img src={order.books.images?.[0].base_url}
                         alt=""
                         className="size-[50px]" />
                     <span className="text-sm font-normal text-[#808089]">{order.books.name}</span>
