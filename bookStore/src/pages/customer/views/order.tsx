@@ -1,5 +1,4 @@
 // index.tsx (main Order component)
-// Điều chỉnh index.tsx (main Order component)
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
@@ -69,15 +68,15 @@ const Order: React.FC = () => {
         <>
             <Header />
             <main className={'bg-[#F5F5FA]'}>
-                <div className={'flex flex-wrap min-h-[calc(100vh-260px)] pt-5 pb-20 w-[1270px] px-[15px] mx-auto'}>
+                <div className={'flex flex-wrap min-h-[calc(100vh-260px)] pt-5 pb-20 w-full px-4 mx-auto md:w-[1270px] md:px-[15px] flex-col md:flex-row'}>
                     {/* Left section */}
-                    <div className={'w-[900px] mr-5'}>
+                    <div className={'w-full mb-5 md:w-[900px] md:mr-5'}>
                         <ShippingMethod orderData={orderData} />
                         <PaymentMethod />
                     </div>
 
                     {/* Right section */}
-                    <div className="flex-1 overflow-hidden">
+                    <div className="w-full md:flex-1 md:overflow-hidden">
                         <AddressInfo fullName={loggedInFullName} />
                         <Promotions />
                         <OrderSummary

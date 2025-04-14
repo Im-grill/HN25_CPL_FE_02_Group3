@@ -5,44 +5,44 @@ import BankPromotion from "./BankPromotion.tsx";
 
 const PaymentMethod: React.FC = () => {
     return (
-        <div className="relative p-4 mb-4 bg-white rounded-md">
-            <h3 className={'mb-4 flex items-baseline text-[#38383D] font-bold text-[18px] leading-[24px] m-0'}>
+        <div className="relative p-3 md:p-4 mb-4 bg-white rounded-md">
+            <h3 className={'mb-3 md:mb-4 flex items-baseline text-[#38383D] font-bold text-base md:text-[18px] leading-[20px] md:leading-[24px] m-0'}>
                 Chọn hình thức thanh toán
             </h3>
-            <div className={'w-[868px] h-[64px]'}>
+            <div className={'w-full md:w-[868px] h-[50px] md:h-[64px]'}>
                 <label htmlFor="" className={'flex items-center '}>
                     <input
                         type="radio"
-                        className={'w-[18px] h-[18px] border border-[rgb(196,196,207)] rounded-full mr-2 relative z-1 text-[rgb(120,120,120)] flex-shrink-0 cursor-pointer'}
+                        className={'w-[16px] h-[16px] md:w-[18px] md:h-[18px] border border-[rgb(196,196,207)] rounded-full mr-2 relative z-1 text-[rgb(120,120,120)] flex-shrink-0 cursor-pointer'}
                     />
                     <span className={'label'}>
-            <div className={'cursor-pointer h-16]'}>
-              <div className={'flex items-center h-full'}>
-                <img src={paymentLogo} className={'h-8 w-8 mr-3'} alt="" />
-                <span className={'text-sm text-[rgb(56,56,61)]'}>
-                  Thanh toán tiền mặt
-                </span>
-              </div>
-            </div>
-          </span>
+                        <div className={'cursor-pointer h-[50px] md:h-16]'}>
+                          <div className={'flex items-center h-full'}>
+                            <img src={paymentLogo} className={'h-6 w-6 md:h-8 md:w-8 mr-2 md:mr-3'} alt="" />
+                            <span className={'text-xs md:text-sm text-[rgb(56,56,61)]'}>
+                              Thanh toán tiền mặt
+                            </span>
+                          </div>
+                        </div>
+                    </span>
                 </label>
             </div>
-            <div className={'w-[868px] h-[64px]'}>
+            <div className={'w-full md:w-[868px] h-[50px] md:h-[64px]'}>
                 <label htmlFor="" className={'flex items-center '}>
                     <input
                         type="radio"
-                        className={'w-[18px] h-[18px] border border-[rgb(196,196,207)] rounded-full mr-2 relative z-1 text-[rgb(120,120,120)] flex-shrink-0 cursor-pointer'}
+                        className={'w-[16px] h-[16px] md:w-[18px] md:h-[18px] border border-[rgb(196,196,207)] rounded-full mr-2 relative z-1 text-[rgb(120,120,120)] flex-shrink-0 cursor-pointer'}
                     />
                     <span className={'label'}>
-            <div className={'cursor-pointer h-16]'}>
-              <div className={'flex items-center h-full'}>
-                <img src={ViettelPayment} className={'h-8 w-8 mr-3'} alt="" />
-                <span className={'text-sm text-[rgb(56,56,61)]'}>
-                  Viettel Money
-                </span>
-              </div>
-            </div>
-          </span>
+                        <div className={'cursor-pointer h-[50px] md:h-16]'}>
+                          <div className={'flex items-center h-full'}>
+                            <img src={ViettelPayment} className={'h-6 w-6 md:h-8 md:w-8 mr-2 md:mr-3'} alt="" />
+                            <span className={'text-xs md:text-sm text-[rgb(56,56,61)]'}>
+                              Viettel Money
+                            </span>
+                          </div>
+                        </div>
+                    </span>
                 </label>
             </div>
             <BankPromotion />

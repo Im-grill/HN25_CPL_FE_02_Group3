@@ -24,17 +24,17 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                                                    }) => {
     return (
         <div className="bg-white rounded-md">
-            <div className="p-4 leading-5 border-b border-[#ebebf0]">
+            <div className="p-3 md:p-4 leading-5 border-b border-[#ebebf0]">
                 <div className={'mb-1'}>
-                    <h3 className={'font-medium text-[rgb(56,56,61)]'}>Đơn hàng</h3>
+                    <h3 className={'font-medium text-sm md:text-base text-[rgb(56,56,61)]'}>Đơn hàng</h3>
                 </div>
                 <div className="flex items-center">
-                    <p className={'text-[rgb(128,128,137)] m-0 mr-[4px]'}>
+                    <p className={'text-xs md:text-sm text-[rgb(128,128,137)] m-0 mr-[4px]'}>
                         {orderData.quantity} sản phẩm.
                     </p>
-                    <p className={'text-[rgb(11,116,229)] font-normal'}>Xem thông tin</p>
+                    <p className={'text-xs md:text-sm text-[rgb(11,116,229)] font-normal'}>Xem thông tin</p>
                     <svg
-                        className="sub-title-link__arrow transform rotate-[90deg] transition-all duration-500"
+                        className="sub-title-link__arrow transform rotate-[90deg] transition-all duration-500 w-4 h-4 md:w-5 md:h-5"
                         width="20"
                         height="20"
                         viewBox="0 0 24 24"
@@ -50,12 +50,12 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                     </svg>
                 </div>
             </div>
-            <div className="p-[8px_16px] grid gap-[8px] text-[14px] leading-[21px]">
+            <div className="p-[8px_12px] md:p-[8px_16px] grid gap-[8px] text-xs md:text-[14px] leading-[18px] md:leading-[21px]">
                 <div className="flex justify-between gap-x-[8px]">
                     <span className={'text-[rgb(128,128,137)]'}>Tổng tiền hàng</span>
                     <span>
-            {(orderData.books.original_price * orderData.quantity).toLocaleString('vi-VN')}
-          </span>
+                        {(orderData.books.original_price * orderData.quantity).toLocaleString('vi-VN')}
+                    </span>
                 </div>
                 <div className="flex justify-between gap-x-[8px]">
                     <span className={'text-[rgb(128,128,137)]'}>Phí vận chuyển</span>
@@ -64,43 +64,43 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                 <div className="flex justify-between gap-x-[8px]">
                     <span className={'text-[rgb(128,128,137)]'}>Giảm giá trực tếp</span>
                     <span className={'text-[rgb(0,171,86)]'}>
-            -{discount.toLocaleString('vi-VN')}
-          </span>
+                        -{discount.toLocaleString('vi-VN')}
+                    </span>
                 </div>
                 <div className="flex justify-between gap-x-[8px]">
                     <div className="flex items-center">
-            <span className={'text-[rgb(128,128,137)]'}>
-              Giảm giá vận chuyển
-            </span>
-                        <img src={infoLogo} className={'w-[14px] h-[14px]'} alt="" />
+                        <span className={'text-[rgb(128,128,137)]'}>
+                          Giảm giá vận chuyển
+                        </span>
+                        <img src={infoLogo} className={'w-[12px] h-[12px] md:w-[14px] md:h-[14px] ml-1'} alt="" />
                     </div>
                     <span className={'text-[rgb(0,171,86)]'}>
-            -{shippingDiscount.toLocaleString('vi-VN')}
-          </span>
+                        -{shippingDiscount.toLocaleString('vi-VN')}
+                    </span>
                 </div>
             </div>
             <div className="h-[1px] bg-[#ebebf0]"></div>
-            <div className={'p-[8px_16px] flex gap-x-2 justify-between'}>
-                <span className={'font-medium text-sm'}>Tổng tiền thanh toán</span>
+            <div className={'p-[8px_12px] md:p-[8px_16px] flex gap-x-2 justify-between'}>
+                <span className={'font-medium text-xs md:text-sm'}>Tổng tiền thanh toán</span>
                 <div className={'flex flex-col items-end'}>
-          <span className={'text-[rgb(255,66,78)] font-semibold text-[20px] leading-[30px]'}>
-            {totalPayment.toLocaleString('vi-VN')}
-          </span>
-                    <span className={'text-[rgb(0,171,86)]'}>
-            Tiết kiệm {(discount + shippingDiscount).toLocaleString('vi-VN')}
-          </span>
+                    <span className={'text-[rgb(255,66,78)] font-semibold text-base md:text-[20px] leading-[24px] md:leading-[30px]'}>
+                        {totalPayment.toLocaleString('vi-VN')}
+                    </span>
+                    <span className={'text-[rgb(0,171,86)] text-xs md:text-sm'}>
+                        Tiết kiệm {(discount + shippingDiscount).toLocaleString('vi-VN')}
+                    </span>
                 </div>
             </div>
             <div className={'flex justify-between pt-0 pr-[8px] pb-[16px] pl-[8px]'}>
-        <span className={'text-right text-xs text-[rgb(128,128,137)]'}>
-          (Giá này đã bao gồm thuế GTGT, phí đóng gói, phí vận chuyển và các chi phí phát sinh khác)
-        </span>
+                <span className={'text-right text-[10px] md:text-xs text-[rgb(128,128,137)]'}>
+                  (Giá này đã bao gồm thuế GTGT, phí đóng gói, phí vận chuyển và các chi phí phát sinh khác)
+                </span>
             </div>
-            {error && <div className="text-red-500 px-4 pb-2">{error}</div>}
+            {error && <div className="text-red-500 px-4 pb-2 text-xs md:text-sm">{error}</div>}
             <div className="flex justify-between">
                 <button
                     onClick={onPlaceOrder}
-                    className={'m-[0px_16px_16px] text-white bg-[#ff424e] border-none font-normal h-[40px] w-full items-center rounded-md cursor-pointer'}
+                    className={'m-[0px_12px_12px] md:m-[0px_16px_16px] text-white bg-[#ff424e] border-none font-normal h-[36px] md:h-[40px] w-full items-center rounded-md cursor-pointer text-sm md:text-base'}
                 >
                     Đặt hàng
                 </button>
