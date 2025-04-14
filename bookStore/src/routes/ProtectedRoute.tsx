@@ -1,23 +1,21 @@
-import React, { Children } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useModal } from '../shared/context/ModalContext';
 
-import { useContext } from "react";
-import AlertContext from '../shared/context/AlertContext';
-type props ={
-   
-    children:React.ReactNode
-
+type props = {
+  children: React.ReactNode
 }
-const ProtectedRoute = ({children}:props) => {
-    const token = localStorage.getItem('accessToken');
-    const role = localStorage.getItem('role');
-    const alert = useContext(AlertContext)
-    if(!token){
-        alert?.error("You must login first", 3)
-        return <Navigate to="/customer/homepage" replace />;
-    }
-  
-    return children;
+
+const ProtectedRoute = ({ children }: props) => {
+  const token = localStorage.getItem('accessToken');
+  const { setIsModalOpen } = useModal();
+
+  if (!token) {
+    setIsModalOpen(true);
+    return <Navigate to="/customer/homepage" replace />;
+  }
+
+  return children;
 }
 
 export default ProtectedRoute;

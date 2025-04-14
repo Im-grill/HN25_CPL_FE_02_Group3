@@ -20,40 +20,44 @@ import AdminRoute from './routes/AdminRoute';
 import ProtectedRoute from './routes/ProtectedRoute'
 import UserProfileOrderDetails from './pages/customer/views/userProfile_OrderDetail'
 import UserInfo from './pages/customer/views/userProfile_UserInfo'
-function App() {
-    return (
-        <BrowserRouter>
-            <UserProvider>
-                <AlertProvider>
-                    <Alert />
-                    <Routes>
-                        {/* Customer */}
-                        <Route path='customer' element={<CustomerLayout />}>
-                            <Route path="homepage" element={<HomePage />} />
-                            <Route path="productdetail/:id" element={<ProductDetail />} />
-                            <Route path="userprofile/order/:orderId" element={<UserProfileOrderDetails/>}/>
-                            <Route path="userprofile/orders" element={<UserProfileListOrder/>}/>
-                            <Route path="userprofile/info" element={<UserInfo/>}/>
-                            <Route path="order" element={<ProtectedRoute> <Order /> </ProtectedRoute>} />
-                            <Route path="confirm" element={<Confirm />} />
-                        </Route>
+import { ModalProvider } from './shared/context/ModalContext'
 
-                        {/* Admin - Bọc trong AdminRoute */}
-                        <Route path='admin' element={<AdminRoute />}>
-                            <Route element={<AdminLayout />}>
-                                <Route index element={<Dashboard />} />
-                                <Route path='category' element={<CategoryList />} />
-                                <Route path='book/add' element={<BookForm />} />
-                                <Route path='book/list' element={<BookListManagement />} />
-                                <Route path='order' element={<OrderList />} />
-                                <Route path='user' element={<UserList />} />
-                            </Route>
-                        </Route>
-                    </Routes>
-                </AlertProvider>
-            </UserProvider>
-        </BrowserRouter>
-    )
+function App() {
+  return (
+    <BrowserRouter>
+      <UserProvider>
+        <AlertProvider>
+          <ModalProvider>
+            <Alert />
+            <Routes>
+              {/* Customer */}
+              <Route path='customer' element={<CustomerLayout />}>
+                <Route path="homepage" element={<HomePage />} />
+                <Route path="productdetail/:id" element={<ProductDetail />} />
+                <Route path="userprofile/order/:orderId" element={<UserProfileOrderDetails />} />
+                <Route path="userprofile/orders" element={<UserProfileListOrder />} />
+                <Route path="userprofile/info" element={<UserInfo />} />
+                <Route path="order" element={<ProtectedRoute> <Order /> </ProtectedRoute>} />
+                <Route path="confirm" element={<Confirm />} />
+              </Route>
+
+              {/* Admin */}
+              <Route path='admin' element={<AdminRoute />}>
+                <Route element={<AdminLayout />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path='category' element={<CategoryList />} />
+                  <Route path='book/add' element={<BookForm />} />
+                  <Route path='book/list' element={<BookListManagement />} />
+                  <Route path='order' element={<OrderList />} />
+                  <Route path='user' element={<UserList />} />
+                </Route>
+              </Route>
+            </Routes>
+          </ModalProvider>
+        </AlertProvider>
+      </UserProvider>
+    </BrowserRouter>
+  )
 }
 
 export default App

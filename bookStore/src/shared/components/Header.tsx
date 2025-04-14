@@ -1,4 +1,3 @@
-// Header.tsx
 import React, { useEffect, useState } from 'react';
 import TikiLogo from '../../assets/logo/tiki-logo.png';
 import TikiImage from '../../assets/tiki-image.png';
@@ -7,10 +6,11 @@ import { faHome, faSearch, faShoppingCart, faUser } from '@fortawesome/free-soli
 import { Link, useNavigate } from 'react-router-dom';
 import { IUser } from '../../interfaces/UserInterface';
 import { login as loginService, register as registerService } from '../../api/auth.service';
+import { useModal } from '../../shared/context/ModalContext';
 
 const Header = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const {isModalOpen, setIsModalOpen} = useModal();
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
@@ -40,11 +40,11 @@ const Header = () => {
         }
     }, []);
 
-    const handleSearchChange = (e) => {
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
 
-    const handleSearchSubmit = (e) => {
+    const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         navigate(`/customer/homepage?search=${searchTerm}`);
     };
@@ -65,12 +65,11 @@ const Header = () => {
                 localStorage.setItem('loggedInEmail', response.user.email);
                 localStorage.setItem('userId', response.user.id);
                 setLoggedInFullName(response.user.fullname);
-              
                 localStorage.setItem('role', response.user.role);
                 localStorage.setItem('loggedInFullName', response.user.fullname);
                 localStorage.setItem('loggedInEmail', response.user.email);
                 setRole(response.user.role);
-                // User role admin sẽ truy cập tới route admin
+
                 if (response.user.role === 'admin') {
                     navigate('/admin');
                 }
