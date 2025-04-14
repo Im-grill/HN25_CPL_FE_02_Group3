@@ -6,13 +6,13 @@ import iconBell from "../../../assets/icon_bell.png";
 import shipLogo from "../../../assets/now.png";
 import returnBadge from "../../../assets/return-badge.png";
 import { Link, useParams } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { getOrderById, getOrders, } from "../../../api/order.service";
+import { getOrderById, getOrders} from "../../../api/order.service";
 import { IOrder } from "../../../interfaces";
 import instance from "../../../api/api.service";
-import { IUser } from "../../../interfaces/UserInterface";
+import IUser  from "../../../interfaces/UserInterface";
 import { getUsers } from "../../../api/user.service";
 
 const UserProfileOrderDetails = () => {

@@ -1,9 +1,6 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
 import AlertContext from '../../../shared/context/AlertContext';
 import { useContext, useEffect, useState } from 'react';
 import { getUsers } from '../../../api/user.service';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import IUser from '../../../interfaces/UserInterface';
 
 

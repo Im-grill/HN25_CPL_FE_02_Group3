@@ -1,12 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
-import { IUser } from '../../../interfaces/UserInterface.ts';
+import IUser from '../../../interfaces/UserInterface.ts';
 import { getUsers } from '../../../api/user.service.ts';
 import AlertContext from '../../../shared/context/AlertContext.tsx';
 import UserItem from './userItem.tsx';
 import UserModal from './userModal.tsx';
 import UserForm from './userForm.tsx';
 import Pagination from './Pagination.tsx';
-import { filter } from 'lodash';
 
 
 const UserList = () => {

@@ -3,7 +3,6 @@ import avatar from "../../../assets/avatar.png"
 import iconOrder from "../../../assets/icon_profile.png"
 import iconUser from "../../../assets/icon_user.png";
 import iconBell from "../../../assets/icon_bell.png";
-import shipLogo from "../../../assets/now.png";
 import returnBadge from "../../../assets/return-badge.png";
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
@@ -12,7 +11,7 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { getOrders } from "../../../api/order.service";
 import { IOrder } from "../../../interfaces";
 import { getUsers } from "../../../api/user.service";
-import { IUser } from "../../../interfaces/UserInterface";
+import IUser  from "../../../interfaces/UserInterface";
 
 
 const UserProfileListOrder = () => {
@@ -253,11 +252,9 @@ const UserProfileListOrder = () => {
                             </table>
                         </div>
                     ) : (
-                        <tr>
-                            <td colSpan={5} className="whitespace-wrap px-4 py-5 text-gray-700 text-center">
+                            <span className="whitespace-wrap px-4 py-5 text-gray-700 text-center">
                                 Không có đơn hàng nào
-                            </td>
-                        </tr>
+                            </span>
                     )
                     }
                 </section>

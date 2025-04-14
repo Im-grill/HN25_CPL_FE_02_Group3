@@ -3,15 +3,14 @@ import avatar from "../../../assets/avatar.png"
 import iconOrder from "../../../assets/icon_profile.png"
 import iconUser from "../../../assets/icon_user.png";
 import iconBell from "../../../assets/icon_bell.png";
-import { Link, useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import { Link, } from "react-router-dom";
+import { isValidElement, useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faChevronRight, faPen } from "@fortawesome/free-solid-svg-icons";
-import { IUser } from "../../../interfaces/UserInterface";
-import { SubmitHandler, useForm } from "react-hook-form";
+import IUser from "../../../interfaces/UserInterface";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { getUsers, updateUser } from "../../../api/user.service";
-import { set } from "lodash";
 
 
 type Inputs = {
@@ -28,28 +27,13 @@ const UserInfo = () => {
         email: "",
     });
     const [user, setUser] = useState<IUser>();
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<Inputs>()
+    const [emailStatus, setEmailStatus] = useState<{
+        message: string;
+        isValid: boolean;
+        color: string;
+    }>({ message: '', isValid: true, color: '' });
+    const { register, handleSubmit, formState: { errors, isDirty }, reset, control } = useForm<Inputs>()
 
-
-    const fetchUserByEmail = useCallback(async () => {
-        try {
-
-            if (!userInfo.email) {
-                console.log("No email available to fetch user.");
-                return;
-            }
-            const allUsers = await getUsers();
-            const foundUser = allUsers.find(user => user.email === userInfo.email);
-            if (foundUser) {
-                setUser(foundUser);
-                reset(foundUser);
-            } else {
-                console.log("User not found with email:", userInfo.email);
-            }
-        } catch (error) {
-            console.error("Error fetching users:", error);
-        }
-    }, [userInfo.email, reset]);
 
     // Function để kiểm tra đăng nhập và cập nhật thông tin người dùng
     const checkLoginAndUpdateInfo = useCallback(() => {
@@ -68,10 +52,6 @@ const UserInfo = () => {
                 fullName: storedFullName,
                 email: storedEmail,
             });
-
-            if (storedEmail) {
-                fetchUserByEmail();
-            }
         } else {
             // Reset thông tin người dùng khi đăng xuất
             setUserInfo({
@@ -79,7 +59,7 @@ const UserInfo = () => {
                 email: "",
             });
         }
-    }, [fetchUserByEmail]);
+    }, []);
 
     // Theo dõi trạng thái localStorage và đăng nhập
     useEffect(() => {
@@ -91,18 +71,82 @@ const UserInfo = () => {
                 checkLoginAndUpdateInfo();
             }
         };
-
         window.addEventListener("storage", handleStorageChange);
         return () => {
             window.removeEventListener("storage", handleStorageChange);
         };
     }, [checkLoginAndUpdateInfo]);
 
+    //fetch thông tin user từ email
+    const fetchUserByEmail = useCallback(async () => {
+        try {
+            if (!userInfo.email) {
+                console.log('No email available to fetch user.');
+                return;
+            }
+            const allUsers = await getUsers();
+            const foundUser = allUsers.find((user) => user.email === userInfo.email); //lọc user có trùng email với email đã lưu trong local
+            if (foundUser) {
+                setUser(foundUser);
+                reset(foundUser);
+            } else {
+                console.log('User not found with email:', userInfo.email);
+            }
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+    }, [userInfo.email, reset]);
+
+
+    useEffect(() => {
+        if (userInfo.email) {
+            fetchUserByEmail();
+        }
+    }, [userInfo.email, fetchUserByEmail]);
+
     useEffect(() => {
         if (user) {
             reset(user);
         }
     }, [user, reset]);
+
+    //kiểm tra giá trị email khi thay đổi
+    const emailValue = useWatch({ control, name: "email" });
+    //kiểm tra email trùng lặp
+    useEffect(() => {
+        const timer = setTimeout(async () => {
+            if (!emailValue || emailValue === userInfo.email) {
+                //không kiểm tra nếu trường rỗng / không thay đổi
+                setEmailStatus({ message: "", isValid: true, color: "" })
+            }
+            try {
+                const allUsers = await getUsers();
+                //kiểm tra nếu email trùng với email tồn tại trong hệ thống
+                const isEmailTaken = allUsers.some((u) => u.email === emailValue && u.email !== userInfo.email);
+                if (isEmailTaken) {
+                    setEmailStatus({
+                        message: "Email này đã được sử dụng.",
+                        isValid: false,
+                        color: "text-red-500",
+                    });
+                } else {
+                    setEmailStatus({
+                        message: "Email hợp lệ",
+                        isValid: true,
+                        color: "text-green-500",
+                    });
+                }
+            } catch (error) {
+                console.error("Error checking email:", error);
+                setEmailStatus({
+                    message: 'Lỗi khi kiểm tra email.',
+                    isValid: false,
+                    color: 'text-red-500',
+                });
+            }
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [emailValue, userInfo.email]);
 
     const submitForm: SubmitHandler<Inputs> = async (data) => {
         if (!user || !user.id) {
@@ -134,7 +178,9 @@ const UserInfo = () => {
                 if (fullname !== localStorage.getItem('loggedInFullName')) {
                     localStorage.setItem('loggedInFullName', fullname);
                 }
-                fetchUserByEmail();
+                if (userInfo.email) {
+                    fetchUserByEmail();
+                }
             }
         } catch (error) {
             console.error("Error updating user:", error);
@@ -182,7 +228,7 @@ const UserInfo = () => {
                     <div className="orderTitle text-xl my-3.5">
                         <span className="">Thông tin tài khoản </span>
                     </div>
-                    <form className="userInfo bg-white rounded-lg p-4">
+                    <form className="userInfo bg-white rounded-lg p-4" onSubmit={handleSubmit(submitForm)}>
                         <div className="row flex w-full">
                             <div className="personalInfo w-1/2 pr-4">
                                 <div className="mb-2 flex justify-center items-center">
@@ -242,18 +288,24 @@ const UserInfo = () => {
 
                                         <div className="relative">
                                             <input
-                                                {...register("email", { required: false, disabled: true })} //hiện tại chưa cho phép user chỉnh sửa email
+                                                {...register("email", { required: true })}
                                                 type="text"
                                                 className="w-full rounded-lg border-gray-200 border-1 p-2 pe-12 text-sm shadow-xs"
                                                 placeholder="Enter new email"
                                             />
+                                            {emailStatus.message && (
+                                                <p className={`text-sm mt-1 ${emailStatus.color}`}>
+                                                    {emailStatus.message}
+                                                </p>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="submitBtnCtn flex items-center justify-center mt-7">
-                            <button type="submit" className="text-white rounded-lg py-2 px-4 cursor-pointer bg-blue-600" onClick={handleSubmit(submitForm)}>
+                            <button type="submit" className={`text-white rounded-lg py-2 px-4  ${isDirty && emailStatus.isValid ? "bg-blue-600 hover:bg-blue-700 cursor-pointer" : "bg-gray-400 cursor-not-allowed"}`} disabled={!isDirty || !emailStatus.isValid} 
+                            >
                                 Lưu thay đổi
                             </button>
                         </div>
