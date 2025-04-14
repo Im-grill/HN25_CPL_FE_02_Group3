@@ -59,7 +59,7 @@ const OrderForm = ({ onGetOrders }: OrderFormProps) => {
             const filteredOrders = term
                 ? allOrders.filter((order: IOrder) =>
                     order.users.email.toLowerCase().includes(term.toLowerCase()) ||
-                    order.books.name.toLowerCase().includes(term.toLowerCase()) ||
+                    order.books.name?.toLowerCase().includes(term.toLowerCase()) ||
                     order.status.toLowerCase().includes(term.toLowerCase())
                 )
                 : allOrders;

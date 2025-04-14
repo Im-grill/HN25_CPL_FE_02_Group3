@@ -72,6 +72,7 @@ const Header = (props) => {
             if (response.user?.email && response.user?.fullname) {
                 setLoggedInEmail(response.user.email);
                 localStorage.setItem('loggedInEmail', response.user.email);
+                localStorage.setItem('userId', response.user.id);
                 setLoggedInFullName(response.user.fullname);
                 localStorage.setItem('loggedInFullName', response.user.fullname);
             }

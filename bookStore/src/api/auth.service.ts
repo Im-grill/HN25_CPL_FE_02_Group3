@@ -3,7 +3,7 @@ import instance from "./api.service";
 
 type LoginType = {
   accessToken: string;
-  user: { email: string; id: number; fullname: string };
+  user: IUser;
 };
 
 export const login = (data: IUser): Promise<LoginType> => {
