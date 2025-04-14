@@ -12,6 +12,8 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { getOrderById, getOrders, } from "../../../api/order.service";
 import { IOrder } from "../../../interfaces";
 import instance from "../../../api/api.service";
+import { IUser } from "../../../interfaces/UserInterface";
+import { getUsers } from "../../../api/user.service";
 
 const UserProfileOrderDetails = () => {
     const { orderId } = useParams();
@@ -21,8 +23,9 @@ const UserProfileOrderDetails = () => {
     const [userInfo, setUserInfo] = useState({
         fullName: "",
         email: "",
-    });
-
+    }); 
+    const [user, setUser] = useState<IUser>();
+    
     // Đồng bộ trạng thái đăng nhập khi component mount và khi localStorage thay đổi
     useEffect(() => {
         // Function để kiểm tra đăng nhập và cập nhật thông tin người dùng
@@ -42,7 +45,7 @@ const UserProfileOrderDetails = () => {
                     fullName: storedFullName,
                     email: storedEmail,
                 });
-
+                
             } else {
                 // Reset thông tin người dùng khi đăng xuất
                 setUserInfo({
@@ -62,7 +65,30 @@ const UserProfileOrderDetails = () => {
         return () => clearInterval(intervalId);
     }, [isLoggedIn]);
 
-
+    useEffect(() =>{
+        const fetchUserByEmail = async () => {
+            try {
+                if (!userInfo.email) {
+                    console.log("No email available to fetch user.");
+                    return;
+                }
+                const allUsers = await getUsers();
+                const foundUser = allUsers.find(user => user.email === userInfo.email);
+                if (foundUser) {
+                    setUser(foundUser);
+                } else {
+                    console.log("User not found with email:", userInfo.email);
+                }
+            } catch (error) {
+                console.error("Error fetching users:", error);
+            }
+        };
+        //chỉ fetch khi đã đăng nhập và có email
+        if (isLoggedIn && userInfo.email) {
+            fetchUserByEmail();
+        };
+    }, [isLoggedIn, userInfo.email]);
+    
     //lấy dữ liệu từ order
     useEffect(() => {
         const fetchOrderDetail = async () => {
