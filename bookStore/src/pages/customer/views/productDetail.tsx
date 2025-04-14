@@ -1,12 +1,12 @@
-import {useEffect, useRef, useState} from 'react';
-import {FaAngleRight, FaChevronLeft, FaChevronRight, FaMinus, FaPlus, FaStar} from 'react-icons/fa';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { FaAngleRight, FaChevronLeft, FaChevronRight, FaMinus, FaPlus, FaStar } from 'react-icons/fa';
+import { useNavigate, useParams } from 'react-router-dom';
 import tikiLogo from '../../../assets/tiki-logo.png';
 import bookCover from '../../../assets/book-cover.png';
 import tikiheader from '../../../assets/tiki-head.png';
 import official from '../../../assets/official.png';
-import {getBook} from '../../../api/book.service';
-import {IBook} from '../../../interfaces/BookInterfaces';
+import { getBook } from '../../../api/book.service';
+import { IBook } from '../../../interfaces/BookInterfaces';
 
 
 function ProductDetail() {
@@ -39,6 +39,15 @@ function ProductDetail() {
 
         fetchBookDetail();
     }, [id]);
+
+    function ProductDescription({ description }: { description: string }) {
+        return (
+            <div
+                className="product-description"
+                dangerouslySetInnerHTML={{ __html: description }}
+            />
+        );
+    }
 
     const increaseQuantity = () => {
         setQuantity(prevQuantity => prevQuantity + 1);
@@ -140,7 +149,7 @@ function ProductDetail() {
                 quantity: quantity,
                 // image: book.images?.[0]?.base_url || bookCover,
                 // sellerName: book.current_seller?.name || 'Tiki Trading',
-                books:book
+                books: book
             };
             // Chuyển hướng đến trang Order và truyền dữ liệu qua    state
 
@@ -274,11 +283,12 @@ function ProductDetail() {
                         </div>
 
                         {/* Product description */}
+                        
                         <div className="bg-white rounded-lg shadow-md p-6 mt-4">
                             <h2 className="text-lg font-medium text-gray-800 mb-4">Mô tả sản phẩm</h2>
                             <div className={`relative overflow-hidden ${expanded ? 'h-auto' : 'h-64'}`}>
                                 <p className="whitespace-pre-line leading-relaxed text-gray-700">
-                                    {book.description || 'Chưa có mô tả sản phẩm'}
+                                    {<ProductDescription description={book.description || 'Chưa có mô tả sản phẩm'} />}
                                 </p>
                                 {!expanded && (
                                     <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"></div>
