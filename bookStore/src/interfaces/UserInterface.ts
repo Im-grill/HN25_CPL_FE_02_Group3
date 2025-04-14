@@ -1,5 +1,5 @@
 interface IUser {
-  id?: number,
+  id: string,
   fullname: string,
   email: string,
   password?: string,
@@ -7,4 +7,4 @@ interface IUser {
   phone: string,
   createdAt?: string,
 }
-export type { IUser };
+export default  IUser ;

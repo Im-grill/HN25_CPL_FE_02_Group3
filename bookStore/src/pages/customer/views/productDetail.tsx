@@ -153,7 +153,7 @@ function ProductDetail() {
             };
             // Chuyển hướng đến trang Order và truyền dữ liệu qua    state
 
-            navigate('/customer/order', { state: orderData });
+             navigate('/customer/order', { state: orderData });
         }
     };
     return (

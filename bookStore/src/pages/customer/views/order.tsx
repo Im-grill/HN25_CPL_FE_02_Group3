@@ -15,9 +15,9 @@ import couponBG from '../../../assets/order-logo/img_13.png'
 import freeShipLogo from '../../../assets/order-logo/img_14.png'
 import infoLogo1 from '../../../assets/order-logo/img_15.png'
 import arrowRightBlueLogo from '../../../assets/order-logo/img_16.png'
-import {useLocation, useNavigate} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
 const Order = () => {
     const location = useLocation();
@@ -34,6 +34,7 @@ const Order = () => {
             setLoggedInEmail(storedEmail);
             setLoggedInFullName(storedFullName);
         }
+        console.log(orderData)
     }, []);
     
 
@@ -73,14 +74,14 @@ const Order = () => {
                     <div
                         className={'text-[14px] font-semibold leading-[150%] pl-1 text-[#00AB56] flex flex-row items-center justify-center p-[12px_16px] gap-1 bg-[#EFFFF4]'}>
                         Freeship đơn từ 45k, giảm nhiều hơn cùng
-                        <img src={freeShip} alt="" className={'w-[79px] h-[16px] opacity-100'}/>
+                        <img src={freeShip} alt="" className={'w-[79px] h-[16px] opacity-100'} />
                     </div>
                 </a>
             </div>
             <header className={'bg-white'}>
                 <div className={'flex flex-1 items-center h-[100px] w-[1270px] px-[15px] mx-auto'}>
                     <a href="/customer/homepage">
-                        <img src={logoTiki} alt="" className={'w-18 h-18'}/>
+                        <img src={logoTiki} alt="" className={'w-18 h-18'} />
                     </a>
                     <span className={'w-[1px] h-[32px] bg-[#1A94FF] mx-4 block'}></span>
                     <span className={'font-normal text-[24px] leading-[32px] text-[#1AA7FF]'}>Thanh toán</span>
@@ -99,12 +100,12 @@ const Order = () => {
                                     <div>
                                         <label htmlFor="" className={'flex items-center'}>
                                             <input type="radio"
-                                                   className={'w-[18px] h-[18px] border border-[rgb(196,196,207)] rounded-full mr-2 relative z-1 text-[rgb(120,120,120)] flex-shrink-0 cursor-pointer'}/>
+                                                className={'w-[18px] h-[18px] border border-[rgb(196,196,207)] rounded-full mr-2 relative z-1 text-[rgb(120,120,120)] flex-shrink-0 cursor-pointer'} />
                                             <span className={'text-sm leading-5 text-[rgb(56,56,61)] items-center'}>
                                                 <div className={'cursor-pointer py-1'}>
                                                     <div className={'flex items-center py-0.5'}>
                                                         <img src={nowLogo} className={'mr-1 object-contain w-8 h-4'}
-                                                             alt=""/>
+                                                            alt="" />
                                                         <span>Giao siêu tốc 2h</span>
                                                         <span
                                                             className={'text-[13px] leading-5 font-medium inline-flex items-center text-[rgb(0,171,86)] px-1 bg-white ml-1 rounded'}>-25k</span>
@@ -116,7 +117,7 @@ const Order = () => {
                                     <div>
                                         <label htmlFor="" className={'flex items-center'}>
                                             <input type="radio"
-                                                   className={'w-[18px] h-[18px] border border-[rgb(196,196,207)] rounded-full mr-2 relative z-1 text-[rgb(120,120,120)] flex-shrink-0 cursor-pointer'}/>
+                                                className={'w-[18px] h-[18px] border border-[rgb(196,196,207)] rounded-full mr-2 relative z-1 text-[rgb(120,120,120)] flex-shrink-0 cursor-pointer'} />
                                             <span className={'text-sm leading-5 text-[rgb(56,56,61)] items-center'}>
                                                 <div className={'cursor-pointer py-1'}>
                                                     <div className={'flex items-center py-0.5'}>
@@ -131,7 +132,7 @@ const Order = () => {
 
                                 </div>
                                 <img src={arrowLogo} alt=""
-                                     className={'z-1 absolute w-[32px] h-[12px] left-1/2 bottom-4.5 transform translate-x-[-50%] translate-y-full'}/>
+                                    className={'z-1 absolute w-[32px] h-[12px] left-1/2 bottom-4.5 transform translate-x-[-50%] translate-y-full'} />
                             </div>
                             <div className="gap-5">
                                 <div
@@ -139,14 +140,14 @@ const Order = () => {
                                     <div
                                         className="flex items-center text-sm leading-5 text-[rgb(7,148,73)] px-1 bg-white absolute top-0 left-3 transform -translate-y-1/2">
                                         <div className="flex items-center mr-1">
-                                            <img src={packageLogo} className={'w-6 h-6'} alt=""/>
+                                            <img src={packageLogo} className={'w-6 h-6'} alt="" />
                                             <span>Gói: Giao siêu tốc 2h, trước 18h hôm nay</span>
                                         </div>
                                     </div>
                                     <div className={'left-content'}>
                                         <div className={'mt-4 w-[482px] flex justify-between'}>
                                             <div className={'flex items-center'}>
-                                                <img src={nowLogo} alt="" className={'w-8 h-4 mr-1 object-contain'}/>
+                                                <img src={nowLogo} alt="" className={'w-8 h-4 mr-1 object-contain'} />
                                                 <span className={'text-xs leading-4 uppercase'}>Giao siêu tốc 2h</span>
                                             </div>
                                             <div className={'text-sm leading-5 flex items-center'}>
@@ -154,7 +155,7 @@ const Order = () => {
                                                     className={'text-[rgb(128,128,137)] line-through mr-2 font-medium text-xs'}>25.000 đ</span>
                                                 <span className={'text-[rgb(0,171,86)] font-medium'}>MIỄN PHÍ</span>
                                                 <img className={'w-[14px] h-[14px] cursor-pointer ml-0.5'}
-                                                     src={infoLogo} alt=""/>
+                                                    src={infoLogo} alt="" />
                                             </div>
                                         </div>
                                         <div className={'package-item-list'}>
@@ -187,9 +188,9 @@ const Order = () => {
                             <div className={'mt-4'}>
                                 <div
                                     className="seller-coupons-heading flex flex-nowrap items-center cursor-pointer pt-2 border-t border-[#EBEBF0] text-sm leading-[21px] ">
-                                    <img src={couponLogo} className={'mr-2 w-5 h-4'} alt=""/>
+                                    <img src={couponLogo} className={'mr-2 w-5 h-4'} alt="" />
                                     <span>Thêm mã khuyến mãi của Shop</span>
-                                    <img src={arrowRightLogo} className={'w-5 h-5'} alt=""/>
+                                    <img src={arrowRightLogo} className={'w-5 h-5'} alt="" />
                                 </div>
                             </div>
                         </div>
@@ -199,11 +200,11 @@ const Order = () => {
                             <div className={'w-[868px] h-[64px]'}>
                                 <label htmlFor="" className={'flex items-center '}>
                                     <input type="radio"
-                                           className={'w-[18px] h-[18px] border border-[rgb(196,196,207)] rounded-full mr-2 relative z-1 text-[rgb(120,120,120)] flex-shrink-0 cursor-pointer'}/>
+                                        className={'w-[18px] h-[18px] border border-[rgb(196,196,207)] rounded-full mr-2 relative z-1 text-[rgb(120,120,120)] flex-shrink-0 cursor-pointer'} />
                                     <span className={'label'}>
                                         <div className={'cursor-pointer h-16]'}>
                                             <div className={'flex items-center h-full'}>
-                                                <img src={paymentLogo} className={'h-8 w-8 mr-3'} alt=""/>
+                                                <img src={paymentLogo} className={'h-8 w-8 mr-3'} alt="" />
                                                 <span
                                                     className={'text-sm text-[rgb(56,56,61)]'}>Thanh toán tiền mặt</span>
                                             </div>
@@ -214,11 +215,11 @@ const Order = () => {
                             <div className={'w-[868px] h-[64px]'}>
                                 <label htmlFor="" className={'flex items-center '}>
                                     <input type="radio"
-                                           className={'w-[18px] h-[18px] border border-[rgb(196,196,207)] rounded-full mr-2 relative z-1 text-[rgb(120,120,120)] flex-shrink-0 cursor-pointer'}/>
+                                        className={'w-[18px] h-[18px] border border-[rgb(196,196,207)] rounded-full mr-2 relative z-1 text-[rgb(120,120,120)] flex-shrink-0 cursor-pointer'} />
                                     <span className={'label'}>
                                         <div className={'cursor-pointer h-16]'}>
                                             <div className={'flex items-center h-full'}>
-                                                <img src={ViettelPayment} className={'h-8 w-8 mr-3'} alt=""/>
+                                                <img src={ViettelPayment} className={'h-8 w-8 mr-3'} alt="" />
                                                 <span className={'text-sm text-[rgb(56,56,61)]'}>Viettel Money</span>
                                             </div>
                                         </div>
@@ -229,7 +230,7 @@ const Order = () => {
                                 <div className="p-4 bg-[#F5F5FA] w-[733px]">
                                     <div
                                         className="text-[13px] font-medium leading-[1.54] text-[#0D5CB6] flex items-center mb-2">
-                                        <img src={counponBankPayLogo} className={'h-5 w-5 mr-1.5'} alt=""/>
+                                        <img src={counponBankPayLogo} className={'h-5 w-5 mr-1.5'} alt="" />
                                         <span>Ưu đãi thanh toán thẻ</span>
                                     </div>
                                     <div className="grid grid-cols-3 grid-rows-1 gap-2">
@@ -240,7 +241,7 @@ const Order = () => {
                                                     className="text-[17px] font-medium leading-[1.41] text-[#0D5CB6] overflow-hidden max-w-[130px] webkit-box webkit-line-clamp-1 webkit-box-orient-vertical">
                                                     Freeship
                                                 </div>
-                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt=""/>
+                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt="" />
 
                                             </div>
                                             <div className={'flex justify-between items-end'}>
@@ -254,7 +255,7 @@ const Order = () => {
                                                         giới hạn
                                                     </div>
                                                 </div>
-                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt=""/>
+                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt="" />
                                             </div>
                                         </div>
                                         <div
@@ -264,7 +265,7 @@ const Order = () => {
                                                     className="text-[17px] font-medium leading-[1.41] text-[#0D5CB6] overflow-hidden max-w-[130px] webkit-box webkit-line-clamp-1 webkit-box-orient-vertical">
                                                     Freeship
                                                 </div>
-                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt=""/>
+                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt="" />
 
                                             </div>
                                             <div className={'flex justify-between items-end'}>
@@ -278,7 +279,7 @@ const Order = () => {
                                                         giới hạn
                                                     </div>
                                                 </div>
-                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt=""/>
+                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt="" />
                                             </div>
                                         </div>
                                         <div
@@ -288,7 +289,7 @@ const Order = () => {
                                                     className="text-[17px] font-medium leading-[1.41] text-[#0D5CB6] overflow-hidden max-w-[130px] webkit-box webkit-line-clamp-1 webkit-box-orient-vertical">
                                                     Freeship
                                                 </div>
-                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt=""/>
+                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt="" />
 
                                             </div>
                                             <div className={'flex justify-between items-end'}>
@@ -302,7 +303,7 @@ const Order = () => {
                                                         giới hạn
                                                     </div>
                                                 </div>
-                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt=""/>
+                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt="" />
                                             </div>
                                         </div>
                                         <div
@@ -312,7 +313,7 @@ const Order = () => {
                                                     className="text-[17px] font-medium leading-[1.41] text-[#0D5CB6] overflow-hidden max-w-[130px] webkit-box webkit-line-clamp-1 webkit-box-orient-vertical">
                                                     Freeship
                                                 </div>
-                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt=""/>
+                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt="" />
 
                                             </div>
                                             <div className={'flex justify-between items-end'}>
@@ -326,7 +327,7 @@ const Order = () => {
                                                         giới hạn
                                                     </div>
                                                 </div>
-                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt=""/>
+                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt="" />
                                             </div>
                                         </div>
                                         <div
@@ -336,7 +337,7 @@ const Order = () => {
                                                     className="text-[17px] font-medium leading-[1.41] text-[#0D5CB6] overflow-hidden max-w-[130px] webkit-box webkit-line-clamp-1 webkit-box-orient-vertical">
                                                     Freeship
                                                 </div>
-                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt=""/>
+                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt="" />
 
                                             </div>
                                             <div className={'flex justify-between items-end'}>
@@ -350,7 +351,7 @@ const Order = () => {
                                                         giới hạn
                                                     </div>
                                                 </div>
-                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt=""/>
+                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt="" />
                                             </div>
                                         </div>
                                         <div
@@ -360,7 +361,7 @@ const Order = () => {
                                                     className="text-[17px] font-medium leading-[1.41] text-[#0D5CB6] overflow-hidden max-w-[130px] webkit-box webkit-line-clamp-1 webkit-box-orient-vertical">
                                                     Freeship
                                                 </div>
-                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt=""/>
+                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt="" />
 
                                             </div>
                                             <div className={'flex justify-between items-end'}>
@@ -374,7 +375,7 @@ const Order = () => {
                                                         giới hạn
                                                     </div>
                                                 </div>
-                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt=""/>
+                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt="" />
                                             </div>
                                         </div>
                                         <div
@@ -384,7 +385,7 @@ const Order = () => {
                                                     className="text-[17px] font-medium leading-[1.41] text-[#0D5CB6] overflow-hidden max-w-[130px] webkit-box webkit-line-clamp-1 webkit-box-orient-vertical">
                                                     Freeship
                                                 </div>
-                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt=""/>
+                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt="" />
 
                                             </div>
                                             <div className={'flex justify-between items-end'}>
@@ -398,7 +399,7 @@ const Order = () => {
                                                         giới hạn
                                                     </div>
                                                 </div>
-                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt=""/>
+                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt="" />
                                             </div>
                                         </div>
                                         <div
@@ -408,7 +409,7 @@ const Order = () => {
                                                     className="text-[17px] font-medium leading-[1.41] text-[#0D5CB6] overflow-hidden max-w-[130px] webkit-box webkit-line-clamp-1 webkit-box-orient-vertical">
                                                     Freeship
                                                 </div>
-                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt=""/>
+                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt="" />
 
                                             </div>
                                             <div className={'flex justify-between items-end'}>
@@ -422,7 +423,7 @@ const Order = () => {
                                                         giới hạn
                                                     </div>
                                                 </div>
-                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt=""/>
+                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt="" />
                                             </div>
                                         </div>
                                         <div
@@ -432,7 +433,7 @@ const Order = () => {
                                                     className="text-[17px] font-medium leading-[1.41] text-[#0D5CB6] overflow-hidden max-w-[130px] webkit-box webkit-line-clamp-1 webkit-box-orient-vertical">
                                                     Freeship
                                                 </div>
-                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt=""/>
+                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt="" />
 
                                             </div>
                                             <div className={'flex justify-between items-end'}>
@@ -446,7 +447,7 @@ const Order = () => {
                                                         giới hạn
                                                     </div>
                                                 </div>
-                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt=""/>
+                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt="" />
                                             </div>
                                         </div>
                                         <div
@@ -456,7 +457,7 @@ const Order = () => {
                                                     className="text-[17px] font-medium leading-[1.41] text-[#0D5CB6] overflow-hidden max-w-[130px] webkit-box webkit-line-clamp-1 webkit-box-orient-vertical">
                                                     Freeship
                                                 </div>
-                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt=""/>
+                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt="" />
 
                                             </div>
                                             <div className={'flex justify-between items-end'}>
@@ -470,7 +471,7 @@ const Order = () => {
                                                         giới hạn
                                                     </div>
                                                 </div>
-                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt=""/>
+                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt="" />
                                             </div>
                                         </div>
                                         <div
@@ -480,7 +481,7 @@ const Order = () => {
                                                     className="text-[17px] font-medium leading-[1.41] text-[#0D5CB6] overflow-hidden max-w-[130px] webkit-box webkit-line-clamp-1 webkit-box-orient-vertical">
                                                     Freeship
                                                 </div>
-                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt=""/>
+                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt="" />
 
                                             </div>
                                             <div className={'flex justify-between items-end'}>
@@ -494,7 +495,7 @@ const Order = () => {
                                                         giới hạn
                                                     </div>
                                                 </div>
-                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt=""/>
+                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt="" />
                                             </div>
                                         </div>
                                         <div
@@ -504,7 +505,7 @@ const Order = () => {
                                                     className="text-[17px] font-medium leading-[1.41] text-[#0D5CB6] overflow-hidden max-w-[130px] webkit-box webkit-line-clamp-1 webkit-box-orient-vertical">
                                                     Freeship
                                                 </div>
-                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt=""/>
+                                                <img src={shinhanBankLogo} className={'w-[72px] h-[30px]'} alt="" />
 
                                             </div>
                                             <div className={'flex justify-between items-end'}>
@@ -518,7 +519,7 @@ const Order = () => {
                                                         giới hạn
                                                     </div>
                                                 </div>
-                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt=""/>
+                                                <img src={infoLogo} className={'w-5 h-5 self-start'} alt="" />
                                             </div>
                                         </div>
                                     </div>
@@ -550,20 +551,20 @@ const Order = () => {
                                 <div className="text-[rgb(36,36,36)] font-medium text-[13px]">Tiki Khuyến Mãi</div>
                                 <div className="flex items-center text-[rgb(120,120,120)] text-[13px]">
                                     Có thể chọn 2
-                                    <img src={infoLogo} className={'w-[18px] h-[18px] ml-1 flex items-center'} alt=""/>
+                                    <img src={infoLogo} className={'w-[18px] h-[18px] ml-1 flex items-center'} alt="" />
                                 </div>
                             </div>
                             <div className="mb-4 grid gap-3">
                                 <div className="relative">
                                     <div className="max-w-full relative flex w-[286px] z-[2]">
                                         <div className="relative w-full h-[60px]">
-                                            <img src={couponBG} alt=""/>
+                                            <img src={couponBG} alt="" />
                                             <div className={'top-0 left-0 absolute w-full h-full flex'}>
                                                 <div
                                                     className="min-w-[60px] w-[60px] h-[60px] p-[8px] flex flex-col items-center justify-center self-center">
                                                     <div className={'relative w-11 h-11'}>
                                                         <div className="w-full pb-[calc(100%) relative]">
-                                                            <img src={freeShipLogo} alt=""/>
+                                                            <img src={freeShipLogo} alt="" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -574,7 +575,7 @@ const Order = () => {
                                                     <div className="flex items-center flex-shrink-0 ml-auto">
                                                         <button type="button" title="."
                                                             className={'ml-[-8px] bg-transparent outline-none border-none p-[8px] cursor-pointer leading-0'}>
-                                                            <img src={infoLogo1} className={'w-4 h-4'} alt=""/>
+                                                            <img src={infoLogo1} className={'w-4 h-4'} alt="" />
                                                         </button>
                                                         <button
                                                             className={'font-medium cursor-pointer text-center rounded-[4px] text-white bg-[#017fff] border-none  p-[2px_12px]'}>
@@ -588,9 +589,9 @@ const Order = () => {
                                 </div>
                             </div>
                             <div className="flex items-center text-[rgb(10,104,255)]">
-                                <img src={couponLogo} className={'h-4 w-5 mr-2'} alt=""/>
+                                <img src={couponLogo} className={'h-4 w-5 mr-2'} alt="" />
                                 <span className={'mr-2 text-sm'}>Chọn hoặc nhập mã khác</span>
-                                <img src={arrowRightBlueLogo} className={'h-3 w-2'} alt=""/>
+                                <img src={arrowRightBlueLogo} className={'h-3 w-2'} alt="" />
                             </div>
                         </div>
                         <div className="bg-white rounded-md">
@@ -606,8 +607,8 @@ const Order = () => {
                                         width="20" height="20" viewBox="0 0 24 24"
                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
-                                              d="M9.96967 8.46967C10.2626 8.17678 10.7374 8.17678 11.0303 8.46967L14.0303 11.4697C14.3232 11.7626 14.3232 12.2374 14.0303 12.5303L11.0303 15.5303C10.7374 15.8232 10.2626 15.8232 9.96967 15.5303C9.67678 15.2374 9.67678 14.7626 9.96967 14.4697L12.4393 12L9.96967 9.53033C9.67678 9.23744 9.67678 8.76256 9.96967 8.46967Z"
-                                              fill="#0B74E5"></path>
+                                            d="M9.96967 8.46967C10.2626 8.17678 10.7374 8.17678 11.0303 8.46967L14.0303 11.4697C14.3232 11.7626 14.3232 12.2374 14.0303 12.5303L11.0303 15.5303C10.7374 15.8232 10.2626 15.8232 9.96967 15.5303C9.67678 15.2374 9.67678 14.7626 9.96967 14.4697L12.4393 12L9.96967 9.53033C9.67678 9.23744 9.67678 8.76256 9.96967 8.46967Z"
+                                            fill="#0B74E5"></path>
                                     </svg>
                                 </div>
 
@@ -628,7 +629,7 @@ const Order = () => {
                                 <div className="flex justify-between gap-x-[8px]">
                                     <div className="flex items-center">
                                         <span className={'text-[rgb(128,128,137)]'}>Giảm giá vận chuyển</span>
-                                        <img src={infoLogo} className={'w-[14px] h-[14px]'} alt=""/>
+                                        <img src={infoLogo} className={'w-[14px] h-[14px]'} alt="" />
                                     </div>
                                     <span
                                         className={'text-[rgb(0,171,86)]'}>-{shippingDiscount.toLocaleString('vi-VN')}</span>

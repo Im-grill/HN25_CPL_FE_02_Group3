@@ -134,6 +134,9 @@ const UserProfileOrderDetails = () => {
             currency: 'VND'
         }).format(price);
     };
+    useEffect(()=>{
+        console.log(currentOrder)
+    },[])
     return (
         <main className=" bg-[#F5F5FA]">
             {/* breadcrumb */}

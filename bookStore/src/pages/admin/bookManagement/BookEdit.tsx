@@ -30,7 +30,7 @@ export default function BookEdit({ isOpen, onClose, bookData }: Props) {
   });
   const onSubmit: SubmitHandler<IBook> = async (data: IBook) => {
     try {
-      console.log(data)
+    localStorage.setItem("accessToken",import.meta.env.VITE_TOKEN)
       const res = await updateBook(bookData.id, data);
 
       if (res) {

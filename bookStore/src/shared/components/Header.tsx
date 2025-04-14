@@ -69,9 +69,10 @@ const Header = (props) => {
             const response = await loginService(userData);
             console.log('Đăng nhập thành công:', response);
             localStorage.setItem('accessToken', response.accessToken);
-            if (response.user?.email && response.user?.fullname) {
+            if (response) {
                 setLoggedInEmail(response.user.email);
                 localStorage.setItem('loggedInEmail', response.user.email);
+                localStorage.setItem('userId', response.user.id);
                 setLoggedInFullName(response.user.fullname);
                 localStorage.setItem('loggedInFullName', response.user.fullname);
             }
