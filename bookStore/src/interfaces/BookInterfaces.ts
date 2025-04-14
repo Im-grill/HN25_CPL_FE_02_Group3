@@ -24,10 +24,11 @@ interface ISeller extends IHasId {
 
 }
 interface IImage {
-    base_url: string,
+    base_url: string ,
     large_url: string,
     medium_url: string,
     small_url: string
+   
 }
 interface IQuanTitySold {
     text: string,
@@ -47,7 +48,7 @@ export   interface IBook extends IHasId {
     category?: ICategory,
     current_seller: ISeller,
     description?: string,
-    images?: IImage[],
+    images: IImage[],
     list_price?: number,
     name?: string,
     original_price: number,

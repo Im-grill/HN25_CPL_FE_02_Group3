@@ -9,7 +9,7 @@ import CategoryList from './pages/admin/categoryManagement/CategoryList'
 import UserProvider from './shared/context/UserContext'
 import {AlertProvider} from './shared/context/AlertContext'
 import Alert from './shared/components/admin/Alert'
-import UserProfile from './pages/customer/views/userProfile'
+// import UserProfile from './pages/customer/views/userProfile'
 import Confirm from './pages/customer/views/Confirm'
 import BookForm from './pages/admin/bookManagement/BookForm'
 import Order from './pages/customer/views/order'
@@ -17,6 +17,8 @@ import BookListManagement from './pages/admin/bookManagement/BookList'
 import OrderList from './pages/admin/orderMangement/orderList'
 import UserList from './pages/admin/userManagement/userList'
 import UserProfileListOrder from './pages/customer/views/userProfile_ListOrders'
+import UserProfileOrderDetails from './pages/customer/views/userProfile_OrderDetail'
+import UserInfo from './pages/customer/views/userProfile_UserInfo'
 
 function App() {
     return (
@@ -29,10 +31,13 @@ function App() {
                         <Route path='customer' element={<CustomerLayout/>}>
                             <Route path="homepage" element={<HomePage/>}/>
                             <Route path="productdetail/:id" element={<ProductDetail/>}/>
-                            <Route path="userprofile/order/:orderId" element={<UserProfile/>}/>
-                            <Route path="userprofile/orders" element={<UserProfileListOrder/>}/>
+                            {/* <Route path="userprofile/order/:orderId" element={<UserProfile/>}/>
+                            <Route path="userprofile/orders" element={<UserProfileListOrder/>}/> */}
                             <Route path="order" element={<Order/>}/>
                             <Route path="confirm" element={<Confirm/>}/>
+                            <Route path="userprofile/order/:orderId" element={<UserProfileOrderDetails/>}/>
+                            <Route path="userprofile/orders" element={<UserProfileListOrder/>}/>
+                            <Route path="userprofile/info" element={<UserInfo/>}/>
                         </Route>
                         {/* Admin */}
                         <Route path='admin' element={<AdminLayout/>}>

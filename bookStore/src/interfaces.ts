@@ -2,7 +2,7 @@ import { IBook } from "./interfaces/BookInterfaces";
 import { IUser } from "./interfaces/UserInterface";
 
 export interface ICategory {
-    id?: number,
+    id?: string,
     name: string,
     createdAt: string,
   }
