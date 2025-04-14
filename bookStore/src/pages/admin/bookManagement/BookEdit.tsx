@@ -1,8 +1,8 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IBook } from "../../../interfaces/BookInterfaces";
-import { useEffect, useContext } from "react";
-import {   updateBook } from "../../../api/book.service";
+import { useEffect, useContext, useState } from "react";
+import { updateBook } from "../../../api/book.service";
 import AlertContext from "../../../shared/context/AlertContext";
 type Props = {
   isOpen: boolean;
@@ -12,6 +12,31 @@ type Props = {
 
 export default function BookEdit({ isOpen, onClose, bookData }: Props) {
   const alert = useContext(AlertContext)
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file); // Lưu file gốc vào state
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setPreviewImage(null);
+      setSelectedFile(null);
+    }
+  };
+  const convertFileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
   const { register, handleSubmit, reset } = useForm<IBook>({
     defaultValues: {
       // book: {
@@ -23,21 +48,31 @@ export default function BookEdit({ isOpen, onClose, bookData }: Props) {
       ],
       top_deal: bookData.top_deal,
       freeship: bookData.freeship,
-      auth:bookData.auth,
-      fastShip:bookData.fastShip
+      auth: bookData.auth,
+      fastShip: bookData.fastShip
       // }
     }
   });
   const onSubmit: SubmitHandler<IBook> = async (data: IBook) => {
     try {
-    localStorage.setItem("accessToken",import.meta.env.VITE_TOKEN)
+      localStorage.setItem("accessToken", import.meta.env.VITE_TOKEN)
+      if (selectedFile) {
+        const base64String = await convertFileToBase64(selectedFile);
+
+        data.images[0].base_url = base64String
+
+
+
+      }
       const res = await updateBook(bookData.id, data);
 
       if (res) {
         alert?.success("Cap nhat thanh cong", 3)
+        console.log("update ok")
         closeModal()
       }
-      console.log(data)
+
+
     } catch (error) {
       alert?.error("cap nhat that bai")
       console.log(error)
@@ -46,6 +81,7 @@ export default function BookEdit({ isOpen, onClose, bookData }: Props) {
   }
   useEffect(() => {
     if (bookData) {
+
       reset({
 
         name: bookData.name || "",
@@ -55,14 +91,16 @@ export default function BookEdit({ isOpen, onClose, bookData }: Props) {
         images: [{ base_url: bookData?.images?.[0]?.base_url }],
         top_deal: bookData.top_deal,
         freeship: bookData.freeship,
-        auth:bookData.auth,
-        fastShip:bookData.fastShip
+        auth: bookData.auth,
+        fastShip: bookData.fastShip
 
       });
-
+      console.log(bookData)
     }
   }, [bookData, reset]);
   const closeModal = () => {
+    setPreviewImage(null);
+    setSelectedFile(null);
     reset();
     onClose();
 
@@ -158,9 +196,14 @@ export default function BookEdit({ isOpen, onClose, bookData }: Props) {
                 <label htmlFor="cover-photo" className="block text-sm/6 font-medium text-gray-900">
                   Chọn ảnh sách
                 </label>
-                <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                <div className="mt-2 flex flex-col justify-center items-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
 
-                  <input id="file-upload" type="test" className="border-1 w-full" {...register("images.0.base_url")} />
+                  <img
+                    src={previewImage || bookData?.images?.[0]?.base_url}
+                    alt="Preview"
+                    className="size-[300px]"
+                  />
+                  <input id="file-upload" type="file" className="border-1 w-full" onChange={handleImageChange} />
                 </div>
               </div>
               <div className="flex flex-col items-start gap-3">
@@ -185,7 +228,7 @@ export default function BookEdit({ isOpen, onClose, bookData }: Props) {
 
                   <span className="font-medium text-gray-700"> Fast ship </span>
                 </label>
-              
+
 
 
               </div>

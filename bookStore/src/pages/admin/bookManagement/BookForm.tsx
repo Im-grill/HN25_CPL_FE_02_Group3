@@ -2,33 +2,90 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { addNewBook } from "../../../api/book.service";
 import { IBook } from "../../../interfaces/BookInterfaces";
 import AlertContext from "../../../shared/context/AlertContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { getCategory } from "../../../api/category.service";
+import { ICategory } from "../../../interfaces";
 export default function BookForm() {
     const alert = useContext(AlertContext)
-    const { register, handleSubmit, formState: { errors } } = useForm<IBook>();
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [categories, setCategories] = useState<ICategory[]>([]);
+    const { register, handleSubmit, } = useForm<IBook>();
+    ///////////
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setSelectedFile(file);
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                setPreviewImage(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setPreviewImage(null);
+            setSelectedFile(null);
+        }
+    };
+    const convertFileToBase64 = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = (error) => reject(error);
+        });
+    };
     const onSubmit: SubmitHandler<IBook> = async (data) => {
         try {
-            console.log("ok")
-            data.auth=true;
-            localStorage.setItem("accessToken", import.meta.env.VITE_TOKEN)
 
+            data.auth = true;
+            if (!Array.isArray(data.images)) {
+                data.images = [];
+            }
+
+
+            localStorage.setItem("accessToken", import.meta.env.VITE_TOKEN)
             console.log(data)
+            if (selectedFile) {
+                const base64String = await convertFileToBase64(selectedFile);
+
+                data.images[0] = {
+                    base_url: base64String,
+                    large_url: '',
+                    medium_url: '',
+                    small_url: '',
+                };
+
+            }
             const res = await addNewBook(data);
             if (res) {
                 alert?.success("them moi thanh cong", 3)
-                console.log("p")
+                console.log("add ok")
             }
-            if (errors) {
-                console.log(errors)
-                alert?.error("loi form", 3)
+            else {
+                console.log("add not ok")
+                alert?.error("them moi khong thanh cong", 3)
             }
 
-        } catch (error) {
+
+        }
+
+
+
+        catch (error) {
             alert?.error("them moi that bai", 3)
             console.log(error)
         }
 
     }
+    const getCategories = async () => {
+        const res = await getCategory();
+        setCategories(res)
+        console.log(res)
+    }
+    useEffect(() => {
+        getCategories()
+    }, [])
     return (
         // author name, categories, current seller(price),description, image,listprice,name, quantity sold,rating average,short description,specification
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -51,6 +108,7 @@ export default function BookForm() {
                                         {...register("name", { required: true })}
                                         className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                                     />
+
                                 </div>
                             </div>
                         </div>
@@ -78,11 +136,12 @@ export default function BookForm() {
                             <select id="categories" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 {...register("category.name", { required: true })}
                                 defaultValue="">
+                                {categories.map((items) =>
+                                    <option key={items.id} value={items.name}>{items.name}</option>
+                                )}
                                 <option >Chọn danh mục</option>
-                                <option value="sd">United States</option>
-                                <option value="CA">Canada</option>
-                                <option value="FR">France</option>
-                                <option value="DE">Germany</option>
+
+
                             </select>
 
                         </div>
@@ -94,8 +153,20 @@ export default function BookForm() {
                                 Chọn ảnh sách
                             </label>
                             <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                                <input type="text" className="w-full border-1 block" {...register("images.0.base_url", { required: true })} />
+                                <input type="file" accept="image/png, image/jpeg" className="w-full border-1 block"
+                                    onChange={handleImageChange}
+                                />
                             </div>
+                            {previewImage && (
+                                <div className="mt-4">
+                                    <p className="text-sm text-gray-500">Preview:</p>
+                                    <img
+                                        src={previewImage}
+                                        alt="Book preview"
+                                        className="mt-2 max-h-40 object-contain"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

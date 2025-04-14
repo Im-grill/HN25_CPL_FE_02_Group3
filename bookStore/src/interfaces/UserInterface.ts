@@ -1,3 +1,4 @@
+
 interface IUser {
   id: number,
   fullname: string,
@@ -7,4 +8,3 @@ interface IUser {
   phone: string,
   createdAt?: string,
 }
-export default  IUser ;
