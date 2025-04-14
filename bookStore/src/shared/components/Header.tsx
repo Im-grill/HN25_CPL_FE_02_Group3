@@ -17,6 +17,7 @@ const Header = () => {
     const [emailInput, setEmailInput] = useState('');
     const [fullNameInput, setFullNameInput] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [LoggedInEmail, setLoggedInEmail] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedInFullName, setLoggedInFullName] = useState('');
     const [role, setRole] = useState('');
@@ -59,8 +60,10 @@ const Header = () => {
             };
             const response = await loginService(userData);
             localStorage.setItem('accessToken', response.accessToken);
-
-            if (response.user?.fullname && response.user?.role) {
+            if (response) {
+                setLoggedInEmail(response.user.email);
+                localStorage.setItem('loggedInEmail', response.user.email);
+                localStorage.setItem('userId', response.user.id);
                 setLoggedInFullName(response.user.fullname);
               
                 localStorage.setItem('role', response.user.role);

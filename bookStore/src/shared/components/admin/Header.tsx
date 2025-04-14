@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faUser } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../../context/UserContext.tsx';
 import TikiImage from "../../../assets/tiki-image.png";
-import { IUser } from "../../../interfaces.ts";
+import IUser from '../../../interfaces/UserInterface.ts';
 import { login as loginService, register as registerService } from "../../../api/auth.service.ts";
 
 const Header = () => {
@@ -67,6 +67,8 @@ const Header = () => {
             if (response.user?.email && response.user?.fullname) {
                 setLoggedInFullName(response.user.fullname);
                 localStorage.setItem('loggedInFullName', response.user.fullname);
+                localStorage.setItem('loggedInEmail', response.user.email);
+                localStorage.setItem('userId', response.user.id);
             }
             setIsLoggedIn(true);
             setIsModalOpen(false);

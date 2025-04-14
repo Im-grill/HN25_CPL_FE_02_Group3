@@ -67,7 +67,7 @@ const UserModal = ({ onClose, id }: UserModalProps) => {
 
           <div className="relative">
             <input
-              {...register("email", { required: false })}
+              {...register("email", { required: false, disabled:true })}
               type="text"
               className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
               placeholder="Enter new email"

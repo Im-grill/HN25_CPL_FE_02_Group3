@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 export default function Confirm() {
     const { state } = useLocation();
-  const { order } = state || {};
+    const { order } = state || {};
     return (
         <div className='flex justify-center  mt-6 mb-10 '>
             <div className="w-[742px]   ">
@@ -46,7 +46,7 @@ export default function Confirm() {
                 </div>
                 {/* thong tin detail sach */}
                 <div className="flex items-center mt-2 p-3">
-                    <img src={order.books.image}
+                    <img src={order.books.images?.[0].base_url}
                         alt=""
                         className="size-[50px]" />
                     <span className="text-sm font-normal text-[#808089]">{order.books.name}</span>
