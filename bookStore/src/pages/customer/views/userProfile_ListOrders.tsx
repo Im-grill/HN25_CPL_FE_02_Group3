@@ -6,21 +6,44 @@ import iconBell from "../../../assets/icon_bell.png";
 import shipLogo from "../../../assets/now.png";
 import returnBadge from "../../../assets/return-badge.png";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { getOrders } from "../../../api/order.service";
 import { IOrder } from "../../../interfaces";
+import { getUsers } from "../../../api/user.service";
+import { IUser } from "../../../interfaces/UserInterface";
 
 
 const UserProfileListOrder = () => {
 
     const [userOrders, setUserOrders] = useState<IOrder[] | null>(null);
+    const [loggedUser, setUser] = useState<IUser | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState({
         fullName: "",
         email: "",
     });
+    
+    // phục vụ mục đích lấy id người dùng từ email 
+    {/*const fetchUserByEmail = useCallback(async () => {
+        try {
+
+            if (!userInfo.email) {
+                console.log("No email available to fetch user.");
+                return;
+            }
+            const allUsers = await getUsers();
+            const foundUser = allUsers.find(user => user.email === userInfo.email);
+            if (foundUser) {
+                setUser(foundUser);
+            } else {
+                console.log("User not found with email:", userInfo.email);
+            }
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        }
+    }, [userInfo.email]);*/} 
 
     // Đồng bộ trạng thái đăng nhập khi component mount và khi localStorage thay đổi
     useEffect(() => {
@@ -36,19 +59,21 @@ const UserProfileListOrder = () => {
                 // Lấy tất cả thông tin người dùng từ localStorage
                 const storedFullName = localStorage.getItem('loggedInFullName') || "";
                 const storedEmail = localStorage.getItem('loggedInEmail') || "";
-                const storedPhone = localStorage.getItem('loggedInPhone') || "";
 
                 setUserInfo({
                     fullName: storedFullName,
                     email: storedEmail,
-                    // phone: storedPhone,
                 });
+
+                // phục vụ mục đích lấy id người dùng từ email 
+                // if (storedEmail) {
+                //     fetchUserByEmail();
+                // }
             } else {
                 // Reset thông tin người dùng khi đăng xuất
                 setUserInfo({
                     fullName: "",
                     email: "",
-                    // phone: "",
                 });
             }
         };
@@ -68,6 +93,10 @@ const UserProfileListOrder = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
+                // phục vụ mục đích lấy id người dùng từ email 
+              {/* const users = await getUsers();
+                const foundUser = users.filter(user => user.id === loggedUser?.id);*/}  
+                
                 const allOrders = await getOrders();
                 //lọc email trùng với email đã đăng nhập
                 const userOrders = allOrders.filter(order => order.users.email === userInfo.email);
@@ -99,9 +128,9 @@ const UserProfileListOrder = () => {
     const formatDate = (dateString: string | undefined) => {
         if (!dateString || dateString === undefined) return "N/A";
         const date = new Date(dateString);
-        return date.toLocaleDateString('vi-VN', { 
-            year: 'numeric', 
-            month: '2-digit', 
+        return date.toLocaleDateString('vi-VN', {
+            year: 'numeric',
+            month: '2-digit',
             day: '2-digit',
             hour: '2-digit',
             minute: '2-digit'
@@ -131,7 +160,7 @@ const UserProfileListOrder = () => {
                     <button type="button"
                         className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
                         <img alt="iconOrder" src={iconUser} />
-                        <span className="text-sm text-gray-600">Thông tin tài khoản</span>
+                        <Link to={"../userprofile/info"} className="text-sm text-gray-600">Thông tin tài khoản</Link>
                     </button>
                     <button type="button"
                         className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
@@ -139,7 +168,7 @@ const UserProfileListOrder = () => {
                         <span className="text-sm text-gray-600">Thông báo của tôi</span>
                     </button>
                     <button type="button"
-                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full">
+                        className="button cursor-pointer bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full">
                         <img alt="iconOrder" src={iconOrder} className="w-[18px] [h-20]" />
                         <span className="text-sm text-gray-600">Quản lí đơn hàng</span>
                     </button>
@@ -199,7 +228,14 @@ const UserProfileListOrder = () => {
                                                     <div className="detailCtn">
                                                         <Link to={`../userprofile/order/${order.id}`} className="text-[15px] hover:text-blue-600 hover:underline">Đơn hàng số: #{order.id}</Link>
                                                         <div className="text-[14px] flex flex-col mt-2.5 mx-2">
-                                                            <span>Trạng thái: {order.status}</span>
+                                                            <span className="">Trạng thái:                                                                <span className={`text-sm font-semibold 
+                                                                    ${order.status === "ongoing"? "text-blue-500"
+                                                                    : order.status === "completed" ? "text-green-500"
+                                                                        : order.status === "pending" ? "text-yellow-500"
+                                                                            : order.status === "canceled" ? "text-red-500": "text-gray-500"}`}>
+                                                                    {order.status}
+                                                                    </span>
+                                                            </span>
                                                             <span>Ngày tạo đơn: {formatDate(order.created_at)}</span>
                                                         </div>
                                                         <img src={returnBadge} alt="returnBadge" className="h-5 mt-2.5" />

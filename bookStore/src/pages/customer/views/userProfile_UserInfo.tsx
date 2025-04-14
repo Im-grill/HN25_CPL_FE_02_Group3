@@ -1,0 +1,267 @@
+import Breadcrumb from "../../../shared/components/Breadcrumb";
+import avatar from "../../../assets/avatar.png"
+import iconOrder from "../../../assets/icon_profile.png"
+import iconUser from "../../../assets/icon_user.png";
+import iconBell from "../../../assets/icon_bell.png";
+import { Link, useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { faChevronRight, faPen } from "@fortawesome/free-solid-svg-icons";
+import { IUser } from "../../../interfaces/UserInterface";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { getUsers, updateUser } from "../../../api/user.service";
+import { set } from "lodash";
+
+
+type Inputs = {
+    email: string,
+    fullname: string,
+    address: string,
+    phone: string,
+}
+
+const UserInfo = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userInfo, setUserInfo] = useState({
+        fullName: "",
+        email: "",
+    });
+    const [user, setUser] = useState<IUser>();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<Inputs>()
+
+
+    const fetchUserByEmail = useCallback(async () => {
+        try {
+
+            if (!userInfo.email) {
+                console.log("No email available to fetch user.");
+                return;
+            }
+            const allUsers = await getUsers();
+            const foundUser = allUsers.find(user => user.email === userInfo.email);
+            if (foundUser) {
+                setUser(foundUser);
+                reset(foundUser);
+            } else {
+                console.log("User not found with email:", userInfo.email);
+            }
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        }
+    }, [userInfo.email, reset]);
+
+    // Function để kiểm tra đăng nhập và cập nhật thông tin người dùng
+    const checkLoginAndUpdateInfo = useCallback(() => {
+        // Đảm bảo dùng cùng một key để kiểm tra đăng nhập
+        const token = localStorage.getItem('accessToken');
+        const isUserLoggedIn = !!token;
+
+        setIsLoggedIn(isUserLoggedIn);
+
+        if (isUserLoggedIn) {
+            // Lấy tất cả thông tin người dùng từ localStorage
+            const storedFullName = localStorage.getItem('loggedInFullName') || "";
+            const storedEmail = localStorage.getItem('loggedInEmail') || "";
+
+            setUserInfo({
+                fullName: storedFullName,
+                email: storedEmail,
+            });
+
+            if (storedEmail) {
+                fetchUserByEmail();
+            }
+        } else {
+            // Reset thông tin người dùng khi đăng xuất
+            setUserInfo({
+                fullName: "",
+                email: "",
+            });
+        }
+    }, [fetchUserByEmail]);
+
+    // Theo dõi trạng thái localStorage và đăng nhập
+    useEffect(() => {
+        checkLoginAndUpdateInfo();
+
+        // Theo dõi sự thay đổi của localStorage (đăng nhập/đăng xuất)
+        const handleStorageChange = (event: StorageEvent) => {
+            if (event.key === 'accessToken' || event.key === 'loggedInEmail') {
+                checkLoginAndUpdateInfo();
+            }
+        };
+
+        window.addEventListener("storage", handleStorageChange);
+        return () => {
+            window.removeEventListener("storage", handleStorageChange);
+        };
+    }, [checkLoginAndUpdateInfo]);
+
+    useEffect(() => {
+        if (user) {
+            reset(user);
+        }
+    }, [user, reset]);
+
+    const submitForm: SubmitHandler<Inputs> = async (data) => {
+        if (!user || !user.id) {
+            console.error("User ID is not available.");
+            return;
+        }
+        console.log("Form data:", data);
+        console.log("Current user data:", user);
+        const { email, fullname, address, phone } = data;
+        const updateData = {
+            email, fullname, address, phone
+        };
+        console.log("Data being sent to API:", updateData);
+        try {
+            await updateUser(user.id, updateData);
+            if (email !== localStorage.getItem('loggedInEmail')) {
+                //xóa thông tin đăng nhập trong localStorage
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('loggedInEmail');
+                localStorage.removeItem('loggedInFullName');
+                //cập nhật trạng thái đăng nhập
+                setIsLoggedIn(false);
+                setUserInfo({
+                    fullName: "",
+                    email: "",
+                });
+                setUser(undefined);
+            } else {
+                if (fullname !== localStorage.getItem('loggedInFullName')) {
+                    localStorage.setItem('loggedInFullName', fullname);
+                }
+                fetchUserByEmail();
+            }
+        } catch (error) {
+            console.error("Error updating user:", error);
+        }
+    }
+
+    return (
+        <main className=" bg-[#F5F5FA] mb-8">
+            {/* breadcrumb */}
+            <div className='mx-26 h-[40px] flex items-center gap-1 text-[#808089]'>
+                {/* <Breadcrumb /> */}
+                <Link to="/customer/homepage" className="">Trang chủ </Link>
+                <FontAwesomeIcon icon={faChevronRight} className="" size="sm" />
+                <span> Thông tin tài khoản </span>
+            </div>
+
+            <div className="mainContent flex mx-26">
+                <aside className="sideSection w-[24%] mr-6">
+                    <div className="avatarUsername flex items-center gap-[12px] mb-2">
+                        <div className="avtCtn">
+                            <img alt="avatar" src={avatar} className="rounded-full" />
+                        </div>
+                        <div className="username flex flex-col">
+                            <span className="text-sm">Tài khoản của</span>
+                            <span className="text-lg">{userInfo.fullName}</span>
+                        </div>
+                    </div>
+                    <button type="button"
+                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
+                        <img alt="iconOrder" src={iconUser} />
+                        <span className="text-sm text-gray-600">Thông tin tài khoản</span>
+                    </button>
+                    <button type="button"
+                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
+                        <img alt="iconOrder" src={iconBell} />
+                        <span className="text-sm text-gray-600">Thông báo của tôi</span>
+                    </button>
+                    <button type="button"
+                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full">
+                        <img alt="iconOrder" src={iconOrder} className="w-[18px] [h-20]" />
+                        <Link to={"../userprofile/orders"} className="text-sm text-gray-600">Quản lí đơn hàng</Link>
+                    </button>
+                </aside>
+                <section className="mainContentCtn  w-[75%]">
+                    <div className="orderTitle text-xl my-3.5">
+                        <span className="">Thông tin tài khoản </span>
+                    </div>
+                    <form className="userInfo bg-white rounded-lg p-4">
+                        <div className="row flex w-full">
+                            <div className="personalInfo w-1/2 pr-4">
+                                <div className="mb-2 flex justify-center items-center">
+                                    <span className="title text-[16px] ">Thông tin cá nhân</span>
+                                </div>
+                                <div className="infoCtn flex flex-col justify-center items-center mx-auto">
+                                    <div className="imageCtn mt-2">
+                                        <button type="button" title="avatar" className="image border-4 border-blue-200 rounded-full p-7 flex items-center justify-center relative cursor-pointer">
+                                            <FontAwesomeIcon icon={faUser} style={{ width: "50px", height: "50px", color: "#60A5FA", }} />
+                                            <div className="editBtnCtn bg-gray-800 rounded-full p-1 flex items-center border-none absolute -bottom-0.5 right-2">
+                                                <FontAwesomeIcon icon={faPen} style={{ width: "10px", height: "10px", color: "white", }} />
+                                            </div>
+                                        </button>
+                                    </div>
+                                    <div className="infoDetail w-full flex flex-col items-center ">
+                                        <label htmlFor="fullname" className="text-[14px] mt-5">Họ & Tên</label>
+                                        <div className="relative mt-2">
+                                            <input
+                                                {...register("fullname", { required: false })}
+                                                type="text"
+                                                className="w-full rounded-lg border-gray-200 border-1 p-2 pe-12 text-sm shadow-xs"
+                                                placeholder="Enter new name"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="contactInfo ml-4 flex-1">
+                                <div className="mb-2 flex justify-center items-center">
+                                    <span className="title text-[16px] ">Thông tin liên lạc</span>
+                                </div>
+                                <div className="infoCtn flex flex-col justify-center items-center mx-auto">
+                                    <div className="infoDetail mt-2">
+                                        <label htmlFor="address" className="text-[14px] mx-1">Địa chỉ</label>
+                                        <div className="relative">
+                                            <input
+                                                {...register("address", { required: false })}
+                                                type="text"
+                                                className="w-full rounded-lg border-gray-200 border-1 p-2 pe-12 text-sm shadow-xs"
+                                                placeholder="Enter new address"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="infoDetail  items-center mt-2 justify-between">
+                                        <label htmlFor="phone" className="text-[14px] mx-1">Số điện thoại</label>
+                                        <div className="relative">
+                                            <input
+                                                {...register("phone", { required: false })}
+                                                type="text"
+                                                className="w-full rounded-lg border-gray-200 border-1 p-2 pe-12 text-sm shadow-xs"
+                                                placeholder="Enter new phone"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="infoDetail  items-center mt-2 justify-between">
+                                        <label htmlFor="email" className="text-[14px] mx-1">Địa chỉ email</label>
+
+                                        <div className="relative">
+                                            <input
+                                                {...register("email", { required: false, disabled: true })} //hiện tại chưa cho phép user chỉnh sửa email
+                                                type="text"
+                                                className="w-full rounded-lg border-gray-200 border-1 p-2 pe-12 text-sm shadow-xs"
+                                                placeholder="Enter new email"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="submitBtnCtn flex items-center justify-center mt-7">
+                            <button type="submit" className="text-white rounded-lg py-2 px-4 cursor-pointer bg-blue-600" onClick={handleSubmit(submitForm)}>
+                                Lưu thay đổi
+                            </button>
+                        </div>
+
+                    </form>
+                </section>
+            </div >
+        </main >
+    );
+}
+export default UserInfo;

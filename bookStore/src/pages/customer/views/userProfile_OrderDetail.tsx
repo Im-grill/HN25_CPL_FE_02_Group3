@@ -6,16 +6,15 @@ import iconBell from "../../../assets/icon_bell.png";
 import shipLogo from "../../../assets/now.png";
 import returnBadge from "../../../assets/return-badge.png";
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { getOrderById, getOrders,  } from "../../../api/order.service";
+import { getOrderById, getOrders, } from "../../../api/order.service";
 import { IOrder } from "../../../interfaces";
 import instance from "../../../api/api.service";
 
-
-const UserProfile = () => {
-    const {orderId} = useParams();
+const UserProfileOrderDetails = () => {
+    const { orderId } = useParams();
     const [currentOrder, setCurrentOrder] = useState<IOrder | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -38,21 +37,17 @@ const UserProfile = () => {
                 // Lấy tất cả thông tin người dùng từ localStorage
                 const storedFullName = localStorage.getItem('loggedInFullName') || "";
                 const storedEmail = localStorage.getItem('loggedInEmail') || "";
-                const storedPhone = localStorage.getItem('loggedInPhone') || "";
 
                 setUserInfo({
                     fullName: storedFullName,
                     email: storedEmail,
-                    // phone: storedPhone,
-                    // Cập nhật các trường khác nếu có
                 });
+
             } else {
                 // Reset thông tin người dùng khi đăng xuất
                 setUserInfo({
                     fullName: "",
                     email: "",
-                    // phone: "",
-                    // Reset các trường khác
                 });
             }
         };
@@ -72,29 +67,29 @@ const UserProfile = () => {
     useEffect(() => {
         const fetchOrderDetail = async () => {
             try {
-                if(!orderId) return;
+                if (!orderId) return;
                 setLoading(true);
                 const orderIdNumber = parseInt(orderId);
-                if(isNaN(orderIdNumber)){
+                if (isNaN(orderIdNumber)) {
                     setLoading(false);
-                     return;
+                    return;
                 }
-                
+
                 //gọi order theo id
                 const orderDetail = await getOrderById(orderIdNumber);
-                console.log("first"+orderDetail)
+
                 //kiểm tra đúng đơn hàng của người dùng đang đăng nhập
-                if(orderDetail && orderDetail.users.email === userInfo.email){
+                if (orderDetail && orderDetail.users.email === userInfo.email) {
                     setCurrentOrder(orderDetail);
                     console.log("Found order detail:", orderDetail);
-                }else{
+                } else {
                     console.log("Order either not found nor unauthorized");
                     console.log("Order email:", orderDetail?.users?.email, "User email:", userInfo.email);
                 }
             } catch (error) {
                 console.error("Error fetching orders: ", error);
                 setCurrentOrder(null);
-            }finally{
+            } finally {
                 setLoading(false);
             }
         };
@@ -106,12 +101,12 @@ const UserProfile = () => {
 
     const patchOrderStatus = async (id: number, status: string) => {
         try {
-          return  await instance.patch('/order/' + id, {status});
+            return await instance.patch('/order/' + id, { status });
         } catch (error) {
-          console.error(`Error patching order ${id}:`, error);
-          throw error;
+            console.error(`Error patching order ${id}:`, error);
+            throw error;
         }
-      };
+    };
 
     const handleCancelOrder = async () => {
         if (!currentOrder || !currentOrder.id) return;
@@ -121,8 +116,8 @@ const UserProfile = () => {
             //cập nhật về state
             setCurrentOrder({
                 ...currentOrder,
-                status: "Đã hủy",
-                
+                status: "canceled",
+
             });
 
             alert("Hủy thành công đơn hàng.");
@@ -173,7 +168,7 @@ const UserProfile = () => {
                     <button type="button"
                         className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full">
                         <img alt="iconOrder" src={iconOrder} className="w-[18px] [h-20]" />
-                        <span className="text-sm text-gray-600">Quản lí đơn hàng</span>
+                        <Link to={"../userprofile/orders"} className="text-sm text-gray-600">Quản lí đơn hàng</Link>
                     </button>
                 </aside>
                 <section className="mainContentCtn  w-[75%]">
@@ -195,11 +190,11 @@ const UserProfile = () => {
                                 <div className="font-medium text-sm mb-1 mt-1.5">{userInfo.fullName.toUpperCase()}</div>
                                 <div className="text-sm mb-1 mt-1.5">
                                     <span>Địa chỉ: </span>
-                                    <span>số 17 Duy Tân, phường Dịch Vọng Hậu, quận Cầu Giấy, Hà Nội, Việt Nam</span>
+                                    <span>{user?.address}</span>
                                 </div>
                                 <div className="text-sm mt-1.5">
                                     <span>Số điện thoại: </span>
-                                    <span>0942438693</span>
+                                    <span>{user?.phone}</span>
                                 </div>
                             </div>
                         </div>
@@ -319,13 +314,13 @@ const UserProfile = () => {
                                 <tr>
                                     <td colSpan={5} className="text-right px-5 pb-8">
                                         {/*hiển thị nút khi đơn hàng chưa bị hủy */}
-                                        {currentOrder?.status !== "Đã hủy" && currentOrder?.status !== "completed" && (
+                                        {currentOrder?.status !== "canceled" && currentOrder?.status !== "completed" && (
                                             <button type="button"
                                                 className="bg-yellow-400 rounded-[4px] px-3 py-1.5  cursor-pointer hover:bg-yellow-500" onClick={handleCancelOrder}>Hủy
                                                 đơn hàng
                                             </button>
                                         )}
-                                        
+
                                     </td>
                                 </tr>
                             </tfoot>
@@ -345,4 +340,4 @@ const UserProfile = () => {
         </main>
     );
 }
-export default UserProfile;
+export default UserProfileOrderDetails;
