@@ -18,6 +18,8 @@ import OrderList from './pages/admin/orderMangement/orderList'
 import UserList from './pages/admin/userManagement/userList'
 import UserProfileListOrder from './pages/customer/views/userProfile_ListOrders'
 import AdminRoute from './routes/AdminRoute';
+import CustomerRoute from './routes/CustomerRoute'
+import ProtectedRoute from './routes/ProtectedRoute'
 function App() {
     return (
         <BrowserRouter>
@@ -31,7 +33,7 @@ function App() {
                             <Route path="productdetail/:id" element={<ProductDetail />} />
                             <Route path="userprofile/order/:orderId" element={<UserProfile />} />
                             <Route path="userprofile/orders" element={<UserProfileListOrder />} />
-                            <Route path="order" element={<Order />} />
+                            <Route path="order" element={<ProtectedRoute> <Order /> </ProtectedRoute>} />
                             <Route path="confirm" element={<Confirm />} />
                         </Route>
 
