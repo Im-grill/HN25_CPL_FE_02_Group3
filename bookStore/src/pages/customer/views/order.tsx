@@ -47,7 +47,8 @@ const Order = () => {
     const handlePlaceOrder = async () => {
         if (!loggedInEmail) {
             setError('Bạn cần đăng nhập để đặt hàng!');
-            navigate('/customer/homepage');
+            console.log(loggedInEmail)
+             navigate('/customer/homepage');
             return;
         }
         const orderPayload = {
