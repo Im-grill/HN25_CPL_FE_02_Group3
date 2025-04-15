@@ -10,6 +10,7 @@ import { IBook } from '../../../interfaces/BookInterfaces';
 import IUser from '../../../interfaces/UserInterface';
 import { getUsers } from '../../../api/user.service';
 
+
 type UserData = Omit<IUser, 'password'>;
 
 function ProductDetail() {
@@ -21,7 +22,8 @@ function ProductDetail() {
     const [quantity, setQuantity] = useState(1);
     const [loading, setLoading] = useState(true);
     const [currentImage, setCurrentImage] = useState('');
-    const storedEmail = localStorage.getItem('loggedInEmail')
+    const storedEmail = localStorage.getItem('loggedInEmail');
+  
     // Gọi API để lấy dữ liệu sách
     useEffect(() => {
         const fetchBookDetail = async () => {
@@ -109,7 +111,6 @@ function ProductDetail() {
         }
     };
 
-    // Render stars dựa trên rating_average từ API
     const renderStars = (rating: number) => {
         const stars = [];
         for (let i = 1; i <= 5; i++) {
@@ -124,10 +125,17 @@ function ProductDetail() {
         return stars;
     };
 
-    // Hàm render product card dựa trên dữ liệu từ IBook
     const renderProductCard = (product: IBook) => {
+        const handleCardClick = () => {
+            navigate(`/customer/productdetail/${product.id}`);
+        };
+
         return (
-            <div key={product.id} className="relative flex flex-col w-40 border border-gray-200 rounded-md overflow-hidden hover:shadow-md transition">
+            <div
+                key={product.id}
+                className="relative flex flex-col w-40 border border-gray-200 rounded-md overflow-hidden hover:shadow-md transition cursor-pointer"
+                onClick={handleCardClick}
+            >
                 <div className="h-40 bg-gray-100">
                     <img
                         src={product.images?.[0]?.base_url || bookCover}
@@ -163,40 +171,31 @@ function ProductDetail() {
     const [expanded, setExpanded] = useState(false);
     const toggleExpand = () => setExpanded(!expanded);
 
-
-
-    // Hiển thị khi đang loading
     if (loading) {
         return <div className="text-center py-10">Đang tải dữ liệu...</div>;
     }
 
-    // Nếu không tìm thấy sách
     if (!book) {
         return <div className="text-center py-10">Không tìm thấy sản phẩm!</div>;
     }
+
     const handleBuyNow = () => {
         if (book) {
             const orderData = {
-                // bookId: book.id,
-                // bookName: book.name,
-                // listPrice: book.list_price,
-                // originalPrice: book.original_price,
-                // discountedPrice: book.current_seller.price,
                 quantity: quantity,
                 // image: book.images?.[0]?.base_url || bookCover,
                 // sellerName: book.current_seller?.name || 'Tiki Trading',
                 books: book,
                 users: loggedUser,
             };
-            // Chuyển hướng đến trang Order và truyền dữ liệu qua    state
-
-             navigate('/customer/order', { state: orderData });
+            navigate('/customer/order', { state: orderData });
         }
     };
+
     return (
         <div className="min-h-screen bg-gray-100">
             <div className="container mx-auto px-4 py-2">
-                <div className="flex text-xs text-gray-500 items-center">
+                <div className="flex text-xs text-gray-500 items-center flex-wrap">
                     <span>Trang chủ</span>
                     <FaAngleRight className="mx-1" size={10} />
                     <span>Nhà Sách Tiki</span>
@@ -212,20 +211,19 @@ function ProductDetail() {
             </div>
 
             <div className="container mx-auto px-4 py-2">
-                <div className="grid grid-cols-12 gap-6 p-4">
+                <div className="flex flex-col md:grid md:grid-cols-12 gap-6 p-4">
                     {/* Product images */}
-                    <div className="col-span-3">
+                    <div className="md:col-span-3 order-1 md:order-none">
                         <div className="bg-white rounded-lg shadow-md">
-                            <div className="p-6">
+                            <div className="p-4 md:p-6">
                                 <img
-                                    src={currentImage} // Sử dụng currentImage trực tiếp
+                                    src={currentImage}
                                     alt={book.name || 'Book cover'}
-                                    className="w-full"
+                                    className="w-full h-auto object-contain"
                                 />
                             </div>
                             <div className="border-b border-gray-200 p-4">
                                 <div className="grid grid-cols-5 gap-2">
-                                    {/* Thumbnail 1 - Sử dụng medium_url */}
                                     <div
                                         className="rounded-md overflow-hidden cursor-pointer border border-gray-200 hover:border-blue-500"
                                         onClick={() => setCurrentImage(book?.images?.[0]?.medium_url || book.images?.[0]?.base_url || '')}
@@ -233,10 +231,9 @@ function ProductDetail() {
                                         <img
                                             src={book?.images?.[0]?.medium_url || book.images?.[0]?.base_url || ''}
                                             alt="Thumbnail 1"
-                                            className="w-full"
+                                            className="w-full h-auto"
                                         />
                                     </div>
-                                    {/* Thumbnail 2 - Sử dụng large_url */}
                                     <div
                                         className="rounded-md overflow-hidden cursor-pointer border border-gray-200 hover:border-blue-500"
                                         onClick={() => setCurrentImage(book?.images?.[1]?.large_url || book.images?.[0]?.base_url || '')}
@@ -244,7 +241,7 @@ function ProductDetail() {
                                         <img
                                             src={book?.images?.[1]?.large_url || book.images?.[0]?.base_url || ''}
                                             alt="Thumbnail 2"
-                                            className="w-full"
+                                            className="w-full h-auto"
                                         />
                                     </div>
                                 </div>
@@ -263,7 +260,7 @@ function ProductDetail() {
                     </div>
 
                     {/* Product info */}
-                    <div className="col-span-6 flex flex-col">
+                    <div className="md:col-span-6 flex flex-col order-3 md:order-none">
                         <div className="bg-white rounded-lg shadow-md p-6">
                             <div className="flex items-center text-sm text-gray-500 mb-2">
                                 <span>Tác giả:</span>
@@ -320,7 +317,6 @@ function ProductDetail() {
                         </div>
 
                         {/* Product description */}
-                        
                         <div className="bg-white rounded-lg shadow-md p-6 mt-4">
                             <h2 className="text-lg font-medium text-gray-800 mb-4">Mô tả sản phẩm</h2>
                             <div className={`relative overflow-hidden ${expanded ? 'h-auto' : 'h-64'}`}>
@@ -358,7 +354,7 @@ function ProductDetail() {
                                     className="flex space-x-2 overflow-hidden scroll-smooth px-8"
                                 >
                                     {allBooks
-                                        .filter(b => b.id !== book.id) // Loại bỏ sách hiện tại
+                                        .filter(b => b.id !== book.id)
                                         .map((product) => (
                                             <div key={product.id} className="min-w-[160px] flex-shrink-0">
                                                 {renderProductCard(product)}
@@ -391,7 +387,7 @@ function ProductDetail() {
                                     className="flex space-x-2 overflow-hidden scroll-smooth px-8"
                                 >
                                     {allBooks
-                                        .sort((a, b) => (b.rating_average || 0) - (a.rating_average || 0)) // Sắp xếp theo đánh giá cao nhất
+                                        .sort((a, b) => (b.rating_average || 0) - (a.rating_average || 0))
                                         .map((product) => (
                                             <div key={product.id} className="min-w-[160px] flex-shrink-0">
                                                 {renderProductCard(product)}
@@ -432,7 +428,7 @@ function ProductDetail() {
                     </div>
 
                     {/* Buy options */}
-                    <div className="col-span-3">
+                    <div className="md:col-span-3 order-2 md:order-none">
                         <div className="bg-white rounded-lg shadow-md p-6">
                             <div className="flex items-center mb-3">
                                 <img src={tikiLogo} alt="Tiki Logo" className="w-10 h-10 mr-2" />
