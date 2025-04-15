@@ -11,38 +11,18 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { getOrders } from "../../../api/order.service";
 import { IOrder } from "../../../interfaces";
 import { getUsers } from "../../../api/user.service";
-import IUser  from "../../../interfaces/UserInterface";
+import IUser from "../../../interfaces/UserInterface";
 
 
 const UserProfileListOrder = () => {
 
     const [userOrders, setUserOrders] = useState<IOrder[] | null>(null);
-    const [loggedUser, setUser] = useState<IUser | null>(null);
+    const [loggedUser, setLoggedUser] = useState<IUser | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState({
         fullName: "",
         email: "",
     });
-    
-    // phục vụ mục đích lấy id người dùng từ email 
-    {/*const fetchUserByEmail = useCallback(async () => {
-        try {
-
-            if (!userInfo.email) {
-                console.log("No email available to fetch user.");
-                return;
-            }
-            const allUsers = await getUsers();
-            const foundUser = allUsers.find(user => user.email === userInfo.email);
-            if (foundUser) {
-                setUser(foundUser);
-            } else {
-                console.log("User not found with email:", userInfo.email);
-            }
-        } catch (error) {
-            console.error("Error fetching users:", error);
-        }
-    }, [userInfo.email]);*/} 
 
     // Đồng bộ trạng thái đăng nhập khi component mount và khi localStorage thay đổi
     useEffect(() => {
@@ -64,10 +44,6 @@ const UserProfileListOrder = () => {
                     email: storedEmail,
                 });
 
-                // phục vụ mục đích lấy id người dùng từ email 
-                // if (storedEmail) {
-                //     fetchUserByEmail();
-                // }
             } else {
                 // Reset thông tin người dùng khi đăng xuất
                 setUserInfo({
@@ -85,35 +61,65 @@ const UserProfileListOrder = () => {
 
         // Cleanup khi component unmount
         return () => clearInterval(intervalId);
-    }, [isLoggedIn]);
+    }, []);
 
+    // phục vụ mục đích lấy id người dùng từ email 
+    const fetchUserByEmail = useCallback(async () => {
+        try {
+            if (!userInfo.email) {
+                console.log('No email available to fetch user.');
+                return;
+            }
+            console.log('Fetching user with email:', userInfo.email);
+            const allUsers = await getUsers();
+            const foundUser = allUsers.find((user) => user.email === userInfo.email); //lọc user có trùng email với email đã lưu trong local
+            if (foundUser) {
+                console.log('Found user:', foundUser); // Debug
+                setLoggedUser(foundUser);
+            } else {
+                console.log('User not found with email:', userInfo.email);
+            }
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+    }, [userInfo.email]);
+
+    useEffect(()=>{
+        if(isLoggedIn && userInfo.email){
+            fetchUserByEmail(); 
+            console.log("email: ",userInfo.email);
+            console.log("id:", loggedUser?.id);
+        }
+    },[isLoggedIn, userInfo.email, fetchUserByEmail]);
 
     //lấy dữ liệu từ order
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                // phục vụ mục đích lấy id người dùng từ email 
-              {/* const users = await getUsers();
-                const foundUser = users.filter(user => user.id === loggedUser?.id);*/}  
-                
+                // Lấy thông tin người dùng từ loggedUser
+                if (!loggedUser?.id) {
+                    console.log('No logged user ID available.');
+                    return;
+                }
+                console.log('Fetching orders for user ID:', loggedUser.id);
                 const allOrders = await getOrders();
                 //lọc email trùng với email đã đăng nhập
-                const userOrders = allOrders.filter(order => order.users.email === userInfo.email);
+                const userOrders = allOrders.filter(order => order.users.id === loggedUser.id);
 
                 if (userOrders.length > 0) {
                     setUserOrders(userOrders)
-                    console.log("Found orders", userOrders[0]);
+                    console.log("No orders found for user:", loggedUser.id);
                 }
             } catch (error) {
                 console.error("Error fetching orders: ", error);
             }
         };
 
-        //chỉ fetch khi đã đăng nhập và có email
-        if (isLoggedIn && userInfo.email) {
+        /// Chỉ fetch khi đã đăng nhập và có loggedUser
+        if (isLoggedIn && loggedUser?.id) {
             fetchOrders();
-        };
-    }, [isLoggedIn, userInfo.email])
+        }   
+    }, [isLoggedIn, loggedUser?.id])
 
     // VND format
     const formatPrice = (price: number) => {
@@ -228,12 +234,12 @@ const UserProfileListOrder = () => {
                                                         <Link to={`../userprofile/order/${order.id}`} className="text-[15px] hover:text-blue-600 hover:underline">Đơn hàng số: #{order.id}</Link>
                                                         <div className="text-[14px] flex flex-col mt-2.5 mx-2">
                                                             <span className="">Trạng thái:                                                                <span className={`text-sm font-semibold 
-                                                                    ${order.status === "ongoing"? "text-blue-500"
+                                                                    ${order.status === "ongoing" ? "text-blue-500"
                                                                     : order.status === "completed" ? "text-green-500"
                                                                         : order.status === "pending" ? "text-yellow-500"
-                                                                            : order.status === "canceled" ? "text-red-500": "text-gray-500"}`}>
-                                                                    {order.status}
-                                                                    </span>
+                                                                            : order.status === "canceled" ? "text-red-500" : "text-gray-500"}`}>
+                                                                {order.status}
+                                                            </span>
                                                             </span>
                                                             <span>Ngày tạo đơn: {formatDate(order.created_at)}</span>
                                                         </div>
@@ -252,9 +258,9 @@ const UserProfileListOrder = () => {
                             </table>
                         </div>
                     ) : (
-                            <span className="whitespace-wrap px-4 py-5 text-gray-700 text-center">
-                                Không có đơn hàng nào
-                            </span>
+                        <span className="whitespace-wrap px-4 py-5 text-gray-700 text-center">
+                            Không có đơn hàng nào
+                        </span>
                     )
                     }
                 </section>

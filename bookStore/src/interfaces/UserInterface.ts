@@ -8,3 +8,4 @@ interface IUser {
   phone: string,
   createdAt?: string,
 }
+export default IUser
