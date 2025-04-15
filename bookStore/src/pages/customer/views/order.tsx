@@ -47,7 +47,7 @@ const Order: React.FC = () => {
 
         const orderPayload = {
             created_at: new Date().toISOString(),
-            users: { email: loggedInEmail },
+            users: orderData.users,
             books: orderData.books,
             quantity: orderData.quantity,
             total_price: totalPayment,
