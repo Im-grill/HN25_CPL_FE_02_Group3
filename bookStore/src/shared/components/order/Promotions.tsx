@@ -23,13 +23,13 @@ const Promotions: React.FC = () => {
                 </div>
             </div>
 
-            {/* Coupon Container - Fully Responsive cho mobile và tablet */}
+            {/* Coupon Container - SVG tràn hết container */}
             <div className="mb-[16px]">
                 <div className="relative">
-                    {/* Container với fully responsive styling */}
+                    {/* Container */}
                     <div className="w-full overflow-hidden">
                         <div className="relative h-[50px] sm:h-[55px] md:h-[60px]">
-                            {/* SVG Coupon Background - Responsive */}
+                            {/* SVG Coupon Background - Tràn hết container */}
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286 60" className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
                                 <g fill="none" fillRule="evenodd">
                                     <g stroke="#017FFF">
@@ -54,9 +54,9 @@ const Promotions: React.FC = () => {
                                 </g>
                             </svg>
 
-                            {/* Coupon Contents - Fully Responsive cho mobile và tablet */}
+                            {/* Coupon Contents - Responsive */}
                             <div className="top-0 left-0 absolute w-full h-full flex">
-                                {/* Icon Section - Dynamic Responsive */}
+                                {/* Icon Section - Responsive */}
                                 <div className="min-w-[40px] w-[40px] sm:min-w-[45px] sm:w-[45px] md:min-w-[60px] md:w-[60px] h-full p-[4px] sm:p-[5px] md:p-[8px] flex items-center justify-center">
                                     <div className="w-[32px] h-[32px] sm:w-[35px] sm:h-[35px] md:w-[44px] md:h-[44px] relative">
                                         <img
@@ -67,13 +67,13 @@ const Promotions: React.FC = () => {
                                     </div>
                                 </div>
 
-                                {/* Content Section - Dynamic Responsive */}
+                                {/* Content Section - Responsive */}
                                 <div className="flex flex-grow items-center justify-between p-[4px_6px_4px_4px] sm:p-[5px_7px_5px_5px] md:p-[8px_12px_8px_8px] w-[calc(100%-40px)] sm:w-[calc(100%-45px)] md:w-[calc(100%-60px)]">
-                                    {/* Tiêu đề - Dynamic Responsive */}
+                                    {/* Tiêu đề - Responsive */}
                                     <h4 className="text-[11px] sm:text-[12px] md:text-[13px] leading-[16px] sm:leading-[18px] md:leading-[20px] max-h-[32px] sm:max-h-[36px] md:max-h-[20px] mr-[4px] overflow-hidden text-ellipsis">
                                         Giảm 10K
                                     </h4>
-                                    {/* Phần nút - Dynamic Responsive */}
+                                    {/* Phần nút - Responsive */}
                                     <div className="flex items-center flex-shrink-0">
                                         <button
                                             type="button"
