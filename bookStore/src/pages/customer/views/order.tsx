@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import Header from '../../../shared/components/order/Header';
+import Header from '../../../shared/components/order/Header.tsx';
 import ShippingMethod from '../../../shared/components/order/ShippingMethod';
 import PaymentMethod from '../../../shared/components/order/PaymentMethod';
 import AddressInfo from '../../../shared/components/order/AddressInfo';
