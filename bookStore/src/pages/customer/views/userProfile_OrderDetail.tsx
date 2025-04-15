@@ -9,7 +9,7 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { getOrderById, getOrders} from "../../../api/order.service";
+import { getOrderById} from "../../../api/order.service";
 import { IOrder } from "../../../interfaces";
 import instance from "../../../api/api.service";
 import IUser  from "../../../interfaces/UserInterface";
