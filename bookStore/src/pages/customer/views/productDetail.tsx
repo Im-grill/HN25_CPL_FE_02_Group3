@@ -7,16 +7,24 @@ import tikiheader from '../../../assets/tiki-head.png';
 import official from '../../../assets/official.png';
 import { getBook } from '../../../api/book.service';
 import { IBook } from '../../../interfaces/BookInterfaces';
+import IUser from '../../../interfaces/UserInterface';
+import { getUsers } from '../../../api/user.service';
+
+
+type UserData = Omit<IUser, 'password'>;
 
 function ProductDetail() {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
     const [book, setBook] = useState<IBook | null>(null);
+    const [loggedUser, setLoggedUser] = useState<UserData | null>(null)
     const [allBooks, setAllBooks] = useState<IBook[]>([]);
     const [quantity, setQuantity] = useState(1);
     const [loading, setLoading] = useState(true);
     const [currentImage, setCurrentImage] = useState('');
-
+    const storedEmail = localStorage.getItem('loggedInEmail');
+  
+    // Gọi API để lấy dữ liệu sách
     useEffect(() => {
         const fetchBookDetail = async () => {
             try {
@@ -38,6 +46,37 @@ function ProductDetail() {
 
         fetchBookDetail();
     }, [id]);
+
+    // Gọi API để lấy dữ liệu người dùng
+    useEffect(() => {
+        const fetchUserDetail = async () => {
+            try {
+                        if (!storedEmail) {
+                            console.log('No email available to fetch user.');
+                            return;
+                        }
+                        console.log('Fetching user with email:', storedEmail);
+                        const allUsers = await getUsers();
+                        const foundUser = allUsers.find((user) => user.email === storedEmail); //lọc user có trùng email với email đã lưu trong local
+                        if (foundUser) {
+                            const userData: UserData = {
+                                id: foundUser.id,
+                                fullname: foundUser.fullname,
+                                email: foundUser.email,
+                                address: foundUser.address,
+                                phone: foundUser.phone,
+                                createdAt: foundUser.createdAt
+                            };
+                            setLoggedUser(userData);
+                        } else {
+                            console.log('User not found with email:', storedEmail);
+                        }
+                    } catch (error) {
+                        console.error('Error fetching users:', error);
+                    }
+        };
+        fetchUserDetail();
+    }, [storedEmail]);
 
     function ProductDescription({ description }: { description: string }) {
         return (
@@ -144,7 +183,10 @@ function ProductDetail() {
         if (book) {
             const orderData = {
                 quantity: quantity,
-                books: book
+                // image: book.images?.[0]?.base_url || bookCover,
+                // sellerName: book.current_seller?.name || 'Tiki Trading',
+                books: book,
+                users: loggedUser,
             };
             navigate('/customer/order', { state: orderData });
         }
