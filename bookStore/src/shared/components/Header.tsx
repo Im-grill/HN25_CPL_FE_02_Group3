@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TikiLogo from '../../assets/logo/tiki-logo.png';
 import TikiImage from '../../assets/tiki-image.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faSearch, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faSearch, faShoppingCart, faUser, faBars } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { IUser } from '../../interfaces/UserInterface';
 import { login as loginService, register as registerService } from '../../api/auth.service';
@@ -10,17 +10,17 @@ import { useModal } from '../../shared/context/ModalContext';
 
 const Header = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const {isModalOpen, setIsModalOpen} = useModal();
+    const { isModalOpen, setIsModalOpen } = useModal();
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
     const [emailInput, setEmailInput] = useState('');
     const [fullNameInput, setFullNameInput] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [LoggedInEmail, setLoggedInEmail] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedInFullName, setLoggedInFullName] = useState('');
     const [role, setRole] = useState('');
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -61,13 +61,11 @@ const Header = () => {
             const response = await loginService(userData);
             localStorage.setItem('accessToken', response.accessToken);
             if (response) {
-                setLoggedInEmail(response.user.email);
                 localStorage.setItem('loggedInEmail', response.user.email);
                 localStorage.setItem('userId', response.user.id);
                 setLoggedInFullName(response.user.fullname);
                 localStorage.setItem('role', response.user.role);
                 localStorage.setItem('loggedInFullName', response.user.fullname);
-                localStorage.setItem('loggedInEmail', response.user.email);
                 setRole(response.user.role);
 
                 if (response.user.role === 'admin') {
@@ -125,12 +123,24 @@ const Header = () => {
             </div>
 
             <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-                <Link to="/customer/homepage" className="flex flex-col items-center">
-                    <img src={TikiLogo} alt="Tiki Logo" className="h-8" />
-                    <span className="mt-1 text-sm font-semibold text-blue-500">Tốt & Nhanh</span>
-                </Link>
+                <div className="flex items-center">
+                    {/* Burger button */}
+                    <button
+                        className="md:hidden text-gray-600 mr-3"
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    >
+                        <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
+                    </button>
 
-                <div className="flex items-center bg-gray-100 rounded-md p-1 flex-grow ml-4 mr-2">
+                    {/* Logo */}
+                    <Link to="/customer/homepage" className="flex flex-col items-center">
+                        <img src={TikiLogo} alt="Tiki Logo" className="h-8" />
+                        <span className="mt-1 text-sm font-semibold text-blue-500">Tốt & Nhanh</span>
+                    </Link>
+                </div>
+
+                {/* Search bar */}
+                <div className="flex items-center bg-gray-100 rounded-md p-1 flex-grow mx-4">
                     <FontAwesomeIcon icon={faSearch} className="mr-1 text-gray-400" />
                     <input
                         type="text"
@@ -139,46 +149,72 @@ const Header = () => {
                         value={searchTerm}
                         onChange={handleSearchChange}
                     />
-                    <button onClick={handleSearchSubmit} className="hover:bg-amber-50 text-blue-500 rounded-md px-3 py-1 text-sm font-semibold">
+                    <button
+                        onClick={handleSearchSubmit}
+                        className="hover:bg-amber-50 text-blue-500 rounded-md px-3 py-1 text-sm font-semibold"
+                    >
                         Tìm kiếm
                     </button>
                 </div>
 
-                <div className="flex items-center space-x-4">
-                    <Link to="/customer/homepage" className="flex items-center text-gray-600 hover:text-blue-500 text-xs">
-                        <FontAwesomeIcon icon={faHome} className="h-5 w-5 mr-1" />
-                        Trang chủ
-                    </Link>
+                {/* Menu desktop */}
+                <div className="hidden md:flex items-center space-x-4">
+                    <Link to="/customer/homepage" className="text-gray-700 hover:text-blue-500">
+                    <FontAwesomeIcon icon={faHome} className="h-5 w-5 mr-1" />
+                    Trang chủ</Link>
 
                     {isLoggedIn ? (
-                        <div className="flex items-center text-gray-600 text-xs">
-                            <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1" />
-                            {loggedInFullName}
+                        <div className="flex items-center space-x-2">
+                            <span className="text-grey-700">  {loggedInFullName}</span>
                             {role === 'admin' && (
-                                <Link to="/admin" className="ml-2 text-blue-500 hover:underline text-sm">
-                                    Quản trị
-                                </Link>
+                                <Link to="/admin" className="text-blue-500 hover:underline">Quản trị</Link>
                             )}
-                            <button onClick={handleLogout} className="ml-2 text-blue-500 hover:underline text-sm">
-                                Đăng xuất
-                            </button>
+                            <button onClick={handleLogout} className="text-blue-500 hover:underline">Đăng xuất</button>
                         </div>
                     ) : (
-                        <button onClick={() => setIsModalOpen(true)} className="flex items-center text-gray-600 hover:text-blue-500 text-xs">
+                        <button onClick={() => setIsModalOpen(true)} className="text-gray-700 hover:text-blue-500">
                             <FontAwesomeIcon icon={faUser} className="h-5 w-5 mr-1" />
-                            Tài khoản
-                        </button>
+                            Tài khoản</button>
                     )}
 
-                    <Link to="/customer/userprofile/orders" className="relative flex items-center text-gray-600 hover:text-blue-500 text-xs">
-                        <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5 mr-1 text-blue-500" />
-                        <span className="absolute top-[-15px] right-[-8px] bg-red-500 text-white rounded-full text-xs px-[6px]">
+                    {/* Shopping Cart */}
+                    <Link to="/customer/userprofile/orders" className="relative flex items-center text-gray-600 hover:text-blue-500">
+                        <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
+                        <span className="absolute top-[-8px] right-[-8px] bg-red-500 text-white rounded-full text-xs px-[6px]">
                             0
                         </span>
                     </Link>
                 </div>
+
+                {/* Shopping cart button mobile */}
+                <Link to="/customer/userprofile/orders" className="relative flex md:hidden items-center text-gray-600 hover:text-blue-500 ml-3">
+                    <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
+                    <span className="absolute top-[-8px] right-[-8px] bg-red-500 text-white rounded-full text-xs px-[6px]">
+                        0
+                    </span>
+                </Link>
             </div>
 
+            {/* Mobile menu */}
+            {isMenuOpen && (
+                <div className="md:hidden px-4 pb-4 space-y-2 bg-white">
+                    <Link to="/customer/homepage" className="block text-gray-700 hover:text-blue-500">Trang chủ</Link>
+
+                    {isLoggedIn ? (
+                        <div className="flex flex-col space-y-1">
+                            <div className="text-grey-700">{loggedInFullName}</div>
+                            {role === 'admin' && (
+                                <Link to="/admin" className="text-blue-500 hover:underline">Quản trị</Link>
+                            )}
+                            <button onClick={handleLogout} className="text-blue-500 hover:underline text-left">Đăng xuất</button>
+                        </div>
+                    ) : (
+                        <button onClick={() => setIsModalOpen(true)} className="text-gray-700 hover:text-blue-500">Tài khoản</button>
+                    )}
+                </div>
+            )}
+
+            {/* Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg shadow-lg w-[800px] flex relative" style={{ bottom: '100px' }}>
