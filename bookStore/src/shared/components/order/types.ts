@@ -8,7 +8,16 @@ export interface Book {
         base_url: string;
     }[];
 }
+
+export interface User {
+    id: number,
+    fullname: string,
+    email: string,
+    address: string,
+    phone: string,
+}
 export interface OrderData {
     books: Book;
     quantity: number;
+    users: User;
 }
