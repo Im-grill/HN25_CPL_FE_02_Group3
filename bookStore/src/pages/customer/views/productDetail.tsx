@@ -87,8 +87,16 @@ function ProductDetail() {
     };
 
     const renderProductCard = (product: IBook) => {
+        const handleCardClick = () => {
+            navigate(`/customer/productdetail/${product.id}`);
+        };
+
         return (
-            <div key={product.id} className="relative flex flex-col w-40 border border-gray-200 rounded-md overflow-hidden hover:shadow-md transition">
+            <div
+                key={product.id}
+                className="relative flex flex-col w-40 border border-gray-200 rounded-md overflow-hidden hover:shadow-md transition cursor-pointer"
+                onClick={handleCardClick}
+            >
                 <div className="h-40 bg-gray-100">
                     <img
                         src={product.images?.[0]?.base_url || bookCover}
@@ -161,7 +169,6 @@ function ProductDetail() {
             </div>
 
             <div className="container mx-auto px-4 py-2">
-                {/* Flex for mobile, grid for desktop */}
                 <div className="flex flex-col md:grid md:grid-cols-12 gap-6 p-4">
                     {/* Product images */}
                     <div className="md:col-span-3 order-1 md:order-none">
