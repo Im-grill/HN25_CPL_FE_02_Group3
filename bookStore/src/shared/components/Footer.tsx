@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import certificatelogo1 from '../../assets/footer-logo/certificate/img.png'
 import certificatelogo2 from '../../assets/footer-logo/certificate/img_1.png'
 import certificatelogo3 from '../../assets/footer-logo/certificate/img_2.png'
@@ -21,11 +22,35 @@ import androidlogo from '../../assets/footer-logo/download-logo/img_1.png'
 import ioslogo from '../../assets/footer-logo/download-logo/img_2.png'
 
 const Footer = () => {
+    // State để kiểm tra nếu đang ở phiên bản mobile/tablet
+    const [isMobileView, setIsMobileView] = useState(false);
+
+    // Kiểm tra kích thước màn hình khi component mount và khi resize
+    useState(() => {
+        const checkScreenSize = () => {
+            setIsMobileView(window.innerWidth < 1024); // Xem là mobile/tablet nếu nhỏ hơn 1024px
+        };
+
+        // Kiểm tra lần đầu
+        checkScreenSize();
+
+        // Thêm event listener để kiểm tra khi resize
+        window.addEventListener('resize', checkScreenSize);
+
+        // Cleanup event listener khi unmount
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
+
+    // Nếu đang ở mobile/tablet view, trả về null (ẩn footer)
+    if (isMobileView) {
+        return null;
+    }
+
     return (
         <footer className={'mt-4 text-xs leading-4 font-normal text-[rgb(128,128,137)] bg-white'}>
             <div className={'py-4'}>
-                <div className={'flex justify-between w-[1270px] px-[15px] mx-auto'}>
-                    <div className={'w-[268px]'}>
+                <div className={'flex justify-between w-full max-w-[1270px] px-[15px] mx-auto flex-wrap lg:flex-nowrap'}>
+                    <div className={'w-full lg:w-[268px] mb-6 lg:mb-0'}>
                         <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>Hỗ trợ khách
                             hàng</h4>
                         <p className={"hotline mb-2"}>
@@ -44,7 +69,7 @@ const Footer = () => {
                         <a className={'mb-2 block'} href={"/"}>Hỗ trợ khách hàng: hotro@tiki.vn</a>
                         <a className={'mb-2 block'} href={"/"}>Báo lỗi bảo mật: security@tiki.vn</a>
                     </div>
-                    <div className={'w-[226px]'}>
+                    <div className={'w-full lg:w-[226px] mb-6 lg:mb-0'}>
                         <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>Về Tiki</h4>
                         <a className={'mb-2 block'} href={"/"}> Giới thiệu Tiki
                         </a>
@@ -69,7 +94,7 @@ const Footer = () => {
                         <a className={'mb-2 block'} href={"/"}> Điều kiện vận chuyển
                         </a>
                     </div>
-                    <div className={'w-[226px]'}>
+                    <div className={'w-full lg:w-[226px] mb-6 lg:mb-0'}>
                         <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>
                             Hợp tác và liên kết
                         </h4>
@@ -81,13 +106,13 @@ const Footer = () => {
                         </a>
                         <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-6'}>Chứng nhận
                             bởi</h4>
-                        <div className={'w-[226px] flex items-center flex-wrap gap-2'}>
+                        <div className={'w-full lg:w-[226px] flex items-center flex-wrap gap-2'}>
                             <img className={'h-8'} src={certificatelogo1} alt=""/>
                             <img className={'h-8'} src={certificatelogo2} alt=""/>
                             <img className={'h-8'} src={certificatelogo3} alt=""/>
                         </div>
                     </div>
-                    <div className={'w-[226px]'}>
+                    <div className={'w-full lg:w-[226px] mb-6 lg:mb-0'}>
                         <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>Phương thức
                             thanh toán</h4>
                         <p className={'text-xs leading-4 text-[rgb(128,128,137)] mb-3 mt-0'}>
@@ -120,7 +145,7 @@ const Footer = () => {
                             <img className={'ml-[-9px] mt-[-8px] w-[109px] h-[33px]'} src={tikilogo} alt=""/>
                         </a>
                     </div>
-                    <div className={'w-[226px]'}>
+                    <div className={'w-full lg:w-[226px] mb-6 lg:mb-0'}>
                         <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>Kết nối với
                             chúng tôi</h4>
                         <p>
@@ -150,9 +175,9 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className="h-px w-[1240px] bg-gray-200 mx-auto"></div>
+            <div className="h-px w-full max-w-[1240px] bg-gray-200 mx-auto"></div>
             <div className={'py-4 bg-white'}>
-                <div className={'w-[1270px] px-[15px] mx-auto'}>
+                <div className={'w-full max-w-[1270px] px-[15px] mx-auto'}>
                     <p className={'text-[16px] leading-6 font-medium text-[#38383d] mb-3 mt-0'}>Công ty TNHH TI KI</p>
                     <p className={'block mb-2 text-[#808089]'}>Tòa nhà số 52 đường Út Tịch, Phường 4, Quận Tân Bình,
                         Thành
@@ -167,8 +192,8 @@ const Footer = () => {
                     </p>
                 </div>
             </div>
-            <div className="h-px w-[1240px] bg-gray-200 mx-auto"></div>
-            <div className={'w-[1270px] px-[15px] mx-auto'}>
+            <div className="h-px w-full max-w-[1240px] bg-gray-200 mx-auto"></div>
+            <div className={'w-full max-w-[1270px] px-[15px] mx-auto'}>
                 <div className="pt-4">
                     <div className={'text-[16px] leading-6 font-medium text-[#38383d] mb-3 mt-0'}>
                         Thương Hiệu Nổi Bật
@@ -239,7 +264,7 @@ const Footer = () => {
                 </div>
             </div>
         </footer>
-    )
-}
+    );
+};
 
 export default Footer;
