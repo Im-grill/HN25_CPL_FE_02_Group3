@@ -17,7 +17,6 @@ type Inputs = {
 }
 
 const UserInfo = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(true);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState({
         fullName: "",
