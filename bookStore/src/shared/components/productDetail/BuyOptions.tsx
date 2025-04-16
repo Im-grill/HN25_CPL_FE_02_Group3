@@ -28,7 +28,7 @@ function BuyOptions({ book, quantity, increaseQuantity, decreaseQuantity, handle
                     <div className="flex items-center">
                         <button
                             onClick={decreaseQuantity}
-                            className="border border-gray-300 px-2 py-1 rounded-l"
+                            className="border border-gray-300 px-2 py-2 rounded-l"
                         >
                             <FaMinus size={12} />
                         </button>
@@ -36,11 +36,11 @@ function BuyOptions({ book, quantity, increaseQuantity, decreaseQuantity, handle
                             type="number"
                             value={quantity}
                             readOnly
-                            className="border-t border-b border-gray-300 w-10 text-center py-1"
+                            className="border-t border-b border-gray-300 w-10  text-center py-1"
                         />
                         <button
                             onClick={increaseQuantity}
-                            className="border border-gray-300 px-2 py-1 rounded-r"
+                            className="border border-gray-300 px-2 py-2 rounded-r"
                         >
                             <FaPlus size={12} />
                         </button>
