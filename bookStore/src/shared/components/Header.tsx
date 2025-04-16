@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TikiLogo from '../../assets/logo/tiki-logo.png';
 import TikiImage from '../../assets/tiki-image.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faSearch, faShoppingCart, faUser, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faSearch, faShoppingCart, faUser, faBars, faCheckCircle, faTruckFast, faMoneyBillTransfer, faBox, faTruck, faTags } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { IUser } from '../../interfaces/UserInterface';
 import { login as loginService, register as registerService } from '../../api/auth.service';
@@ -160,8 +160,8 @@ const Header = () => {
                 {/* Menu desktop */}
                 <div className="hidden md:flex items-center space-x-4">
                     <Link to="/customer/homepage" className="text-gray-700 hover:text-blue-500">
-                    <FontAwesomeIcon icon={faHome} className="h-5 w-5 mr-1" />
-                    Trang chủ</Link>
+                        <FontAwesomeIcon icon={faHome} className="h-5 w-5 mr-1" />
+                        Trang chủ</Link>
 
                     {isLoggedIn ? (
                         <div className="flex items-center space-x-2">
@@ -194,6 +194,53 @@ const Header = () => {
                     </span>
                 </Link>
             </div>
+            {/* List */}
+            <div className="bg-gray-50 border-b border-gray-200 py-2 text-sm overflow-x-auto whitespace-nowrap">
+                <div className="container mx-auto px-4 flex items-center space-x-4">
+                    <Link to="/customer/homepage" className="hover:text-blue-500">Điện gia dụng</Link>
+                    <Link to="/customer/homepage" className="hover:text-blue-500">Xe cộ</Link>
+                    <Link to="/customer/homepage" className="hover:text-blue-500">Mẹ & Bé</Link>
+                    <Link to="/customer/homepage" className="hover:text-blue-500">Khỏe đẹp</Link>
+                    <Link to="/customer/homepage" className="hover:text-blue-500">Nhà cửa</Link>
+                    <Link to="/customer/homepage" className="hover:text-blue-500">Sách</Link>
+                    <Link to="/customer/homepage" className="hover:text-blue-500">Thể thao</Link>
+                    <Link to="/customer/homepage" className="hover:text-blue-500">Harry Potter</Link>
+                    <Link to="/customer/homepage" className="hover:text-blue-500">Lịch treo tường 2024</Link>
+                    <Link to="/customer/homepage" className="hover:text-blue-500">Nguyễn Nhật Ánh</Link>
+                </div>
+            </div>
+
+            {/* Cam kết */}
+            <div className="bg-blue-50 py-2 text-xs text-gray-700 overflow-x-auto whitespace-nowrap">
+                <div className="container mx-auto px-4 flex items-center space-x-6">
+                    <span className="font-bold text-blue-700">Cam kết</span>
+                    <div className="flex items-center">
+                        <FontAwesomeIcon icon={faCheckCircle} className="w-4 h-4 mr-1 text-blue-500" />
+                        100% hàng thật
+                    </div>
+                    <div className="flex items-center">
+                        <FontAwesomeIcon icon={faTruckFast} className="w-4 h-4 mr-1 text-blue-500" />
+                        Freeship mọi đơn
+                    </div>
+                    <div className="flex items-center">
+                        <FontAwesomeIcon icon={faMoneyBillTransfer} className="w-4 h-4 mr-1 text-blue-500" />
+                        Hoàn 200% nếu hàng giả
+                    </div>
+                    <div className="flex items-center">
+                        <FontAwesomeIcon icon={faBox} className="w-4 h-4 mr-1 text-blue-500" />
+                        30 ngày đổi trả
+                    </div>
+                    <div className="flex items-center">
+                        <FontAwesomeIcon icon={faTruck} className="w-4 h-4 mr-1 text-blue-500" />
+                        Giao nhanh 2h
+                    </div>
+                    <div className="flex items-center">
+                        <FontAwesomeIcon icon={faTags} className="w-4 h-4 mr-1 text-blue-500" />
+                        Giá siêu rẻ
+                    </div>
+                </div>
+            </div>
+
 
             {/* Mobile menu */}
             {isMenuOpen && (
