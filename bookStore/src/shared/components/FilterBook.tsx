@@ -43,7 +43,7 @@ export default function FilterBook({ onFilterChange }: FilterBookProps) {
     };
     return (
         <div className='flex bg-white mt-[34px]  flex-col  pl-4  '>
-            <span className='font-semibold  mt-3 '>Tất cả sản phẩm</span>
+            <span className='font-semibold  mt-3 hidden md:inline '>Tất cả sản phẩm</span>
 
             <FormGroup>
                 <div className=' flex gap-6 pb-10 pt-10'>

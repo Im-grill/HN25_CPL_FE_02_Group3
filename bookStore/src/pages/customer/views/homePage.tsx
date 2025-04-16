@@ -29,13 +29,13 @@ export default function HomePage() {
         <Breadcrumb />
       </div>
       {/* main content */}
-      <div className='ml-6 mr-6 flex flex-row  max-w-screen '>
+      <div className='md:ml-6 md:mr-6 flex flex-row  max-w-screen '>
       <div className='shrink-0 '>
           <Sidebar />
         </div>
         {/* Carousel top sach*/}
-        <div className=' ml-6 flex flex-col pl-6 min-w-0' >
-          <div className='bg-white w-full h-[74px] rounded-b-lg pt-4 pl-4 '>
+        <div className=' xl:ml-6 flex flex-col xl:pl-6 min-w-0' >
+          <div className='bg-white w-full h-[74px] rounded-b-lg pt-4 pl-4 hidden md:block'>
             <span className='text-[28px] font-semibold'>Nhà Sách Tiki</span>
           </div>
           <div className='w-full'>

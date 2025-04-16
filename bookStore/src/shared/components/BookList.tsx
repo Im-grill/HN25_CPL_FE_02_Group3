@@ -86,11 +86,11 @@ export default function BookList({ filters }: BookListProps) {
   }, [filters, data,searchParams]);
   return (
     <>
-      <div className='flex flex-wrap gap-2   mt-4 '>
+      <div className='flex flex-wrap gap-2   mt-4 ml-2 '>
 
 
         {filteredData.map((book, index) =>
-          <div key={index} className="w-[calc(25%-8px)]">
+          <div key={index} className="md:w-[calc(25%-8px)] w-[calc(50%-8px)]">
             {/* <Link to={`/customer/productdetail/${book.id}`} key={book.id}></Link> */}
             <Link to={`/customer/productdetail/${book.id}`} >
               <BookCard props={book} />
