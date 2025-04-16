@@ -1,17 +1,13 @@
 import Breadcrumb from "../../../shared/components/Breadcrumb";
-import avatar from "../../../assets/avatar.png"
-import iconOrder from "../../../assets/icon_profile.png"
-import iconUser from "../../../assets/icon_user.png";
-import iconBell from "../../../assets/icon_bell.png";
 import { Link, } from "react-router-dom";
-import { isValidElement, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { faBars, faChevronRight, faPen } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight, faPen } from "@fortawesome/free-solid-svg-icons";
 import IUser from "../../../interfaces/UserInterface";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { getUsers, updateUser } from "../../../api/user.service";
-
+import UserSideBar from "../../../shared/components/UserSideBar";
 
 type Inputs = {
     email: string,
@@ -97,7 +93,6 @@ const UserInfo = () => {
             console.error('Error fetching users:', error);
         }
     }, [userInfo.email, reset]);
-
 
     useEffect(() => {
         if (userInfo.email) {
@@ -189,32 +184,6 @@ const UserInfo = () => {
         }
     }
 
-    //bật tắt sidebar (điện thoại)
-    const toggleSidebar = () => {
-        setIsMenuOpen(!isMenuOpen);
-    }
-
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth <= 768) {
-                setIsMenuOpen(false);
-            } else {
-                setIsMenuOpen(true);
-            }
-        };
-
-        // Set initial state
-        handleResize();
-
-        // Add event listener
-        window.addEventListener('resize', handleResize);
-
-        // Cleanup event listener on unmount
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
     return (
         <main className=" bg-[#F5F5FA] mb-8">
             {/* breadcrumb */}
@@ -224,46 +193,9 @@ const UserInfo = () => {
                 <FontAwesomeIcon icon={faChevronRight} className="" size="sm" />
                 <span> Thông tin tài khoản </span>
             </div>
-
+            
             <div className="mainContent flex mx-26">
-                <aside className={`sideSection ${isMenuOpen ? "w-64" : "w-10"} mr-6 transition-all duration-300 max-[768px]:${isMenuOpen ? "w-full" : "w-10"}`}>
-                    {/* Burger button */}
-                    <button
-                        title="menu"
-                        type="button"
-                        className={` bg-white rounded-md text-gray-600 md:hidden p-1.5`}
-                        onClick={toggleSidebar}
-                    >
-                        <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
-                    </button>
-                    <div className={`avatarUsername flex items-center gap-[12px] mb-2 ${isMenuOpen ? 'block' : 'hidden md:block'}`}>
-                        <div className="avtCtn">
-                            <img alt="avatar" src={avatar} className="rounded-full" />
-                        </div>
-                        <div className="username flex flex-col">
-                            <span className="text-sm">Tài khoản của</span>
-                            <span className="text-lg">{userInfo.fullName}</span>
-                        </div>
-                    </div>
-                    <div className={`responsive-list-btn ${isMenuOpen ? 'block' : 'hidden md:block'}`}>
-                        <button type="button"
-                            className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
-                            <img alt="iconOrder" src={iconUser} />
-                            <span className="text-sm text-gray-600">Thông tin tài khoản</span>
-                        </button>
-                        <button type="button"
-                            className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
-                            <img alt="iconOrder" src={iconBell} />
-                            <span className="text-sm text-gray-600">Thông báo của tôi</span>
-                        </button>
-                        <button type="button"
-                            className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full">
-                            <img alt="iconOrder" src={iconOrder} className="w-[18px] [h-20]" />
-                            <Link to={"../userprofile/orders"} className="text-sm text-gray-600">Quản lí đơn hàng</Link>
-                        </button>
-                    </div>
-
-                </aside>
+               <UserSideBar/>
                 <section className="mainContentCtn md:w-[75%] w-full">
                     <div className="orderTitle text-xl my-3.5">
                         <span className="">Thông tin tài khoản </span>

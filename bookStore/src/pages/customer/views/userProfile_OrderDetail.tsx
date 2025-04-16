@@ -1,8 +1,4 @@
 import Breadcrumb from "../../../shared/components/Breadcrumb";
-import avatar from "../../../assets/avatar.png"
-import iconOrder from "../../../assets/icon_profile.png"
-import iconUser from "../../../assets/icon_user.png";
-import iconBell from "../../../assets/icon_bell.png";
 import shipLogo from "../../../assets/now.png";
 import returnBadge from "../../../assets/return-badge.png";
 import { Link, useParams } from "react-router-dom";
@@ -14,6 +10,7 @@ import { IOrder } from "../../../interfaces";
 import instance from "../../../api/api.service";
 import IUser  from "../../../interfaces/UserInterface";
 import { getUsers } from "../../../api/user.service";
+import UserSideBar from "../../../shared/components/UserSideBar";
 
 const UserProfileOrderDetails = () => {
     const { orderId } = useParams();
@@ -159,6 +156,20 @@ const UserProfileOrderDetails = () => {
             style: 'currency',
             currency: 'VND'
         }).format(price);
+
+    };
+
+    //date format
+    const formatDate = (dateString: string | undefined) => {
+        if (!dateString || dateString === undefined) return "N/A";
+        const date = new Date(dateString);
+        return date.toLocaleDateString('vi-VN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
     };
     useEffect(()=>{
         console.log(currentOrder)
@@ -174,45 +185,20 @@ const UserProfileOrderDetails = () => {
             </div>
 
             <div className="mainContent flex mx-26">
-                <aside className="sideSection w-[24%] mr-6">
-                    <div className="avatarUsername flex items-center gap-[12px] mb-2">
-                        <div className="avtCtn">
-                            <img alt="avatar" src={avatar} className="rounded-full" />
-                        </div>
-                        <div className="username flex flex-col">
-                            <span className="text-sm">Tài khoản của</span>
-                            <span className="text-lg">{userInfo.fullName}</span>
-                        </div>
-                    </div>
-                    <button type="button"
-                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
-                        <img alt="iconOrder" src={iconUser} />
-                        <span className="text-sm text-gray-600">Thông tin tài khoản</span>
-                    </button>
-                    <button type="button"
-                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
-                        <img alt="iconOrder" src={iconBell} />
-                        <span className="text-sm text-gray-600">Thông báo của tôi</span>
-                    </button>
-                    <button type="button"
-                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full">
-                        <img alt="iconOrder" src={iconOrder} className="w-[18px] [h-20]" />
-                        <Link to={"../userprofile/orders"} className="text-sm text-gray-600">Quản lí đơn hàng</Link>
-                    </button>
-                </aside>
-                <section className="mainContentCtn  w-[75%]">
+                <UserSideBar/>
+                <section className="mainContentCtn md:w-[75%] w-full max-[767px]:flex max-[767px]:flex-col max-[767px]:items-center ">
                     <div className="orderTitle text-lg mt-7">
                         <span className="">Chi tiết đơn hàng #{currentOrder?.id} - </span>
                         <span className="status font-medium"> {currentOrder?.status}</span>
                     </div>
-                    <div className="orderDate flex justify-end mb-3 text-sm">
-                        <span>Ngày đặt hàng: #{currentOrder?.created_at}</span>
+                    <div className="orderDate flex md:justify-end mb-3 text-sm">
+                        <span>Ngày đặt hàng: {formatDate(currentOrder?.created_at)}</span>
                     </div>
 
-                    <div className="shipDetail flex justify-between gap-4  mb-4 items-stretch">
+                    <div className="shipDetail flex justify-between gap-4 mb-4 items-stretch max-[767px]:flex-col">
                         {/* Địa chỉ người nhận */}
                         <div className="title flex flex-col flex-1">
-                            <div className="text-sm mb-3 text-gray-800">
+                            <div className="text-sm md:mb-3 mb-1 text-gray-800">
                                 ĐỊA CHỈ NGƯỜI NHẬN
                             </div>
                             <div className="detail bg-white p-2.5 h-full">
@@ -230,7 +216,7 @@ const UserProfileOrderDetails = () => {
 
                         {/* Hình thức giao hàng */}
                         <div className="title flex flex-col flex-1">
-                            <div className="text-sm mb-3 text-gray-800">
+                            <div className="text-sm md:mb-3 mb-1 text-gray-800">
                                 HÌNH THỨC GIAO HÀNG
                             </div>
                             <div className="detail bg-white p-2.5 h-full">
@@ -239,7 +225,7 @@ const UserProfileOrderDetails = () => {
                                     <span>Giao Siêu Tốc</span>
                                 </div>
                                 <div className="text-sm mb-1 mt-1.5">Giao thứ 6, trước 13h, 28/03</div>
-                                <div className="text-sm">
+                                <div className="text-sm">   
                                     Được giao bởi TikiNOW Smart Logistics (giao từ Hà Nội)
                                 </div>
                                 <div className="text-sm mt-1.5">
@@ -250,7 +236,7 @@ const UserProfileOrderDetails = () => {
 
                         {/* Hình thức thanh toán */}
                         <div className="title flex flex-col flex-1">
-                            <div className="text-sm mb-3 text-gray-800">
+                            <div className="text-sm md:mb-3 mb-1 text-gray-800">
                                 HÌNH THỨC THANH TOÁN
                             </div>
                             <div className="detail bg-white p-2.5 h-full">
@@ -262,7 +248,7 @@ const UserProfileOrderDetails = () => {
                     </div>
 
                     <div className="orderDetail ">
-                        <table className="min-w-full  divide-gray-200 bg-white rounded-md ">
+                        <table className="md:min-w-full w-fit divide-gray-200 bg-white rounded-md ">
                             <thead className="ltr:text-left rtl:text-right border-b-1 border-[#c2c2c2]">
                                 <tr>
                                     <th className="whitespace-wrap font-normal px-3.5 py-5  text-gray-500">Sản phẩm</th>
@@ -278,8 +264,8 @@ const UserProfileOrderDetails = () => {
                             <tbody className=" divide-gray-200">
                                 {currentOrder ? (
                                     <tr className="border-b-1 border-[#c2c2c2]">
-                                        <td className="productDetail whitespace-wrap  px-4 py-5 text-gray-700">
-                                            <div className="flex gap-2.5">
+                                        <td className="productDetail whitespace-wrap px-4 py-5 text-gray-700">
+                                            <div className="imgDetailCtn flex gap-2.5 max-[767px]:flex-col">
                                                 <img src={currentOrder?.books?.images?.[0]?.base_url} alt="productImage"
                                                     className="w-16 h-16 object-cover rounded" />
                                                 <div className="detailCtn">
@@ -341,15 +327,14 @@ const UserProfileOrderDetails = () => {
                                     <td className="text-right pt-1.5 px-5 pb-1.5 text-lg text-red-600">{currentOrder ? formatPrice(currentOrder.total_price) : "N/A"}</td>
                                 </tr>
                                 <tr>
-                                    <td colSpan={5} className="text-right px-5 pb-8">
+                                    <td colSpan={5} className="text-right px-5 pb-8 max-[767px]:text-center">
                                         {/*hiển thị nút khi đơn hàng chưa bị hủy */}
                                         {currentOrder?.status !== "canceled" && currentOrder?.status !== "completed" && (
                                             <button type="button"
-                                                className="bg-yellow-400 rounded-[4px] px-3 py-1.5  cursor-pointer hover:bg-yellow-500" onClick={handleCancelOrder}>Hủy
+                                                className="bg-yellow-400 rounded-[4px] px-3 py-1.5 cursor-pointer hover:bg-yellow-500 max-[767px]:h-11" onClick={handleCancelOrder}>Hủy
                                                 đơn hàng
                                             </button>
                                         )}
-
                                     </td>
                                 </tr>
                             </tfoot>
