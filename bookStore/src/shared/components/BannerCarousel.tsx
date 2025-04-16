@@ -70,7 +70,7 @@ function BannerCarousel() {
   const next = () => carouselRef.current?.next();
   const prev = () => carouselRef.current?.prev();
   return (
-    <div className='w-full   mt-6  overflow-x-hidden cursor-pointer'>
+    <div className='w-full   mt-6  overflow-x-hidden cursor-pointer md:block hidden'>
       <div className='relative h-[200px]   '>
         <Carousel
           ref={carouselRef}

@@ -117,7 +117,7 @@ const Header = () => {
     };
 
     return (
-        <header className="bg-white sticky top-0 z-50 shadow-md">
+        <header className="bg-white sticky top-0 z-50 shadow-md w-screen">
             <div className="bg-green-100 py-1 text-xs text-green-700 text-center font-bold">
                 Freeship từ đơn 45k, giảm nhiều hơn cùng <span className="italic"><span className="text-blue-700">FREESHIP</span> XTRA</span>
             </div>

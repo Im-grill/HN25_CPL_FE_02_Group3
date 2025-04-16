@@ -47,7 +47,7 @@ const Footer = () => {
     }
 
     return (
-        <footer className={'mt-4 text-xs leading-4 font-normal text-[rgb(128,128,137)] bg-white'}>
+        <footer className={'mt-4 text-xs leading-4 font-normal text-[rgb(128,128,137)] bg-white xl:flex hidden'}>
             <div className={'py-4'}>
                 <div className={'flex justify-between w-full max-w-[1270px] px-[15px] mx-auto flex-wrap lg:flex-nowrap'}>
                     <div className={'w-full lg:w-[268px] mb-6 lg:mb-0'}>

@@ -57,7 +57,7 @@ export interface IBook extends IHasId {
     list_price?: number,
     name?: string,
     original_price: number,
-    quantity_sold?: IQuanTitySold,
+    quantity_sold: IQuanTitySold,
     rating_average: number,
     short_description?: string,
     specifications?: ISpecifications[],
