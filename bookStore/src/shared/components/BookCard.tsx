@@ -64,7 +64,7 @@ export default function BookCard({ props }: BookCardProps) {
       </div>
       {/* name book */}
 
-      <div className='ml-3 mt-1 mr-5  h-[150px]'>
+      <div className='ml-3 mt-1 mr-5  max-h-[200px]'>
         <span>
           {props.name}
         </span>
@@ -91,12 +91,12 @@ export default function BookCard({ props }: BookCardProps) {
             <span className='text-[13.5px] text-[#FF424E] font-semibold self-start'>₫</span>
           </div>
 
-          <div className='flex'>
+          <div className='flex items-center'>
             {(((props.original_price - props.current_seller.price) / props.original_price) * 100) > 0 ? <span className='font-medium text-[14px]   bg-black/5 rounded-xl p-1 '>-{`${(((props.original_price - props.current_seller.price) / props.original_price) * 100).toFixed(0)}`}%</span> : ""}
             {(((props.original_price - props.current_seller.price) / props.original_price) * 100) > 0 ?
-              <div className='items-baseline flex'>
-                <span className='font-medium text-[10px] text-[#808089] '>{props.original_price.toLocaleString("vi-VN")}</span>
-                <span className='text-[7.5px] text-[#808089] font-semibold '>₫</span>
+              <div className='items-baseline flex ml-2 '>
+                <span className='font-medium text-[10px] text-[#808089] line-through'>{props.original_price.toLocaleString("vi-VN")}</span>
+                <span className='text-[7.5px] text-[#808089] font-semibold self-start '>₫</span>
               </div> : ""}
 
           </div>

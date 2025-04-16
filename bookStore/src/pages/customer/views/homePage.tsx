@@ -25,12 +25,12 @@ export default function HomePage() {
     <div className='w-full max-w-screen  bg-[#F5F5FA] overflow-hidden'>
         
       {/* breadcrumb */}
-      <div className=' bg-[#F5F5FA] ml-6 h-[53px]  w-fit flex items-center'>
+      <div className=' bg-[#F5F5FA] ml-6 h-[53px]  w-fit md:flex items-center hidden'>
         <Breadcrumb />
       </div>
       {/* main content */}
       <div className='md:ml-6 md:mr-6 flex flex-row  max-w-screen '>
-      <div className='shrink-0 '>
+      <div className='shrink-0 hidden xl:flex'>
           <Sidebar />
         </div>
         {/* Carousel top sach*/}
@@ -38,7 +38,7 @@ export default function HomePage() {
           <div className='bg-white w-full h-[74px] rounded-b-lg pt-4 pl-4 hidden md:block'>
             <span className='text-[28px] font-semibold'>Nhà Sách Tiki</span>
           </div>
-          <div className='w-full'>
+          <div className='w-full '>
           <BannerCarousel />
           </div>
            
@@ -55,7 +55,7 @@ export default function HomePage() {
           </div>
          
           {/* tim kiem lien quan */}
-          <div className='mt-15 mb-10'>
+          <div className='mt-15 mb-10 '>
           <RelSearchTopSeller/>
           </div>
       

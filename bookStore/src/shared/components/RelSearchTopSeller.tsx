@@ -19,10 +19,10 @@ const RelSearchTopSeller = () => {
     },[])
     return (
         <>
-            <div className="relSearchCtn rounded-md mb-3 text-xl pb-4 pt-2 pl-4 bg-white w-full" >
+            <div className="relSearchCtn rounded-md mb-3 text-xl pb-4 pt-2 pl-4 bg-white w-full xl:block hidden" >
                 <span>Tìm Kiếm Liên Quan</span>
             </div>
-            <div className="topSellerCtn w-full bg-white">
+            <div className="topSellerCtn w-full bg-white xl:block hidden">
                 <p className="text-xl pl-4 my-3">Top Bán Chạy Sản Phẩm Nhà Sách Tiki</p>
                 <div className="listProducts pl-8">
                     <ul>
