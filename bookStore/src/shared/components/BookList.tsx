@@ -76,7 +76,9 @@ export default function BookList({ filters }: BookListProps) {
       case 'desc':
         result.sort((a, b) => b.current_seller.price - a.current_seller.price);
         break;
-
+        case 'popular':
+          result.sort((a, b) => b.quantity_sold?.value - a.quantity_sold?.value);
+          break;
       default:
 
         break;
@@ -86,11 +88,11 @@ export default function BookList({ filters }: BookListProps) {
   }, [filters, data,searchParams]);
   return (
     <>
-      <div className='flex flex-wrap gap-2   mt-4 '>
+      <div className='flex flex-wrap gap-2   mt-4 ml-2 pb-5'>
 
 
         {filteredData.map((book, index) =>
-          <div key={index} className="w-[calc(25%-8px)]">
+          <div key={index} className="md:w-[calc(25%-8px)] w-[calc(50%-8px)]">
             {/* <Link to={`/customer/productdetail/${book.id}`} key={book.id}></Link> */}
             <Link to={`/customer/productdetail/${book.id}`} >
               <BookCard props={book} />

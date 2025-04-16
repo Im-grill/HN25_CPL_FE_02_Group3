@@ -27,8 +27,8 @@ const UserInfo = () => {
         message: string;
         isValid: boolean;
         color: string;
-    }>({ message: '', isValid: true, color: '' });
-    const { register, handleSubmit, formState: { errors, isDirty }, reset, control } = useForm<Inputs>()
+    }>({message: '', isValid: true, color: ''});
+    const {register, handleSubmit, formState: {errors, isDirty}, reset, control} = useForm<Inputs>()
 
 
     // Function để kiểm tra đăng nhập và cập nhật thông tin người dùng
@@ -106,13 +106,13 @@ const UserInfo = () => {
     }, [user, reset]);
 
     //kiểm tra giá trị email khi thay đổi
-    const emailValue = useWatch({ control, name: "email" });
+    const emailValue = useWatch({control, name: "email"});
     //kiểm tra email trùng lặp
     useEffect(() => {
         const timer = setTimeout(async () => {
             if (!emailValue || emailValue === userInfo.email) {
                 //không kiểm tra nếu trường rỗng / không thay đổi
-                setEmailStatus({ message: "", isValid: true, color: "" })
+                setEmailStatus({message: "", isValid: true, color: ""})
             }
             try {
                 const allUsers = await getUsers();
@@ -151,7 +151,7 @@ const UserInfo = () => {
         }
         console.log("Form data:", data);
         console.log("Current user data:", user);
-        const { email, fullname, address, phone } = data;
+        const {email, fullname, address, phone} = data;
         const updateData = {
             email, fullname, address, phone
         };
@@ -189,7 +189,7 @@ const UserInfo = () => {
             <div className='mx-26 h-[40px] flex items-center gap-1 text-[#808089]'>
                 {/* <Breadcrumb /> */}
                 <Link to="/customer/homepage" className="">Trang chủ </Link>
-                <FontAwesomeIcon icon={faChevronRight} className="" size="sm" />
+                <FontAwesomeIcon icon={faChevronRight} className="" size="sm"/>
                 <span> Thông tin tài khoản </span>
             </div>
             
@@ -210,10 +210,20 @@ const UserInfo = () => {
                                 </div>
                                 <div className="infoCtn flex flex-col justify-center items-center mx-auto">
                                     <div className="imageCtn mt-2">
-                                        <button type="button" title="avatar" className="image border-4 border-blue-200 rounded-full p-7 flex items-center justify-center relative cursor-pointer">
-                                            <FontAwesomeIcon icon={faUser} style={{ width: "50px", height: "50px", color: "#60A5FA", }} />
-                                            <div className="editBtnCtn bg-gray-800 rounded-full p-1 flex items-center border-none absolute -bottom-0.5 right-2">
-                                                <FontAwesomeIcon icon={faPen} style={{ width: "10px", height: "10px", color: "white", }} />
+                                        <button type="button" title="avatar"
+                                                className="image border-4 border-blue-200 rounded-full p-7 flex items-center justify-center relative cursor-pointer">
+                                            <FontAwesomeIcon icon={faUser} style={{
+                                                width: "50px",
+                                                height: "50px",
+                                                color: "#60A5FA",
+                                            }}/>
+                                            <div
+                                                className="editBtnCtn bg-gray-800 rounded-full p-1 flex items-center border-none absolute -bottom-0.5 right-2">
+                                                <FontAwesomeIcon icon={faPen} style={{
+                                                    width: "10px",
+                                                    height: "10px",
+                                                    color: "white",
+                                                }}/>
                                             </div>
                                         </button>
                                     </div>
@@ -221,7 +231,7 @@ const UserInfo = () => {
                                         <label htmlFor="fullname" className="text-[14px] mt-5">Họ & Tên</label>
                                         <div className="relative mt-2">
                                             <input
-                                                {...register("fullname", { required: false })}
+                                                {...register("fullname", {required: false})}
                                                 type="text"
                                                 className="w-full rounded-lg border-gray-200 border-1 p-2 pe-12 text-sm shadow-xs"
                                                 placeholder="Enter new name"
@@ -239,7 +249,7 @@ const UserInfo = () => {
                                         <label htmlFor="address" className="text-[14px] mx-1">Địa chỉ</label>
                                         <div className="relative">
                                             <input
-                                                {...register("address", { required: false })}
+                                                {...register("address", {required: false})}
                                                 type="text"
                                                 className="w-full rounded-lg border-gray-200 border-1 p-2 pe-12 text-sm shadow-xs"
                                                 placeholder="Enter new address"
@@ -250,7 +260,7 @@ const UserInfo = () => {
                                         <label htmlFor="phone" className="text-[14px] mx-1">Số điện thoại</label>
                                         <div className="relative">
                                             <input
-                                                {...register("phone", { required: false })}
+                                                {...register("phone", {required: false})}
                                                 type="text"
                                                 className="w-full rounded-lg border-gray-200 border-1 p-2 pe-12 text-sm shadow-xs"
                                                 placeholder="Enter new phone"
@@ -262,7 +272,7 @@ const UserInfo = () => {
 
                                         <div className="relative">
                                             <input
-                                                {...register("email", { required: true })}
+                                                {...register("email", {required: true})}
                                                 type="text"
                                                 className="w-full rounded-lg border-gray-200 border-1 p-2 pe-12 text-sm shadow-xs"
                                                 placeholder="Enter new email"
@@ -288,8 +298,8 @@ const UserInfo = () => {
 
 
                 </section>
-            </div >
-        </main >
+            </div>
+        </main>
     );
 }
 export default UserInfo;

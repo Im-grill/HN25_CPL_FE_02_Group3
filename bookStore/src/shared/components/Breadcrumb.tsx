@@ -8,8 +8,8 @@ const Breadcrumb = () => {
 //   if (pathnames.length === 0) return null; // hidden when at homepage
 
   return (
-    <nav className="text-gray-600 text-sm py-2">
-      <Link to="/" className="text-[#808089]">Trang chủ </Link>
+    <nav className="text-gray-600 text-sm py-2 hidden md:flex">
+      <Link to="/customer/homepage" className="text-[#808089]">Trang chủ </Link>
       {pathnames.map((name, index) => {
         const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
         return (
