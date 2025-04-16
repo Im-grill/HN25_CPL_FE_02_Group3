@@ -7,7 +7,7 @@ import { Link, } from "react-router-dom";
 import { isValidElement, useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { faChevronRight, faPen } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faChevronRight, faPen } from "@fortawesome/free-solid-svg-icons";
 import IUser from "../../../interfaces/UserInterface";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { getUsers, updateUser } from "../../../api/user.service";
@@ -21,6 +21,7 @@ type Inputs = {
 }
 
 const UserInfo = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(true);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState({
         fullName: "",
@@ -148,6 +149,7 @@ const UserInfo = () => {
         return () => clearTimeout(timer);
     }, [emailValue, userInfo.email]);
 
+    //submit thông tin đã thay đổi
     const submitForm: SubmitHandler<Inputs> = async (data) => {
         if (!user || !user.id) {
             console.error("User ID is not available.");
@@ -187,6 +189,32 @@ const UserInfo = () => {
         }
     }
 
+    //bật tắt sidebar (điện thoại)
+    const toggleSidebar = () => {
+        setIsMenuOpen(!isMenuOpen);
+    }
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 768) {
+                setIsMenuOpen(false);
+            } else {
+                setIsMenuOpen(true);
+            }
+        };
+
+        // Set initial state
+        handleResize();
+
+        // Add event listener
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup event listener on unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
         <main className=" bg-[#F5F5FA] mb-8">
             {/* breadcrumb */}
@@ -198,8 +226,17 @@ const UserInfo = () => {
             </div>
 
             <div className="mainContent flex mx-26">
-                <aside className="sideSection w-[24%] mr-6">
-                    <div className="avatarUsername flex items-center gap-[12px] mb-2">
+                <aside className={`sideSection ${isMenuOpen ? "w-64" : "w-10"} mr-6 transition-all duration-300 max-[768px]:${isMenuOpen ? "w-full" : "w-10"}`}>
+                    {/* Burger button */}
+                    <button
+                        title="menu"
+                        type="button"
+                        className={` bg-white rounded-md text-gray-600 md:hidden p-1.5`}
+                        onClick={toggleSidebar}
+                    >
+                        <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
+                    </button>
+                    <div className={`avatarUsername flex items-center gap-[12px] mb-2 ${isMenuOpen ? 'block' : 'hidden md:block'}`}>
                         <div className="avtCtn">
                             <img alt="avatar" src={avatar} className="rounded-full" />
                         </div>
@@ -208,29 +245,35 @@ const UserInfo = () => {
                             <span className="text-lg">{userInfo.fullName}</span>
                         </div>
                     </div>
-                    <button type="button"
-                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
-                        <img alt="iconOrder" src={iconUser} />
-                        <span className="text-sm text-gray-600">Thông tin tài khoản</span>
-                    </button>
-                    <button type="button"
-                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
-                        <img alt="iconOrder" src={iconBell} />
-                        <span className="text-sm text-gray-600">Thông báo của tôi</span>
-                    </button>
-                    <button type="button"
-                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full">
-                        <img alt="iconOrder" src={iconOrder} className="w-[18px] [h-20]" />
-                        <Link to={"../userprofile/orders"} className="text-sm text-gray-600">Quản lí đơn hàng</Link>
-                    </button>
+                    <div className={`responsive-list-btn ${isMenuOpen ? 'block' : 'hidden md:block'}`}>
+                        <button type="button"
+                            className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
+                            <img alt="iconOrder" src={iconUser} />
+                            <span className="text-sm text-gray-600">Thông tin tài khoản</span>
+                        </button>
+                        <button type="button"
+                            className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
+                            <img alt="iconOrder" src={iconBell} />
+                            <span className="text-sm text-gray-600">Thông báo của tôi</span>
+                        </button>
+                        <button type="button"
+                            className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full">
+                            <img alt="iconOrder" src={iconOrder} className="w-[18px] [h-20]" />
+                            <Link to={"../userprofile/orders"} className="text-sm text-gray-600">Quản lí đơn hàng</Link>
+                        </button>
+                    </div>
+
                 </aside>
-                <section className="mainContentCtn  w-[75%]">
+                <section className="mainContentCtn md:w-[75%] w-full">
                     <div className="orderTitle text-xl my-3.5">
                         <span className="">Thông tin tài khoản </span>
                     </div>
-                    <form className="userInfo bg-white rounded-lg p-4" onSubmit={handleSubmit(submitForm)}>
-                        <div className="row flex w-full">
-                            <div className="personalInfo w-1/2 pr-4">
+
+                    <form className="userInfo bg-white rounded-lg p-4" 
+                        onSubmit={handleSubmit(submitForm)}
+                        >
+                        <div className="row flex w-full max-[768px]:flex-col max-[768px]:gap-5">
+                            <div className="personalInfo md:w-1/2 md:pr-4 w-full max-[768px]:flex max-[768px]:flex-col max-[768px]:items-center">
                                 <div className="mb-2 flex justify-center items-center">
                                     <span className="title text-[16px] ">Thông tin cá nhân</span>
                                 </div>
@@ -256,12 +299,12 @@ const UserInfo = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="contactInfo ml-4 flex-1">
+                            <div className="contactInfo flex-1">
                                 <div className="mb-2 flex justify-center items-center">
                                     <span className="title text-[16px] ">Thông tin liên lạc</span>
                                 </div>
                                 <div className="infoCtn flex flex-col justify-center items-center mx-auto">
-                                    <div className="infoDetail mt-2">
+                                    <div className="infoDetail">
                                         <label htmlFor="address" className="text-[14px] mx-1">Địa chỉ</label>
                                         <div className="relative">
                                             <input
@@ -304,13 +347,15 @@ const UserInfo = () => {
                             </div>
                         </div>
                         <div className="submitBtnCtn flex items-center justify-center mt-7">
-                            <button type="submit" className={`text-white rounded-lg py-2 px-4  ${isDirty && emailStatus.isValid ? "bg-blue-600 hover:bg-blue-700 cursor-pointer" : "bg-gray-400 cursor-not-allowed"}`} disabled={!isDirty || !emailStatus.isValid} 
+                            <button type="submit" className={`text-white rounded-lg py-2 px-4  ${isDirty && emailStatus.isValid ? "bg-blue-600 hover:bg-blue-700 cursor-pointer" : "bg-gray-400 cursor-not-allowed"}`} disabled={!isDirty || !emailStatus.isValid}
                             >
                                 Lưu thay đổi
                             </button>
                         </div>
 
                     </form>
+
+
                 </section>
             </div >
         </main >
