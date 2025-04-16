@@ -5,7 +5,7 @@ import arrow from '../../assets/arrow.png'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Sidebar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(true);
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     const [openCategoryIds, setOpenCategoryIds] = useState([]);
     const [categories, setCategories] = useState([
         {
@@ -68,18 +68,12 @@ const Sidebar = () => {
         const handleResize = () => {
             if (window.innerWidth <= 765) {
                 setIsMenuOpen(false);
-            } else {
-                setIsMenuOpen(true);
             }
         };
 
-        // Set initial state
         handleResize();
-
-        // Add event listener
         window.addEventListener('resize', handleResize);
 
-        // Cleanup event listener on unmount
         return () => {
             window.removeEventListener('resize', handleResize);
         };
@@ -101,49 +95,65 @@ const Sidebar = () => {
     };
 
     return (
-        <aside className={`shrink-0 flex flex-col rounded-md h-fit bg-white transition-all duration-300 ${isMenuOpen ? "w-full" : "w-10"}`}>
+        <div>
             {/* Burger button */}
-            <button 
-                    title="menu" 
-                    type="button" 
+            <button
+                    title="menu"
+                    type="button"
+                    className={`text-gray-600 md:hidden p-1.5 `}
+                    onClick={toggleSidebar}
+                >
+                    <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
+                </button>
+            <aside className={`shrink-0 flex flex-col rounded-md h-fit bg-white transition-all duration-300 ${isMenuOpen ? "fixed top-0 left-0 right-0 bottom-0 z-50 overflow-y-auto w-full h-full md:w-64 md:h-fit md:static" : "hidden"}`}>
+                {/* <aside className={`shrink-0 flex flex-col rounded-md h-fit bg-white transition-all duration-300 ${isMenuOpen ? 'fixed top-0 left-0 right-0 bottom-0 z-50 overflow-y-auto w-full h-full'
+                        : 'hidden md:flex md:w-64'
+                    }`}
+            > */}
+                {/* Burger button */}
+                <button
+                    title="menu"
+                    type="button"
                     className={`text-gray-600 md:hidden p-1.5`}
                     onClick={toggleSidebar}
                 >
                     <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
                 </button>
-            {/* top sidebar*/}
-            <div className={`sidebar-top border-[#c2c2c2] px-2.5 py-3.5 flex justify-between items-center ${isMenuOpen ? 'block' : 'hidden md:block'}`}>
-               <span className="font-semibold text-[14px]">Khám phá theo danh mục</span>
-            </div>
-            
-            {/* Menu content - chỉ hiển thị khi isMenuOpen là true */}
-            <div className={`menuCtn flex flex-col ${isMenuOpen ? 'block' : 'hidden'}`}>
-                <ul className="p-0">
-                    {categories.map((category) => (
-                        <li key={category.id} className="border-t-1 w-full border-[#c2c2c2] p-2">
-                            <div className="catCtn flex justify-between items-center px-2 ">
-                                <Link to={category.link} className="text-[13px] font-medium hover:text-blue-400 hover:underline ">{category.name}</Link>
-                                <button type="button" onClick={() => toggleSubcategories(category.id)} className="p-1 hover:bg-gray-300 cursor-pointer rounded-md">
-                                    <img src={arrow} alt="arrow" className={`size-7 transition-transform duration-200 
+                {/* top sidebar*/}
+                <div className={`sidebar-top border-[#c2c2c2] px-2.5 py-3.5 flex justify-between items-center ${isMenuOpen ? 'block' : 'hidden md:block'}`}>
+                    <span className="font-semibold text-[14px]">Khám phá theo danh mục</span>
+                </div>
+
+                {/* Menu content - chỉ hiển thị khi isMenuOpen là true */}
+                <div className={`menuCtn flex flex-col ${isMenuOpen ? 'block' : 'hidden'}`}>
+                    <ul className="p-0">
+                        {categories.map((category) => (
+                            <li key={category.id} className="border-t-1 w-full border-[#c2c2c2] p-2">
+                                <div className="catCtn flex justify-between items-center px-2 ">
+                                    <Link to={category.link} className="text-[13px] font-medium hover:text-blue-400 hover:underline ">{category.name}</Link>
+                                    <button type="button" onClick={() => toggleSubcategories(category.id)} className="p-1 hover:bg-gray-300 cursor-pointer rounded-md">
+                                        <img src={arrow} alt="arrow" className={`size-7 transition-transform duration-200 
                                         ${isCategoryOpen(category.id) ? '' : 'rotate-180'}`} />
-                                </button>
-                            </div>
-                            <div className={`subCatCtn overflow-hidden transition-all duration-200 ${isCategoryOpen(category.id) ? 'h-full' : 'max-h-0'}`}>
-                                <ul className=" px-4">
-                                    {category.subcategories.map((subcat) => (
-                                        <li key={subcat.id}>
-                                            <Link to={subcat.link} className="block rounded-lg px-4 py-1 text-[13px] hover:text-blue-400 hover:underline ">
-                                                {subcat.name}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </aside>
+                                    </button>
+                                </div>
+                                <div className={`subCatCtn overflow-hidden transition-all duration-200 ${isCategoryOpen(category.id) ? 'h-full' : 'max-h-0'}`}>
+                                    <ul className=" px-4">
+                                        {category.subcategories.map((subcat) => (
+                                            <li key={subcat.id}>
+                                                <Link to={subcat.link} className="block rounded-lg px-4 py-1 text-[13px] hover:text-blue-400 hover:underline ">
+                                                    {subcat.name}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </aside>
+        </div>
+
     )
 }
 export default Sidebar;
