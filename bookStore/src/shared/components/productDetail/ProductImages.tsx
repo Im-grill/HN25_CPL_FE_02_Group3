@@ -1,4 +1,3 @@
-import { FaAngleRight } from 'react-icons/fa';
 import { IBook } from '../../../interfaces/BookInterfaces';
 import tikiheader from '../../../assets/tiki-head.png';
 

@@ -1,4 +1,3 @@
-import { FaStar } from 'react-icons/fa';
 import { IBook } from '../../../interfaces/BookInterfaces';
 import { JSX } from 'react';
 

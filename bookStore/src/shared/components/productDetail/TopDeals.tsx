@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { IBook } from '../../../interfaces/BookInterfaces';
-import ProductCard from './productCard';
+import ProductCard from './ProductCard';
 
 interface TopDealsProps {
     allBooks: IBook[];
