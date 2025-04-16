@@ -101,11 +101,6 @@ const Sidebar = () => {
     };
 
     return (
-<<<<<<< HEAD
-        <aside className=" flex-col rounded-md h-screen w-64  bg-white " >
-            <div className="sidebar-top border-b-1 border-[#c2c2c2] p-1.5">
-                <span className="ml-2.5 font-semibold ">Khám phá theo danh mục</span>
-=======
         <aside className={`shrink-0 flex flex-col rounded-md h-fit bg-white transition-all duration-300 ${isMenuOpen ? "w-full" : "w-10"}`}>
             {/* Burger button */}
             <button 
@@ -119,7 +114,6 @@ const Sidebar = () => {
             {/* top sidebar*/}
             <div className={`sidebar-top border-[#c2c2c2] px-2.5 py-3.5 flex justify-between items-center ${isMenuOpen ? 'block' : 'hidden md:block'}`}>
                <span className="font-semibold text-[14px]">Khám phá theo danh mục</span>
->>>>>>> origin/main
             </div>
             
             {/* Menu content - chỉ hiển thị khi isMenuOpen là true */}
