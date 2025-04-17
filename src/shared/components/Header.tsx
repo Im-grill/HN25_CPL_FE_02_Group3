@@ -58,7 +58,7 @@ const Header = () => {
 
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        navigate(`/customer/homepage?search=${searchTerm}`);
+        navigate(`/?search=${searchTerm}`);
     };
 
     const toggleShowPassword = () => setShowPassword(!showPassword);
@@ -125,7 +125,7 @@ const Header = () => {
         setLoggedInFullName('');
         setRole('');
         localStorage.clear();
-        navigate('/customer/homepage');
+        navigate('/');
     };
 
     // handle open sidebar in responsive
@@ -141,7 +141,7 @@ const Header = () => {
             {/* Top Bar */}
             <div className="flex items-center justify-between p-3 bg-[rgb(27,168,255)] text-white">
                 <div className="flex items-center space-x-4">
-                    <Link to="/customer/homepage">
+                    <Link to="/">
                         <FontAwesomeIcon icon={faArrowLeft} className="h-5 w-5 text-white" />
                     </Link>
                     <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -167,11 +167,11 @@ const Header = () => {
                 </div>
 
                 {/* Cart with notification */}
-                <Link to="/customer/userprofile/orders" className="relative">
+                <Link to="/userprofile/orders" className="relative">
                     <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5 text-white" />
                     <span
                         className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
-                        4
+                        0
                     </span>
                 </Link>
             </div>
@@ -194,7 +194,7 @@ const Header = () => {
             {/* Mobile menu */}
             {isMenuOpen && (
                 <div className="md:hidden px-4 pb-4 space-y-2 bg-white">
-                    <Link to="/customer/homepage" className="block text-gray-700 hover:text-blue-500">Trang chủ</Link>
+                    <Link to="/" className="block text-gray-700 hover:text-blue-500">Trang chủ</Link>
                     <button title="openSide" type="button" className="sidebar-responsive block text-gray-700 hover:text-blue-500" 
                     onClick={openSidebar}>Danh mục</button>
                     {isLoggedIn ? (
@@ -314,7 +314,7 @@ const Header = () => {
                     </button>
 
                     {/* Logo */}
-                    <Link to="/customer/homepage" className="flex flex-col items-center">
+                    <Link to="/" className="flex flex-col items-center">
                         <img src={TikiLogo} alt="Tiki Logo" className="h-8" />
                         <span className="mt-1 text-sm font-semibold text-blue-500">Tốt & Nhanh</span>
                     </Link>
@@ -345,7 +345,7 @@ const Header = () => {
 
                 {/* Menu desktop */}
                 <div className="hidden md:flex items-center space-x-4">
-                    <Link to="/customer/homepage" className="text-gray-700 hover:text-blue-500">
+                    <Link to="/" className="text-gray-700 hover:text-blue-500">
                         <FontAwesomeIcon icon={faHome} className="h-5 w-5 mr-1" />
                         Trang chủ</Link>
 
@@ -364,7 +364,7 @@ const Header = () => {
                     )}
 
                     {/* Shopping Cart */}
-                    <Link to="/customer/userprofile/orders"
+                    <Link to="/userprofile/orders"
                         className="relative flex items-center text-gray-600 hover:text-blue-500">
                         <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
                         <span
@@ -375,7 +375,7 @@ const Header = () => {
                 </div>
 
                 {/* Shopping cart button mobile */}
-                <Link to="/customer/userprofile/orders"
+                <Link to="/userprofile/orders"
                     className="relative flex md:hidden items-center text-gray-600 hover:text-blue-500 ml-3">
                     <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
                     <span
@@ -387,16 +387,16 @@ const Header = () => {
             {/* List */}
             <div className="bg-gray-50 border-b border-gray-200 py-2 text-sm overflow-x-auto whitespace-nowrap">
                 <div className="container mx-auto px-4 flex items-center space-x-4">
-                    <Link to="/customer/homepage" className="hover:text-blue-500">Điện gia dụng</Link>
-                    <Link to="/customer/homepage" className="hover:text-blue-500">Xe cộ</Link>
-                    <Link to="/customer/homepage" className="hover:text-blue-500">Mẹ & Bé</Link>
-                    <Link to="/customer/homepage" className="hover:text-blue-500">Khỏe đẹp</Link>
-                    <Link to="/customer/homepage" className="hover:text-blue-500">Nhà cửa</Link>
-                    <Link to="/customer/homepage" className="hover:text-blue-500">Sách</Link>
-                    <Link to="/customer/homepage" className="hover:text-blue-500">Thể thao</Link>
-                    <Link to="/customer/homepage" className="hover:text-blue-500">Harry Potter</Link>
-                    <Link to="/customer/homepage" className="hover:text-blue-500">Lịch treo tường 2024</Link>
-                    <Link to="/customer/homepage" className="hover:text-blue-500">Nguyễn Nhật Ánh</Link>
+                    <Link to="/" className="hover:text-blue-500">Điện gia dụng</Link>
+                    <Link to="/" className="hover:text-blue-500">Xe cộ</Link>
+                    <Link to="/" className="hover:text-blue-500">Mẹ & Bé</Link>
+                    <Link to="/" className="hover:text-blue-500">Khỏe đẹp</Link>
+                    <Link to="/" className="hover:text-blue-500">Nhà cửa</Link>
+                    <Link to="/" className="hover:text-blue-500">Sách</Link>
+                    <Link to="/" className="hover:text-blue-500">Thể thao</Link>
+                    <Link to="/" className="hover:text-blue-500">Harry Potter</Link>
+                    <Link to="/" className="hover:text-blue-500">Lịch treo tường 2024</Link>
+                    <Link to="/" className="hover:text-blue-500">Nguyễn Nhật Ánh</Link>
                 </div>
             </div>
 

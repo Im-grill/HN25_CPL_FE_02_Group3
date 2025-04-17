@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }: props) => {
 
   if (!token) {
     setIsModalOpen(true);
-    return <Navigate to="/customer/homepage" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return children;
