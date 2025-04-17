@@ -30,9 +30,7 @@ const UserProfileOrderDetails = () => {
             // Đảm bảo dùng cùng một key để kiểm tra đăng nhập
             const token = localStorage.getItem('accessToken');
             const isUserLoggedIn = !!token;
-
             setIsLoggedIn(isUserLoggedIn);
-
             if (isUserLoggedIn) {
                 // Lấy tất cả thông tin người dùng từ localStorage
                 const storedFullName = localStorage.getItem('loggedInFullName') || "";
@@ -51,13 +49,10 @@ const UserProfileOrderDetails = () => {
                 });
             }
         };
-
         // Kiểm tra ngay khi component mount
         checkLoginAndUpdateInfo();
-
         // Thiết lập interval để kiểm tra mỗi 1 giây
         const intervalId = setInterval(checkLoginAndUpdateInfo, 1000);
-
         // Cleanup khi component unmount
         return () => clearInterval(intervalId);
     }, [isLoggedIn]);
@@ -174,6 +169,7 @@ const UserProfileOrderDetails = () => {
     useEffect(()=>{
         console.log(currentOrder)
     },[])
+
     return (
         <main className=" bg-[#F5F5FA]">
             {/* breadcrumb */}
@@ -183,7 +179,6 @@ const UserProfileOrderDetails = () => {
                 <FontAwesomeIcon icon={faChevronRight} className="" size="sm" />
                 <span> Đơn hàng của tôi </span>
             </div>
-
             <div className="mainContent flex mx-26">
                 <UserSideBar/>
                 <section className="mainContentCtn md:w-[75%] w-full max-[767px]:flex max-[767px]:flex-col max-[767px]:items-center ">
@@ -194,7 +189,6 @@ const UserProfileOrderDetails = () => {
                     <div className="orderDate flex md:justify-end mb-3 text-sm">
                         <span>Ngày đặt hàng: {formatDate(currentOrder?.created_at)}</span>
                     </div>
-
                     <div className="shipDetail flex justify-between gap-4 mb-4 items-stretch max-[767px]:flex-col">
                         {/* Địa chỉ người nhận */}
                         <div className="title flex flex-col flex-1">
@@ -213,7 +207,6 @@ const UserProfileOrderDetails = () => {
                                 </div>
                             </div>
                         </div>
-
                         {/* Hình thức giao hàng */}
                         <div className="title flex flex-col flex-1">
                             <div className="text-sm md:mb-3 mb-1 text-gray-800">
@@ -246,7 +239,6 @@ const UserProfileOrderDetails = () => {
                             </div>
                         </div>
                     </div>
-
                     <div className="orderDetail ">
                         <table className="md:min-w-full w-fit divide-gray-200 bg-white rounded-md ">
                             <thead className="ltr:text-left rtl:text-right border-b-1 border-[#c2c2c2]">
@@ -260,7 +252,6 @@ const UserProfileOrderDetails = () => {
                                     </th>
                                 </tr>
                             </thead>
-
                             <tbody className=" divide-gray-200">
                                 {currentOrder ? (
                                     <tr className="border-b-1 border-[#c2c2c2]">
@@ -340,7 +331,6 @@ const UserProfileOrderDetails = () => {
                             </tfoot>
                         </table>
                     </div>
-
                     <div className="navSection flex items-center mt-4 mb-8 text-sm gap-2.5">
                         <Link to="../userprofile/orders" className="text-blue-600">&lt;&lt; Quay lại đơn hàng của tôi</Link>
                         <button type="button"
@@ -350,7 +340,6 @@ const UserProfileOrderDetails = () => {
                     </div>
                 </section>
             </div>
-
         </main>
     );
 }

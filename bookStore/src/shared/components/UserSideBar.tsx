@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { divide } from "lodash";
 
 const UserSideBar = () => {
     const navigate = useNavigate();
@@ -17,20 +16,16 @@ const UserSideBar = () => {
         fullName: "",
         email: "",
     });
-
     // Function để kiểm tra đăng nhập và cập nhật thông tin người dùng
     const checkLoginAndUpdateInfo = useCallback(() => {
         // Đảm bảo dùng cùng một key để kiểm tra đăng nhập
         const token = localStorage.getItem('accessToken');
         const isUserLoggedIn = !!token;
-
         setIsLoggedIn(isUserLoggedIn);
-
         if (isUserLoggedIn) {
             // Lấy tất cả thông tin người dùng từ localStorage
             const storedFullName = localStorage.getItem('loggedInFullName') || "";
             const storedEmail = localStorage.getItem('loggedInEmail') || "";
-
             setUserInfo({
                 fullName: storedFullName,
                 email: storedEmail,
@@ -47,7 +42,6 @@ const UserSideBar = () => {
     // Theo dõi trạng thái localStorage và đăng nhập
     useEffect(() => {
         checkLoginAndUpdateInfo();
-
         // Theo dõi sự thay đổi của localStorage (đăng nhập/đăng xuất)
         const handleStorageChange = (event: StorageEvent) => {
             if (event.key === 'accessToken' || event.key === 'loggedInEmail') {
@@ -60,12 +54,10 @@ const UserSideBar = () => {
         };
     }, [checkLoginAndUpdateInfo]);
 
-
     //bật tắt sidebar (responsive)
     const toggleSidebar = () => {
         setIsMenuOpen(!isMenuOpen);
     }
-
     
     // Hàm hỗ trợ để đóng sidebar và điều hướng
     const handleNavigate = (path: string) => {
@@ -79,13 +71,10 @@ const UserSideBar = () => {
                 setIsMenuOpen(false);
             }
         };
-
         // Set initial state
         handleResize();
-
         // Add event listener
         window.addEventListener('resize', handleResize);
-
         // Cleanup event listener on unmount
         return () => {
             window.removeEventListener('resize', handleResize);
@@ -116,7 +105,6 @@ const UserSideBar = () => {
                         <FontAwesomeIcon icon={faBars} size="2xl" />
                     </button>
                 </div>
-
                 <div className={`avatarUsername md:gap-[12px] gap-6 flex items-center md:mb-2 md:border-none border-b-1 border-t-1 border-[#c2c2c2] max-[770px]:py-3.5 max-[770px]:pl-4`}>
                     <div className="avtCtn">
                         <img alt="avatar" src={avatar} className="rounded-full" />
@@ -145,10 +133,8 @@ const UserSideBar = () => {
                         <span className="md:text-sm text-gray-600 text-lg">Quản lí đơn hàng</span>
                     </button>
                 </div>
-
             </aside>
         </div>
-
     );
 }
 export default UserSideBar;

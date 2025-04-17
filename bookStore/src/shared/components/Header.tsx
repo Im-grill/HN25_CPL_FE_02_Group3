@@ -4,11 +4,12 @@ import TikiImage from '../../assets/tiki-image.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Logo30Days from '../../assets/logo/img.png'
 import ArrowRight from '../../assets/logo/img_1.png'
-import {faArrowLeft,faBars,faBox,faCheckCircle,faHome,faMoneyBillTransfer,faSearch,faShoppingCart,faTags,faTruck,faTruckFast,faUser} from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faBars, faBox, faCheckCircle, faHome, faMoneyBillTransfer, faSearch, faShoppingCart, faTags, faTruck, faTruckFast, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { IUser } from '../../interfaces/UserInterface';
 import { login as loginService, register as registerService } from '../../api/auth.service';
 import { useModal } from '../context/ModalContext.tsx';
+import SidebarMobile from './SideBarMobile.tsx';
 
 const Header = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -24,6 +25,7 @@ const Header = () => {
     const [role, setRole] = useState('');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -126,6 +128,13 @@ const Header = () => {
         navigate('/customer/homepage');
     };
 
+    // handle open sidebar in responsive
+    const openSidebar = () => {
+        setIsSidebarOpen(true);
+        console.log('sidebar opened');
+        
+    };
+
     // Mobile Header Component
     const MobileHeader = () => (
         <header className=" top-0 w-full">
@@ -186,7 +195,8 @@ const Header = () => {
             {isMenuOpen && (
                 <div className="md:hidden px-4 pb-4 space-y-2 bg-white">
                     <Link to="/customer/homepage" className="block text-gray-700 hover:text-blue-500">Trang chủ</Link>
-
+                    <button title="openSide" type="button" className="sidebar-responsive block text-gray-700 hover:text-blue-500" 
+                    onClick={openSidebar}>Danh mục</button>
                     {isLoggedIn ? (
                         <div className="flex flex-col space-y-1">
                             <div className="text-grey-700">{loggedInFullName}</div>
@@ -203,7 +213,8 @@ const Header = () => {
                     )}
                 </div>
             )}
-             {isModalOpen && (
+            <SidebarMobile isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+            {isModalOpen && (
                 <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 ">
                     <div className="bg-white rounded-lg shadow-lg w-[800px] flex relative" style={{ bottom: '100px' }}>
                         <button className="absolute top-4 left-4 text-gray-500 hover:text-black text-xl"
