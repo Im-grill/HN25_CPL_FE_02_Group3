@@ -70,9 +70,10 @@ function ProductDetail() {
                         address: foundUser.address,
                         phone: foundUser.phone,
                         createdAt: foundUser.createdAt,
+                        role: foundUser.role,
                     };
                     setLoggedUser(userData);
-                   
+            
                 } else {
                     console.log('User not found with email:', storedEmail);
                 }
