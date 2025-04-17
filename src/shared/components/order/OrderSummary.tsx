@@ -1,5 +1,5 @@
 import React from 'react';
-import infoLogo from '../../../assets/order-logo/img_5.png';
+import infoLogo from '../../../assets/Order-logo/img_5.png';
 import {OrderData} from './types';
 
 interface OrderSummaryProps {
