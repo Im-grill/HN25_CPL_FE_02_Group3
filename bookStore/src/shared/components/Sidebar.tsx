@@ -105,11 +105,11 @@ const Sidebar = () => {
                 >
                     <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
                 </button>
-            <aside className={`shrink-0 flex flex-col rounded-md h-fit bg-white transition-all duration-300 ${isMenuOpen ? "fixed top-0 left-0 right-0 bottom-0 z-50 overflow-y-auto w-full h-full md:w-64 md:h-fit md:static" : "hidden"}`}>
-                {/* <aside className={`shrink-0 flex flex-col rounded-md h-fit bg-white transition-all duration-300 ${isMenuOpen ? 'fixed top-0 left-0 right-0 bottom-0 z-50 overflow-y-auto w-full h-full'
+            {/* <aside className={`shrink-0 flex flex-col rounded-md h-fit bg-white transition-al   l duration-300 ${isMenuOpen ? "fixed top-0 left-0 right-0 bottom-0 z-50 overflow-y-auto w-full h-full md:w-64 md:h-fit md:static" : "hidden"}`}> */}
+                <aside className={`shrink-0 flex flex-col rounded-md h-fit bg-white transition-all duration-300 ${isMenuOpen ? 'fixed top-0 left-0 right-0 bottom-0 z-50 overflow-y-auto w-full h-full'
                         : 'hidden md:flex md:w-64'
                     }`}
-            > */}
+            >
                 {/* Burger button */}
                 <button
                     title="menu"
@@ -124,8 +124,8 @@ const Sidebar = () => {
                     <span className="font-semibold text-[14px]">Khám phá theo danh mục</span>
                 </div>
 
-                {/* Menu content - chỉ hiển thị khi isMenuOpen là true */}
-                <div className={`menuCtn flex flex-col ${isMenuOpen ? 'block' : 'hidden'}`}>
+                {/* menu content */}
+                <div className={`menuCtn flex flex-col ${isMenuOpen ? 'block' : 'hidden md:block'}`}>
                     <ul className="p-0">
                         {categories.map((category) => (
                             <li key={category.id} className="border-t-1 w-full border-[#c2c2c2] p-2">
