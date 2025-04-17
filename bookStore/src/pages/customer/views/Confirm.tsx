@@ -1,8 +1,25 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { getOrders } from '../../../api/order.service';
+import { IOrder } from '../../../interfaces';
 export default function Confirm() {
     const { state } = useLocation();
     const { order } = state || {};
+    const [orderData,setOrderData] = useState<IOrder[]>([])
+    const getOrderData = async () => {
+        const res = await getOrders();
+        const last = res.slice(-1);
+        if(last){
+            setOrderData(last)
+        }
+    }
+    useEffect(() => {
+        getOrderData()
+    }, [])
+    useEffect(() => {
+        console.log(orderData)
+    }, [orderData])
     return (
         <div className='flex justify-center  mt-6 mb-10 flex-col items-center lg:flex-row lg:items-stretch lg:pl-4'>
             <div className="w-[90%]  md:max-w-[100%] lg:w-[718px] mb-5">
@@ -24,7 +41,7 @@ export default function Confirm() {
                         <span className="text-[#38383D] font-normal text-lg">{order.total_price.toLocaleString('vi-VN')} ₫</span>
                     </div>
                     <div className="ml-[30%] text-center mr-5 ">
-                        <Link to="/customer/homepage">
+                        <Link to="/">
                             <button type="button" className="border-[#0B74E5] border-1 w-full p-3 rounded-sm cursor-pointer hover:underline decoration-[#0B74E5]">
                                 <span className="text-[#0B74E5] ">Quay về trang chủ</span>
                             </button>
@@ -38,7 +55,7 @@ export default function Confirm() {
                     <span className="text-sm text-[#38383D] font-bold">
                         Mã đơn hàng: 861977987
                     </span>
-                    <a href="#" className="text-[#0B74E5] text-sm font-medium">Xem đơn hàng</a>
+                    <Link to={`/userprofile/order/${orderData[0]?.id}`} className="text-[#0B74E5] text-sm font-medium">Xem đơn hàng</Link>
                 </div>
                 {/* time giao hang */}
                 <div>

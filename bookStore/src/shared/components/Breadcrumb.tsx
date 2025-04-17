@@ -9,7 +9,7 @@ const Breadcrumb = () => {
 
   return (
     <nav className="text-gray-600 text-sm py-2 hidden md:flex">
-      <Link to="/customer/homepage" className="text-[#808089]">Trang chủ </Link>
+      <Link to="/" className="text-[#808089]">Trang chủ </Link>
       {pathnames.map((name, index) => {
         const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
         return (
