@@ -35,7 +35,7 @@ function App() {
                 <Route path="homepage" element={<HomePage />} />
                 <Route path="productdetail/:id" element={<ProductDetail />} />
                 <Route path="userprofile/order/:orderId" element={<UserProfileOrderDetails />} />
-                <Route path="userprofile/orders" element={<UserProfileListOrder />} />
+                <Route path="userprofile/orders" element={<ProtectedRoute> <UserProfileListOrder /> </ProtectedRoute>} />
                 <Route path="userprofile/info" element={<UserInfo />} />
                 <Route path="order" element={<ProtectedRoute> <Order /> </ProtectedRoute>} />
                 <Route path="confirm" element={<Confirm />} />

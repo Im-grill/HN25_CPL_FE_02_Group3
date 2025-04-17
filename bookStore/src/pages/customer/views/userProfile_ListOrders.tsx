@@ -1,8 +1,4 @@
 import Breadcrumb from "../../../shared/components/Breadcrumb";
-import avatar from "../../../assets/avatar.png"
-import iconOrder from "../../../assets/icon_profile.png"
-import iconUser from "../../../assets/icon_user.png";
-import iconBell from "../../../assets/icon_bell.png";
 import returnBadge from "../../../assets/return-badge.png";
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
@@ -12,6 +8,7 @@ import { getOrders } from "../../../api/order.service";
 import { IOrder } from "../../../interfaces";
 import { getUsers } from "../../../api/user.service";
 import IUser from "../../../interfaces/UserInterface";
+import UserSideBar from "../../../shared/components/UserSideBar";
 
 
 const UserProfileListOrder = () => {
@@ -87,8 +84,6 @@ const UserProfileListOrder = () => {
     useEffect(()=>{
         if(isLoggedIn && userInfo.email){
             fetchUserByEmail(); 
-            console.log("email: ",userInfo.email);
-            console.log("id:", loggedUser?.id);
         }
     },[isLoggedIn, userInfo.email, fetchUserByEmail]);
 
@@ -151,34 +146,9 @@ const UserProfileListOrder = () => {
                 <span> Đơn hàng của tôi </span>
             </div>
 
-            <div className="mainContent flex mx-26">
-                <aside className="sideSection w-[24%] mr-6">
-                    <div className="avatarUsername flex items-center gap-[12px] mb-2">
-                        <div className="avtCtn">
-                            <img alt="avatar" src={avatar} className="rounded-full" />
-                        </div>
-                        <div className="username flex flex-col">
-                            <span className="text-sm">Tài khoản của</span>
-                            <span className="text-lg">{userInfo.fullName}</span>
-                        </div>
-                    </div>
-                    <button type="button"
-                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
-                        <img alt="iconOrder" src={iconUser} />
-                        <Link to={"../userprofile/info"} className="text-sm text-gray-600">Thông tin tài khoản</Link>
-                    </button>
-                    <button type="button"
-                        className="button cursor-pointer hover:bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full ">
-                        <img alt="iconOrder" src={iconBell} />
-                        <span className="text-sm text-gray-600">Thông báo của tôi</span>
-                    </button>
-                    <button type="button"
-                        className="button cursor-pointer bg-gray-200 py-2.5 flex items-center gap-[22px] px-7 w-full">
-                        <img alt="iconOrder" src={iconOrder} className="w-[18px] [h-20]" />
-                        <span className="text-sm text-gray-600">Quản lí đơn hàng</span>
-                    </button>
-                </aside>
-                <section className="mainContentCtn  w-[75%]">
+            <div className="mainContent flex mx-4 md:mx-26 ">
+                <UserSideBar/>
+                <section className="mainContentCtn md:w-[75%] w-full max-[767px]:flex-1">
                     <div className="orderTitle text-xl my-3.5">
                         <span className="">Đơn hàng của tôi </span>
                     </div>

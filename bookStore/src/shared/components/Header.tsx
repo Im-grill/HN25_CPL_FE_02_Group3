@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import TikiLogo from '../../assets/logo/tiki-logo.png';
 import TikiImage from '../../assets/tiki-image.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faSearch, faShoppingCart, faUser, faBars, faCheckCircle, faTruckFast, faMoneyBillTransfer, faBox, faTruck, faTags } from '@fortawesome/free-solid-svg-icons';
+import Logo30Days from '../../assets/logo/img.png'
+import ArrowRight from '../../assets/logo/img_1.png'
+import {faArrowLeft,faBars,faBox,faCheckCircle,faHome,faMoneyBillTransfer,faSearch,faShoppingCart,faTags,faTruck,faTruckFast,faUser} from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { IUser } from '../../interfaces/UserInterface';
 import { login as loginService, register as registerService } from '../../api/auth.service';
-import { useModal } from '../../shared/context/ModalContext';
+import { useModal } from '../context/ModalContext.tsx';
 
 const Header = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -21,6 +23,7 @@ const Header = () => {
     const [loggedInFullName, setLoggedInFullName] = useState('');
     const [role, setRole] = useState('');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -38,6 +41,13 @@ const Header = () => {
             setRole('');
             localStorage.clear();
         }
+
+        // Kiểm tra kích thước màn hình khi resize
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 1024);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,10 +126,169 @@ const Header = () => {
         navigate('/customer/homepage');
     };
 
+    // Mobile Header Component
+    const MobileHeader = () => (
+        <header className=" top-0 w-full">
+            {/* Top Bar */}
+            <div className="flex items-center justify-between p-3 bg-[rgb(27,168,255)] text-white">
+                <div className="flex items-center space-x-4">
+                    <Link to="/customer/homepage">
+                        <FontAwesomeIcon icon={faArrowLeft} className="h-5 w-5 text-white" />
+                    </Link>
+                    <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                        <FontAwesomeIcon icon={faBars} className="h-5 w-5 text-white" />
+                    </button>
+                </div>
+
+                {/* Search Bar */}
+                <div className="flex-1 mx-3 bg-white rounded-md flex items-center px-3 py-2">
+                    <FontAwesomeIcon icon={faSearch} className="text-gray-400 mr-2" />
+                    <input
+                        type="text"
+                        placeholder="Bạn đang tìm kiếm gì"
+                        className="bg-transparent border-none outline-none flex-1 text-gray-700 placeholder-gray-400 text-sm"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSearchSubmit(e);
+                            }
+                        }}
+                    />
+                </div>
+
+                {/* Cart with notification */}
+                <Link to="/customer/userprofile/orders" className="relative">
+                    <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5 text-white" />
+                    <span
+                        className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
+                        4
+                    </span>
+                </Link>
+            </div>
+
+            {/* 30 Ngày Cam Kết Banner */}
+            <div className={' p-3 pb-0'}>
+                <div
+                    className={'flex overflow-y-auto overflow-x-hidden p-2 text-sm leading-6 rounded-lg justify-center bg-[rgb(255,232,128)]'}>
+                    <a href="">
+                        <span className={'flex items-center'}>
+                            <img src={Logo30Days} alt="" className={'w-[90px] h-6 opacity-100'} />
+                            <span className={'align-middle text-sm leading-6 pl-1 text-[#27272A]'}>
+                                <strong>đổi ý miễn phí trả hàng</strong>
+                            </span>
+                            <img src={ArrowRight} alt="" className={'ml-2 w-[7px] h-[11px]'} />
+                        </span>
+                    </a>
+                </div>
+            </div>
+            {/* Mobile menu */}
+            {isMenuOpen && (
+                <div className="md:hidden px-4 pb-4 space-y-2 bg-white">
+                    <Link to="/customer/homepage" className="block text-gray-700 hover:text-blue-500">Trang chủ</Link>
+
+                    {isLoggedIn ? (
+                        <div className="flex flex-col space-y-1">
+                            <div className="text-grey-700">{loggedInFullName}</div>
+                            {role === 'admin' && (
+                                <Link to="/admin" className="text-blue-500 hover:underline">Quản trị</Link>
+                            )}
+                            <button onClick={handleLogout} className="text-blue-500 hover:underline text-left">Đăng
+                                xuất
+                            </button>
+                        </div>
+                    ) : (
+                        <button onClick={() => setIsModalOpen(true)} className="text-gray-700 hover:text-blue-500">Tài
+                            khoản </button>
+                    )}
+                </div>
+            )}
+             {isModalOpen && (
+                <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 ">
+                    <div className="bg-white rounded-lg shadow-lg w-[800px] flex relative" style={{ bottom: '100px' }}>
+                        <button className="absolute top-4 left-4 text-gray-500 hover:text-black text-xl"
+                            onClick={() => setIsModalOpen(false)}>
+                            &nbsp;&lt;&nbsp;
+                        </button>
+
+                        <div className="w-1/2 p-6">
+                            <br />
+                            <h2 className="text-xl font-semibold mb-2">{isLogin ? 'Đăng nhập bằng email' : 'Tạo tài khoản'}</h2>
+                            <p className="text-sm mb-4">{isLogin ? 'Nhập email và mật khẩu tài khoản Tiki' : 'Đăng ký tài khoản để mua sắm'}</p>
+                            <form onSubmit={handleSubmit}>
+                                <div className="border-b-2 mb-4 border-gray-300">
+                                    <input type="email" placeholder="abc@email.com"
+                                        className="w-full py-2 border-none outline-none bg-transparent"
+                                        value={emailInput} onChange={(e) => setEmailInput(e.target.value)} required />
+                                </div>
+                                <div className="relative border-b-2 mb-4 border-gray-300">
+                                    <input type={showPassword ? 'text' : 'password'} placeholder="Mật khẩu"
+                                        className="w-full py-2 border-none outline-none bg-transparent pr-24"
+                                        value={password} onChange={(e) => setPassword(e.target.value)} required />
+                                    <button type="button"
+                                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-500 cursor-pointer text-sm"
+                                        onClick={toggleShowPassword}>
+                                        {showPassword ? 'Ẩn' : 'Hiện'}
+                                    </button>
+                                </div>
+                                {!isLogin && (
+                                    <div className="border-b-2 mb-4 border-gray-300">
+                                        <input type="text" placeholder="Họ và tên"
+                                            className="w-full py-2 border-none outline-none bg-transparent"
+                                            value={fullNameInput}
+                                            onChange={(e) => setFullNameInput(e.target.value)} />
+                                    </div>
+                                )}
+                                {errorMessage && <p className="text-red-500 text-sm mb-2">{errorMessage}</p>}
+                                <button type="submit"
+                                    className={`w-full ${isLogin ? 'bg-red-500' : 'bg-blue-500'} text-white py-2 rounded`}>
+                                    {isLogin ? 'Đăng nhập' : 'Đăng ký'}
+                                </button>
+                            </form>
+                            <div className="flex justify-between text-sm mt-2">
+                                {isLogin ? (
+                                    <div className="flex flex-col space-y-2">
+                                        <a href="#" className="text-blue-500">Quên mật khẩu?</a>
+                                        <div className="flex items-center space-x-1">
+                                            <span className="text-gray-700 font-light">Chưa có tài khoản?</span>
+                                            <button onClick={() => setIsLogin(false)} className="text-blue-500">Tạo tài
+                                                khoản
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <button onClick={() => setIsLogin(true)} className="text-blue-500">Đã có tài khoản?
+                                        Đăng nhập</button>
+                                )}
+                            </div>
+                        </div>
+
+                        <div
+                            className="w-1/2 bg-blue-50 flex flex-col items-center justify-center p-4 text-center relative">
+                            <img src={TikiImage} alt="Tiki" className="h-52 mb-2" />
+                            <p className="text-blue-500 font-semibold">Mua sắm tại Tiki</p>
+                            <p className="text-blue-500 text-sm">Siêu ưu đãi mỗi ngày</p>
+                            <button className="absolute top-4 right-4 text-gray-500 hover:text-black text-xl"
+                                onClick={() => setIsModalOpen(false)}>
+                                &#x2715;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </header>
+    );
+
+    // Return Mobile or Desktop Header based on screen size
+    if (isMobile) {
+        return <MobileHeader />;
+    }
+    // Original Desktop Header
     return (
         <header className="bg-white sticky top-0 z-50 shadow-md w-screen">
             <div className="bg-green-100 py-1 text-xs text-green-700 text-center font-bold">
-                Freeship từ đơn 45k, giảm nhiều hơn cùng <span className="italic"><span className="text-blue-700">FREESHIP</span> XTRA</span>
+                Freeship từ đơn 45k, giảm nhiều hơn cùng <span className="italic"><span
+                    className="text-blue-700">FREESHIP</span> XTRA</span>
             </div>
 
             <div className="container mx-auto px-4 py-3 flex items-center justify-between">
@@ -128,6 +297,7 @@ const Header = () => {
                     <button
                         className="md:hidden text-gray-600 mr-3"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        title='a'
                     >
                         <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
                     </button>
@@ -148,6 +318,11 @@ const Header = () => {
                         className="bg-transparent border-none outline-none flex-1 text-sm text-gray-700 placeholder-gray-400"
                         value={searchTerm}
                         onChange={handleSearchChange}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSearchSubmit(e);
+                            }
+                        }}
                     />
                     <button
                         onClick={handleSearchSubmit}
@@ -178,18 +353,22 @@ const Header = () => {
                     )}
 
                     {/* Shopping Cart */}
-                    <Link to="/customer/userprofile/orders" className="relative flex items-center text-gray-600 hover:text-blue-500">
+                    <Link to="/customer/userprofile/orders"
+                        className="relative flex items-center text-gray-600 hover:text-blue-500">
                         <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
-                        <span className="absolute top-[-8px] right-[-8px] bg-red-500 text-white rounded-full text-xs px-[6px]">
+                        <span
+                            className="absolute top-[-8px] right-[-8px] bg-red-500 text-white rounded-full text-xs px-[6px]">
                             0
                         </span>
                     </Link>
                 </div>
 
                 {/* Shopping cart button mobile */}
-                <Link to="/customer/userprofile/orders" className="relative flex md:hidden items-center text-gray-600 hover:text-blue-500 ml-3">
+                <Link to="/customer/userprofile/orders"
+                    className="relative flex md:hidden items-center text-gray-600 hover:text-blue-500 ml-3">
                     <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
-                    <span className="absolute top-[-8px] right-[-8px] bg-red-500 text-white rounded-full text-xs px-[6px]">
+                    <span
+                        className="absolute top-[-8px] right-[-8px] bg-red-500 text-white rounded-full text-xs px-[6px]">
                         0
                     </span>
                 </Link>
@@ -241,31 +420,12 @@ const Header = () => {
                 </div>
             </div>
 
-
-            {/* Mobile menu */}
-            {isMenuOpen && (
-                <div className="md:hidden px-4 pb-4 space-y-2 bg-white">
-                    <Link to="/customer/homepage" className="block text-gray-700 hover:text-blue-500">Trang chủ</Link>
-
-                    {isLoggedIn ? (
-                        <div className="flex flex-col space-y-1">
-                            <div className="text-grey-700">{loggedInFullName}</div>
-                            {role === 'admin' && (
-                                <Link to="/admin" className="text-blue-500 hover:underline">Quản trị</Link>
-                            )}
-                            <button onClick={handleLogout} className="text-blue-500 hover:underline text-left">Đăng xuất</button>
-                        </div>
-                    ) : (
-                        <button onClick={() => setIsModalOpen(true)} className="text-gray-700 hover:text-blue-500">Tài khoản</button>
-                    )}
-                </div>
-            )}
-
             {/* Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+                <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 ">
                     <div className="bg-white rounded-lg shadow-lg w-[800px] flex relative" style={{ bottom: '100px' }}>
-                        <button className="absolute top-4 left-4 text-gray-500 hover:text-black text-xl" onClick={() => setIsModalOpen(false)}>
+                        <button className="absolute top-4 left-4 text-gray-500 hover:text-black text-xl"
+                            onClick={() => setIsModalOpen(false)}>
                             &nbsp;&lt;&nbsp;
                         </button>
 
@@ -275,21 +435,31 @@ const Header = () => {
                             <p className="text-sm mb-4">{isLogin ? 'Nhập email và mật khẩu tài khoản Tiki' : 'Đăng ký tài khoản để mua sắm'}</p>
                             <form onSubmit={handleSubmit}>
                                 <div className="border-b-2 mb-4 border-gray-300">
-                                    <input type="email" placeholder="abc@email.com" className="w-full py-2 border-none outline-none bg-transparent" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} required />
+                                    <input type="email" placeholder="abc@email.com"
+                                        className="w-full py-2 border-none outline-none bg-transparent"
+                                        value={emailInput} onChange={(e) => setEmailInput(e.target.value)} required />
                                 </div>
                                 <div className="relative border-b-2 mb-4 border-gray-300">
-                                    <input type={showPassword ? 'text' : 'password'} placeholder="Mật khẩu" className="w-full py-2 border-none outline-none bg-transparent pr-24" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                                    <button type="button" className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-500 cursor-pointer text-sm" onClick={toggleShowPassword}>
+                                    <input type={showPassword ? 'text' : 'password'} placeholder="Mật khẩu"
+                                        className="w-full py-2 border-none outline-none bg-transparent pr-24"
+                                        value={password} onChange={(e) => setPassword(e.target.value)} required />
+                                    <button type="button"
+                                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-500 cursor-pointer text-sm"
+                                        onClick={toggleShowPassword}>
                                         {showPassword ? 'Ẩn' : 'Hiện'}
                                     </button>
                                 </div>
                                 {!isLogin && (
                                     <div className="border-b-2 mb-4 border-gray-300">
-                                        <input type="text" placeholder="Họ và tên" className="w-full py-2 border-none outline-none bg-transparent" value={fullNameInput} onChange={(e) => setFullNameInput(e.target.value)} />
+                                        <input type="text" placeholder="Họ và tên"
+                                            className="w-full py-2 border-none outline-none bg-transparent"
+                                            value={fullNameInput}
+                                            onChange={(e) => setFullNameInput(e.target.value)} />
                                     </div>
                                 )}
                                 {errorMessage && <p className="text-red-500 text-sm mb-2">{errorMessage}</p>}
-                                <button type="submit" className={`w-full ${isLogin ? 'bg-red-500' : 'bg-blue-500'} text-white py-2 rounded`}>
+                                <button type="submit"
+                                    className={`w-full ${isLogin ? 'bg-red-500' : 'bg-blue-500'} text-white py-2 rounded`}>
                                     {isLogin ? 'Đăng nhập' : 'Đăng ký'}
                                 </button>
                             </form>
@@ -299,20 +469,25 @@ const Header = () => {
                                         <a href="#" className="text-blue-500">Quên mật khẩu?</a>
                                         <div className="flex items-center space-x-1">
                                             <span className="text-gray-700 font-light">Chưa có tài khoản?</span>
-                                            <button onClick={() => setIsLogin(false)} className="text-blue-500">Tạo tài khoản</button>
+                                            <button onClick={() => setIsLogin(false)} className="text-blue-500">Tạo tài
+                                                khoản
+                                            </button>
                                         </div>
                                     </div>
                                 ) : (
-                                    <button onClick={() => setIsLogin(true)} className="text-blue-500">Đã có tài khoản? Đăng nhập</button>
+                                    <button onClick={() => setIsLogin(true)} className="text-blue-500">Đã có tài khoản?
+                                        Đăng nhập</button>
                                 )}
                             </div>
                         </div>
 
-                        <div className="w-1/2 bg-blue-50 flex flex-col items-center justify-center p-4 text-center relative">
+                        <div
+                            className="w-1/2 bg-blue-50 flex flex-col items-center justify-center p-4 text-center relative">
                             <img src={TikiImage} alt="Tiki" className="h-52 mb-2" />
                             <p className="text-blue-500 font-semibold">Mua sắm tại Tiki</p>
                             <p className="text-blue-500 text-sm">Siêu ưu đãi mỗi ngày</p>
-                            <button className="absolute top-4 right-4 text-gray-500 hover:text-black text-xl" onClick={() => setIsModalOpen(false)}>
+                            <button className="absolute top-4 right-4 text-gray-500 hover:text-black text-xl"
+                                onClick={() => setIsModalOpen(false)}>
                                 &#x2715;
                             </button>
                         </div>
@@ -322,5 +497,4 @@ const Header = () => {
         </header>
     );
 };
-
 export default Header;
