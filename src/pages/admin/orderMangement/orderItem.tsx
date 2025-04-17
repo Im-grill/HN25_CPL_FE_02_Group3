@@ -1,4 +1,3 @@
-import React from "react";
 import { IOrder } from "../../../interfaces";
 import { deleteOrder } from "../../../api/order.service";
 

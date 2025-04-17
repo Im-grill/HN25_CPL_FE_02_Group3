@@ -11,7 +11,7 @@ const OrderDetails = () => {
     const [error, setError] = useState("");
     const apiUrl: string = 'http://localhost:8080/order';
 
-    const handleSubmit = (event: any) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!userEmail || !bookName || bookPrice <= 0 || quantity <= 0) {
             setError("All fields are required and price/quantity must be positive");
