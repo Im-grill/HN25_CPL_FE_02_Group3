@@ -8,7 +8,7 @@ type Inputs = {
 }
 
 type CategoryFormProps = {
-  onGetCategories: () => {}
+  onGetCategories: () => void
 }
 
 const CategoryForm = ({ onGetCategories }: CategoryFormProps) => {
@@ -22,7 +22,6 @@ const CategoryForm = ({ onGetCategories }: CategoryFormProps) => {
   } = useForm<Inputs>();
 
   const submitForm: SubmitHandler<Inputs> = async (data) => {
-    // console.log(data);
     const { name } = data;
     const newCategory = {
       name,
@@ -44,12 +43,12 @@ const CategoryForm = ({ onGetCategories }: CategoryFormProps) => {
 
         <div className="relative">
           <input
-            // {...register("name", { required: true })}
             {...register("name", { required: true })}
             type="text"
             className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
             placeholder="Nhập Category"
           />
+          {errors.name && <p className="mt-1 text-red-500 text-xs">Tên danh mục là bắt buộc</p>}
         </div>
       </div>
 

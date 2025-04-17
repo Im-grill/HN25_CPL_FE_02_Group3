@@ -1,7 +1,7 @@
-import React, { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getCategoryById, updateCategory } from "../../../api/category.service";
 import { ICategory } from "../../../interfaces.ts";
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 type CategoryModalProps = {
   onClose: () => void,
@@ -14,27 +14,28 @@ type Inputs = {
 }
 
 const CategoryModal = ({ onClose, id }: CategoryModalProps) => {
-  const [category, setCategory] = useState<ICategory>()
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<Inputs>()
+  const [category, setCategory] = useState<ICategory>();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<Inputs>();
 
   const submitForm: SubmitHandler<Inputs> = async (data) => {
-    // console.log(data);
-    await updateCategory(id, data)
-    onClose()
-  }
+    await updateCategory(id, data);
+    onClose();
+  };
 
   const fetchCategoryById = async () => {
-    const data = await getCategoryById(id)
-    setCategory(data)
-  }
+    const data = await getCategoryById(id);
+    setCategory(data);
+  };
 
   useEffect(() => {
-    fetchCategoryById()
-  }, [])
+    fetchCategoryById();
+  }, [id]);
 
   useEffect(() => {
-    reset(category)
-  }, [category])
+    if (category) {
+      reset(category);
+    }
+  }, [category, reset]);
 
   return <div className="bg-gray-300/70 top-0 h-full w-full absolute flex justify-center items-center">
     <div className="w-1/2 relative rounded-lg border border-gray-200 shadow-lg opacity-100 bg-white p-4">
@@ -52,27 +53,27 @@ const CategoryModal = ({ onClose, id }: CategoryModalProps) => {
       <form onSubmit={handleSubmit(submitForm)} className="mx-auto mt-8 mb-0 max-w-md space-y-4">
         <h1 className="text-xl">Cập nhật category</h1>
         <div>
-          <label htmlFor="email" className="sr-only">Tên danh mục</label>
-
+          <label htmlFor="name" className="sr-only">Tên danh mục</label>
           <div className="relative">
             <input
-              {...register("name", { required: true })}
+              {...register("name", { required: "Tên danh mục là bắt buộc" })}
               type="text"
               className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
               placeholder="Nhập vào tên danh mục"
             />
+            {errors.name && <p className="mt-1 text-red-500 text-xs">{errors.name.message}</p>}
           </div>
         </div>
         <div>
-          <label htmlFor="email" className="sr-only">Tên danh mục</label>
-
+          <label htmlFor="createdAt" className="sr-only">Ngày tạo</label>
           <div className="relative">
             <input
-              {...register("createdAt", { required: true })}
+              {...register("createdAt", { required: "Ngày tạo là bắt buộc" })}
               type="text"
               className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs"
               placeholder="Created at"
             />
+            {errors.createdAt && <p className="mt-1 text-red-500 text-xs">{errors.createdAt.message}</p>}
           </div>
         </div>
 
@@ -81,7 +82,7 @@ const CategoryModal = ({ onClose, id }: CategoryModalProps) => {
             type="submit"
             className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
           >
-            Thêm mới
+            Cập nhật
           </button>
         </div>
       </form>

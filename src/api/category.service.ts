@@ -12,8 +12,8 @@ export const getCategoryById = async (id: number): Promise<ICategory> => {
 export const createCategory = async (data: ICategory) => {
   const categories = await getCategory();
   const newId = categories.length > 0
-  ? Math.max(...categories.map((cat) => cat.id)) + 1
-  : 1;
+    ? Math.max() + 1
+    : 1;
 
   const newCategory = { ...data, id: newId };
 
