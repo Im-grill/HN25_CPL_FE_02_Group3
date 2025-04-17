@@ -145,47 +145,12 @@ const UserProfileListOrder = () => {
                 <FontAwesomeIcon icon={faChevronRight} className="" size="sm" />
                 <span> Đơn hàng của tôi </span>
             </div>
-
             <div className="mainContent flex mx-4 md:mx-26 ">
                 <UserSideBar/>
                 <section className="mainContentCtn md:w-[75%] w-full max-[767px]:flex-1">
                     <div className="orderTitle text-xl my-3.5">
                         <span className="">Đơn hàng của tôi </span>
                     </div>
-
-                    {/* <div className="shipDetail flex justify-between text-[15px] mb-4 items-stretch">
-                        <div className="title flex flex-col flex-1">
-                            <button type="button" className="detail bg-white h-full py-2 cursor-pointer hover:border-b-2 hover:border-blue-700">
-                                Tất cả đơn
-                            </button>
-                        </div>
-                        <div className="title flex flex-col flex-1">
-                            <button type="button" className="detail bg-white h-full py-2 cursor-pointer hover:border-b-2 hover:border-blue-700">
-                                Chờ thanh toán
-                            </button>
-                        </div>
-                        <div className="title flex flex-col flex-1">
-                            <button type="button" className="detail bg-white h-full py-2 cursor-pointer hover:border-b-2 hover:border-blue-700">
-                                Đang xử lí
-                            </button>
-                        </div>
-                        <div className="title flex flex-col flex-1">
-                            <button type="button" className="detail bg-white h-full py-2 cursor-pointer hover:border-b-2 hover:border-blue-700">
-                                Đã thanh toán
-                            </button>
-                        </div>
-                        <div className="title flex flex-col flex-1">
-                            <button type="button" className="detail bg-white h-full py-2 cursor-pointer hover:border-b-2 hover:border-blue-700">
-                                Đã giao
-                            </button>
-                        </div>
-                        <div className="title flex flex-col flex-1">
-                            <button type="button" className="detail bg-white h-full py-2 cursor-pointer hover:border-b-2 hover:border-blue-700">
-                                Đã hủy
-                            </button>
-                        </div>
-                    </div> */}
-
                     {userOrders && userOrders.length > 0 ? (
                         <div className="ordersList">
                             <table className="min-w-full  divide-gray-200 bg-white rounded-md ">
@@ -194,7 +159,6 @@ const UserProfileListOrder = () => {
                                         <th className="whitespace-wrap font-normal px-3.5 py-1  text-gray-500">Chi tiết</th>
                                     </tr>
                                 </thead>
-
                                 <tbody className=" divide-gray-200 border-t-1 border-[#c2c2c2]">
                                     {userOrders?.map((order) => (
                                         <tr key={order.id} className="border-b-1 border-[#c2c2c2]">

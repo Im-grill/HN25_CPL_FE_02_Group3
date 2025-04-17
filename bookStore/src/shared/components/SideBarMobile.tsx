@@ -1,8 +1,16 @@
-import { useState } from "react";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import arrow from '../../assets/arrow.png'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Sidebar = () => {
+interface SidebarProps {
+    isSidebarOpen: boolean;
+    setIsSidebarOpen: (value: boolean) => void;
+}
+
+const SidebarMobile = ({ isSidebarOpen, setIsSidebarOpen }: SidebarProps) => {
+    console.log('Sidebar props:', { isSidebarOpen, setIsSidebarOpen });
     const [openCategoryIds, setOpenCategoryIds] = useState([]);
     const [categories, setCategories] = useState([
         {
@@ -57,6 +65,11 @@ const Sidebar = () => {
         }
     ]);
 
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+      };
+    
+
     const toggleSubcategories = (categoryId: number) => {
         setOpenCategoryIds(prevOpenIds => {
             if (prevOpenIds.includes(categoryId)) {
@@ -74,9 +87,18 @@ const Sidebar = () => {
 
     return (
         <div>
-            <aside className="shrink-0 flex flex-col rounded-md h-screen w-64 bg-white">
+            <aside className={`shrink-0 flex flex-col rounded-md h-fit bg-white transition-all duration-300 ${isSidebarOpen ? 'fixed top-0 left-0 right-0 bottom-0 z-50 overflow-y-auto w-full h-full': 'hidden'}`}>
+                {/* Burger button */}
+                <button
+                    title="menu"
+                    type="button"
+                    className={`text-gray-600 md:hidden p-1.5`}
+                    onClick={toggleSidebar}
+                >
+                    <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
+                </button>
                 {/* top sidebar*/}
-                <div className="sidebar-top px-1.5 px-4 py-3.5">
+                <div className="sidebar-top border-[#c2c2c2] px-2.5 py-3.5 flex justify-between items-center block">
                     <span className="font-semibold text-[14px]">Khám phá theo danh mục</span>
                 </div>
 
@@ -84,9 +106,11 @@ const Sidebar = () => {
                 <div className="menuCtn flex flex-col">
                     <ul className="p-0">
                         {categories.map((category) => (
-                            <li key={category.id} className="border-t-1 w-full border-[#ddd2d2] p-2">
+                            <li key={category.id} className="border-t-1 w-full border-[#c2c2c2] p-2">
                                 <div className="catCtn flex justify-between items-center px-2 ">
-                                    <Link to={category.link} className="text-[13px] font-medium hover:text-blue-400 hover:underline ">{category.name}</Link>
+                                    <Link to={category.link} 
+                                    className="text-[13px] font-medium hover:text-blue-400 hover:underline " 
+                                    onClick={() => setIsSidebarOpen(false)}>{category.name}</Link>
                                     <button type="button" onClick={() => toggleSubcategories(category.id)} className="p-1 hover:bg-gray-300 cursor-pointer rounded-md">
                                         <img src={arrow} alt="arrow" className={`size-7 transition-transform duration-200 
                                         ${isCategoryOpen(category.id) ? '' : 'rotate-180'}`} />
@@ -96,7 +120,7 @@ const Sidebar = () => {
                                     <ul className=" px-4">
                                         {category.subcategories.map((subcat) => (
                                             <li key={subcat.id}>
-                                                <Link to={subcat.link} className="block rounded-lg px-4 py-1 text-[13px] hover:text-blue-400 hover:underline ">
+                                                <Link to={subcat.link} className="block rounded-lg px-4 py-1 text-[13px] hover:text-blue-400 hover:underline" onClick={() => setIsSidebarOpen(false)}>
                                                     {subcat.name}
                                                 </Link>
                                             </li>
@@ -112,4 +136,4 @@ const Sidebar = () => {
 
     )
 }
-export default Sidebar;
+export default SidebarMobile;
