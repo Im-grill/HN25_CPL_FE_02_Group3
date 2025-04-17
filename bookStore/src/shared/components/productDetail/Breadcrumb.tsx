@@ -9,8 +9,8 @@ interface BreadcrumbProps {
 function Breadcrumb({ book }: BreadcrumbProps) {
     const breadcrumbItems = [
         { label: 'Trang chủ', path: '/' },
-        { label: 'Customer', path: '/customer' },
-        { label: 'Homepage', path: '/customer/homepage' },
+        { label: 'Customer', path: '/' },
+        { label: 'Homepage', path: '/' },
     ];
 
     return (
@@ -29,7 +29,7 @@ function Breadcrumb({ book }: BreadcrumbProps) {
                 {book.name && (
                     <div className="flex items-center">
                         <Link
-                            to={`/customer/productdetail/${book.id}`}
+                            to={`/productdetail/${book.id}`}
                             className="text-black font-medium hover:text-blue-500"
                         >
                             {book.name}

@@ -64,8 +64,7 @@ const Order: React.FC = () => {
     const handlePlaceOrder = async () => {
         if (!loggedInEmail) {
             setError('Bạn cần đăng nhập để đặt hàng!');
-            console.log(loggedInEmail);
-            navigate('/customer/homepage');
+            navigate('/');
             return;
         }
 
@@ -79,9 +78,9 @@ const Order: React.FC = () => {
         };
 
         try {
-            console.log(orderPayload);
+           
             await axios.post('http://localhost:8080/order', orderPayload);
-            navigate('/customer/confirm', {state: {order: orderPayload}});
+             navigate('/confirm', {state: {order: orderPayload}});
         } catch (err) {
             console.error('Lỗi khi đặt hàng:', err);
             setError(`Không thể đặt hàng:`);

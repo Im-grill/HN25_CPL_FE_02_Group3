@@ -31,8 +31,8 @@ function App() {
             <Alert />
             <Routes>
               {/* Customer */}
-              <Route path='customer' element={<CustomerLayout />}>
-                <Route path="homepage" element={<HomePage />} />
+              <Route element={<CustomerLayout />}>
+                <Route path="/" element={<HomePage />} />
                 <Route path="productdetail/:id" element={<ProductDetail />} />
                 <Route path="userprofile/order/:orderId" element={<UserProfileOrderDetails />} />
                 <Route path="userprofile/orders" element={<ProtectedRoute> <UserProfileListOrder /> </ProtectedRoute>} />

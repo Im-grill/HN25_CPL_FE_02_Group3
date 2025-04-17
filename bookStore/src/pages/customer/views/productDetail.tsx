@@ -72,6 +72,7 @@ function ProductDetail() {
                         createdAt: foundUser.createdAt,
                     };
                     setLoggedUser(userData);
+                   
                 } else {
                     console.log('User not found with email:', storedEmail);
                 }
@@ -124,7 +125,8 @@ function ProductDetail() {
                 books: book,
                 users: loggedUser,
             };
-            navigate('/customer/order', { state: orderData });
+          
+            navigate('/order', { state: orderData });
         }
     };
 

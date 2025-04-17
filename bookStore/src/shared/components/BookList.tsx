@@ -92,9 +92,9 @@ export default function BookList({ filters }: BookListProps) {
 
 
         {filteredData.map((book, index) =>
-          <div key={index} className="md:w-[calc(25%-8px)] w-[calc(50%-8px)]">
+          <div key={index} className="lg:w-[calc(25%-8px)] w-[calc(50%-8px)] md:w-[calc(33%-8px)]">
             {/* <Link to={`/customer/productdetail/${book.id}`} key={book.id}></Link> */}
-            <Link to={`/customer/productdetail/${book.id}`} >
+            <Link to={`/productdetail/${book.id}`} >
               <BookCard props={book} />
             </Link>
           </div>
