@@ -17,7 +17,7 @@ type Inputs = {
 }
 
 const UserInfo = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [, setIsLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState({
         fullName: "",
         email: "",
@@ -39,7 +39,7 @@ const UserInfo = () => {
 
         setIsLoggedIn(isUserLoggedIn);
 
-        if (isLoggedIn) {
+        if (isUserLoggedIn) {
             // Lấy tất cả thông tin người dùng từ localStorage
             const storedFullName = localStorage.getItem('loggedInFullName') || "";
             const storedEmail = localStorage.getItem('loggedInEmail') || "";
