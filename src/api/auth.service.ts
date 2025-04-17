@@ -1,4 +1,4 @@
-import { IUser } from "../interfaces/UserInterface";
+import { ILogin, IRegister, IUser } from "../interfaces/UserInterface";
 import instance from "./api.service";
 
 type LoginType = {
@@ -6,10 +6,10 @@ type LoginType = {
   user: IUser;
 };
 
-export const login = (data: IUser): Promise<LoginType> => {
+export const login = (data: ILogin): Promise<LoginType> => {
   return instance.post("login", data);
 };
 
-export const register = (data: IUser): Promise<LoginType> => {
+export const register = (data: IRegister): Promise<LoginType> => {
   return instance.post("register", data);
 };

@@ -6,7 +6,7 @@ import Logo30Days from '../../assets/logo/img.png'
 import ArrowRight from '../../assets/logo/img_1.png'
 import { faArrowLeft, faBars, faBox, faCheckCircle, faHome, faMoneyBillTransfer, faSearch, faShoppingCart, faTags, faTruck, faTruckFast, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
-import { IUser } from '../../interfaces/UserInterface';
+import { ILogin, IRegister} from '../../interfaces/UserInterface';
 import { login as loginService, register as registerService } from '../../api/auth.service';
 import { useModal } from '../context/ModalContext.tsx';
 import SidebarMobile from './SideBarMobile.tsx';
@@ -66,7 +66,7 @@ const Header = () => {
     const handleLogin = async () => {
         setErrorMessage('');
         try {
-            const userData: IUser = {
+            const userData: ILogin = {
                 email: emailInput,
                 password: password,
             };
@@ -74,7 +74,7 @@ const Header = () => {
             localStorage.setItem('accessToken', response.accessToken);
             if (response) {
                 localStorage.setItem('loggedInEmail', response.user.email);
-                localStorage.setItem('userId', response.user.id);
+                localStorage.setItem('userId', response.user.id.toString());
                 setLoggedInFullName(response.user.fullname);
                 localStorage.setItem('role', response.user.role);
                 localStorage.setItem('loggedInFullName', response.user.fullname);
@@ -100,7 +100,7 @@ const Header = () => {
     const handleRegister = async () => {
         setErrorMessage('');
         try {
-            const userData: IUser = {
+            const userData: IRegister = {
                 fullname: fullNameInput,
                 email: emailInput,
                 password: password,
