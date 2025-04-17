@@ -1,4 +1,3 @@
-
 export interface IUser {
   id: number,
   fullname: string,
@@ -9,4 +8,17 @@ export interface IUser {
   createdAt?: string,
   role: string,
 }
+
+export interface ILogin {
+  email: string,
+  password: string,
+}
+
+export interface IRegister {
+  fullname: string,
+  email: string,
+  password: string,
+  role: string,
+}
+
 export default IUser;
