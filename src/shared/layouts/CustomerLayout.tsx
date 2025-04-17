@@ -4,7 +4,7 @@ import {Outlet, useLocation} from 'react-router-dom'
 
 const CustomerLayout = () => {
     const location = useLocation();
-    const noHeaderFooterPaths = ['/customer/order'];
+    const noHeaderFooterPaths = ['/order'];
     const shouldHideHeaderFooter = noHeaderFooterPaths.includes(location.pathname);
     return (
         <div className="h-screen flex flex-col">
