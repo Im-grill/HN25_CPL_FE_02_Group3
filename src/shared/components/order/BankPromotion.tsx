@@ -1,7 +1,7 @@
 import React from 'react';
-import counponBankPayLogo from '../../../assets/order-logo/img_11.png';
-import shinhanBankLogo from '../../../assets/order-logo/img_12.png';
-import infoLogo from '../../../assets/order-logo/img_5.png';
+import counponBankPayLogo from '../../../assets/Order-logo/img_11.png';
+import shinhanBankLogo from '../../../assets/Order-logo/img_12.png';
+import infoLogo from '../../../assets/Order-logo/img_5.png';
 
 const BankPromotion: React.FC = () => {
     // Function to render a single bank card
