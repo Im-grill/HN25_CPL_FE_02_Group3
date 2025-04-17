@@ -1,6 +1,4 @@
-import Breadcrumb from "../../../shared/components/Breadcrumb";
 import shipLogo from "../../../assets/now.png";
-import returnBadge from "../../../assets/return-badge.png";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +9,7 @@ import instance from "../../../api/api.service";
 import IUser  from "../../../interfaces/UserInterface";
 import { getUsers } from "../../../api/user.service";
 import UserSideBar from "../../../shared/components/UserSideBar";
+import OrderDetailItem from "../../../shared/components/OrderDetailItem";
 
 const UserProfileOrderDetails = () => {
     const { orderId } = useParams();
@@ -65,7 +64,7 @@ const UserProfileOrderDetails = () => {
                     return;
                 }
                 const allUsers = await getUsers();
-                const foundUser = allUsers.find(user => user.email === userInfo.email);
+                const foundUser = allUsers.find(user => user.email === user?.email);
                 if (foundUser) {
                     setUser(foundUser);
                 } else {
@@ -109,13 +108,14 @@ const UserProfileOrderDetails = () => {
                 setCurrentOrder(null);
             } finally {
                 setLoading(false);
+                console.log(loading);
             }
         };
         //chỉ fetch khi đã đăng nhập và có email
         if (isLoggedIn && userInfo.email) {
             fetchOrderDetail();
         };
-    }, [isLoggedIn, userInfo.email, orderId])
+    }, [isLoggedIn, userInfo.email, orderId,loading])
 
     const patchOrderStatus = async (id: number, status: string) => {
         try {
@@ -253,43 +253,7 @@ const UserProfileOrderDetails = () => {
                                 </tr>
                             </thead>
                             <tbody className=" divide-gray-200">
-                                {currentOrder ? (
-                                    <tr className="border-b-1 border-[#c2c2c2]">
-                                        <td className="productDetail whitespace-wrap px-4 py-5 text-gray-700">
-                                            <div className="imgDetailCtn flex gap-2.5 max-[767px]:flex-col">
-                                                <img src={currentOrder?.books?.images?.[0]?.base_url} alt="productImage"
-                                                    className="w-16 h-16 object-cover rounded" />
-                                                <div className="detailCtn">
-                                                    <div className="text-[15px]">{currentOrder.books.name}</div>
-                                                    <div className="text-[11px] mt-2.5">
-                                                        <span>Cung cấp bởi </span>
-                                                        <Link to="" className="cursor-pointer text-blue-500 ">
-                                                            {currentOrder.books.current_seller ? currentOrder.books.current_seller.name : "No seller found"}
-                                                        </Link>
-                                                    </div>
-                                                    <img src={returnBadge} alt="returnBadge" className="h-5 mt-2.5" />
-                                                    <div className="sku mt-2.5 text-sm">Sku: {currentOrder.books.current_seller ? currentOrder.books.current_seller.sku : "N/A"}</div>
-                                                    <button type="button"
-                                                        className="bg-white border-1 rounded-[4px] px-4 py-1.5 mt-2.5 cursor-pointer hover:bg-gray-100 text-blue-500 text-sm">Chat
-                                                        với nhà bán
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">{formatPrice(currentOrder.books.original_price)}</td>
-                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">{currentOrder.quantity}</td>
-                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top ">{formatPrice(currentOrder.books.original_price -
-                                            (currentOrder.books.current_seller.price ? currentOrder.books.current_seller.price : currentOrder.books.original_price))}
-                                        </td>
-                                        <td className="whitespace-wrap px-4 py-5 text-gray-700 text-[15px] align-top flex justify-end ">{formatPrice(currentOrder.total_price)}</td>
-                                    </tr>
-                                ) : (
-                                    <tr>
-                                        <td colSpan={5} className="whitespace-wrap px-4 py-5 text-gray-700 text-center">
-                                            Không có đơn hàng nào
-                                        </td>
-                                    </tr>
-                                )}
+                               <OrderDetailItem/>
                             </tbody>
                             <tfoot className="text-sm">
                                 <tr className="sumPrice">

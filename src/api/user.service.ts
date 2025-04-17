@@ -17,7 +17,7 @@ export const createUser = async (data: IUser) => {
 }
 
 // Update
-export const updateUser = async (id: number, data: IUser) => {
+export const updateUser = async (id: number, data: Partial<IUser>) => {
     return instance.patch("users/" + id, data)
 }
 

@@ -1,10 +1,9 @@
-import React from "react";
 import { IUser } from "../../../interfaces/UserInterface.ts";
 import { deleteUser } from "../../../api/user.service.ts";
 
 type UserItemProps = {
   user: IUser,
-  onGetUsers: () => {},
+  onGetUsers: () => void,
   onUpdateUser?: () => void,
 }
 

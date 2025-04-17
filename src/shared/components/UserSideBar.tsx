@@ -1,4 +1,3 @@
-import Breadcrumb from "./Breadcrumb";
 import avatar from "../../assets/avatar.png"
 import iconOrder from "../../assets/icon_profile.png"
 import iconUser from "../../assets/icon_user.png";
@@ -22,7 +21,7 @@ const UserSideBar = () => {
         const token = localStorage.getItem('accessToken');
         const isUserLoggedIn = !!token;
         setIsLoggedIn(isUserLoggedIn);
-        if (isUserLoggedIn) {
+        if (isLoggedIn) {
             // Lấy tất cả thông tin người dùng từ localStorage
             const storedFullName = localStorage.getItem('loggedInFullName') || "";
             const storedEmail = localStorage.getItem('loggedInEmail') || "";
@@ -30,6 +29,7 @@ const UserSideBar = () => {
                 fullName: storedFullName,
                 email: storedEmail,
             });
+            
         } else {
             // Reset thông tin người dùng khi đăng xuất
             setUserInfo({
@@ -37,7 +37,7 @@ const UserSideBar = () => {
                 email: "",
             });
         }
-    }, []);
+    }, [isLoggedIn]);
 
     // Theo dõi trạng thái localStorage và đăng nhập
     useEffect(() => {
@@ -67,7 +67,7 @@ const UserSideBar = () => {
 
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth <= 768) {
+            if (window.innerWidth <= 1000) {
                 setIsMenuOpen(false);
             }
         };
