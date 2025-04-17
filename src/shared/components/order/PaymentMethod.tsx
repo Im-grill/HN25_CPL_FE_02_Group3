@@ -1,6 +1,6 @@
 import React from 'react';
-import paymentLogo from '../../../assets/order-logo/img_9.png';
-import ViettelPayment from '../../../assets/order-logo/img_10.png';
+import paymentLogo from '../../../assets/Order-logo/img_9.png';
+import ViettelPayment from '../../../assets/Order-logo/img_10.png';
 import BankPromotion from "./BankPromotion.tsx";
 
 const PaymentMethod: React.FC = () => {
