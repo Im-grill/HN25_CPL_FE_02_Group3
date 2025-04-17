@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import arrow from '../../assets/arrow.png'
 
 const Sidebar = () => {
-    const [openCategoryIds, setOpenCategoryIds] = useState([]);
-    const [categories, setCategories] = useState([
+    const [openCategoryIds, setOpenCategoryIds] = useState<number[]>([]);
+    const categories = [
         {
             id: 1,
             name: "English Books",
@@ -55,7 +55,7 @@ const Sidebar = () => {
                 { id: 402, name: "Quà tặng", link: "/books/gifts" },
             ]
         }
-    ]);
+    ];
 
     const toggleSubcategories = (categoryId: number) => {
         setOpenCategoryIds(prevOpenIds => {
@@ -76,7 +76,7 @@ const Sidebar = () => {
         <div>
             <aside className="shrink-0 flex flex-col rounded-md h-screen w-64 bg-white">
                 {/* top sidebar*/}
-                <div className="sidebar-top px-1.5 px-4 py-3.5">
+                <div className="sidebar-top px-4 py-3.5">
                     <span className="font-semibold text-[14px]">Khám phá theo danh mục</span>
                 </div>
 

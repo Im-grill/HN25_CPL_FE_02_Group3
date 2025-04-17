@@ -1,4 +1,4 @@
-import Breadcrumb from "../../../shared/components/Breadcrumb";
+// import Breadcrumb from "../../../shared/components/Breadcrumb";
 import { Link, } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -28,7 +28,7 @@ const UserInfo = () => {
         isValid: boolean;
         color: string;
     }>({message: '', isValid: true, color: ''});
-    const {register, handleSubmit, formState: {errors, isDirty}, reset, control} = useForm<Inputs>()
+    const {register, handleSubmit, formState: {isDirty}, reset, control} = useForm<Inputs>()
 
 
     // Function để kiểm tra đăng nhập và cập nhật thông tin người dùng
@@ -39,7 +39,7 @@ const UserInfo = () => {
 
         setIsLoggedIn(isUserLoggedIn);
 
-        if (isUserLoggedIn) {
+        if (isLoggedIn) {
             // Lấy tất cả thông tin người dùng từ localStorage
             const storedFullName = localStorage.getItem('loggedInFullName') || "";
             const storedEmail = localStorage.getItem('loggedInEmail') || "";
@@ -155,7 +155,6 @@ const UserInfo = () => {
         const updateData = {
             email, fullname, address, phone
         };
-        console.log("Data being sent to API:", updateData);
         try {
             await updateUser(user.id, updateData);
             if (email !== localStorage.getItem('loggedInEmail')) {

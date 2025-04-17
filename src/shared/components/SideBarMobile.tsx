@@ -1,5 +1,5 @@
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import arrow from '../../assets/arrow.png'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,8 +11,8 @@ interface SidebarProps {
 
 const SidebarMobile = ({ isSidebarOpen, setIsSidebarOpen }: SidebarProps) => {
     console.log('Sidebar props:', { isSidebarOpen, setIsSidebarOpen });
-    const [openCategoryIds, setOpenCategoryIds] = useState([]);
-    const [categories, setCategories] = useState([
+    const [openCategoryIds, setOpenCategoryIds] = useState<number[]>([]);
+    const categories = [
         {
             id: 1,
             name: "English Books",
@@ -63,7 +63,7 @@ const SidebarMobile = ({ isSidebarOpen, setIsSidebarOpen }: SidebarProps) => {
                 { id: 402, name: "Quà tặng", link: "/books/gifts" },
             ]
         }
-    ]);
+    ];
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -98,7 +98,7 @@ const SidebarMobile = ({ isSidebarOpen, setIsSidebarOpen }: SidebarProps) => {
                     <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
                 </button>
                 {/* top sidebar*/}
-                <div className="sidebar-top border-[#c2c2c2] px-2.5 py-3.5 flex justify-between items-center block">
+                <div className="sidebar-top border-[#c2c2c2] px-2.5 py-3.5 flex justify-between items-center ">
                     <span className="font-semibold text-[14px]">Khám phá theo danh mục</span>
                 </div>
 
