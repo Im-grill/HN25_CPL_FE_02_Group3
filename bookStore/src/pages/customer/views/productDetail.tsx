@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FaAngleRight, FaStar } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getBook } from '../../../api/book.service';
 import { IBook } from '../../../interfaces/BookInterfaces';
@@ -13,6 +13,7 @@ import RelatedProducts from '../../../shared/components/productDetail/RelatedPro
 import TopDeals from '../../../shared/components/productDetail/TopDeals';
 import BuyingInfo from '../../../shared/components/productDetail/BuyingInfo';
 import BuyOptions from '../../../shared/components/productDetail/BuyOptions';
+import Breadcrumb from '../../../shared/components/productDetail/Breadcrumb';
 
 type UserData = Omit<IUser, 'password'>;
 
@@ -137,21 +138,7 @@ function ProductDetail() {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <div className="container mx-auto px-4 py-2">
-                <div className="flex text-xs text-gray-500 items-center flex-wrap">
-                    <span>Trang chủ</span>
-                    <FaAngleRight className="mx-1" size={10} />
-                    <span>Nhà Sách Tiki</span>
-                    <FaAngleRight className="mx-1" size={10} />
-                    <span>Sách tiếng Việt</span>
-                    <FaAngleRight className="mx-1" size={10} />
-                    <span>Sách kinh tế</span>
-                    <FaAngleRight className="mx-1" size={10} />
-                    <span>Sách kỹ năng làm việc</span>
-                    <FaAngleRight className="mx-1" size={10} />
-                    <span className="text-black font-medium">{book.name}</span>
-                </div>
-            </div>
+            <Breadcrumb book={book} />
 
             <div className="container mx-auto px-4 py-2">
                 <div className="flex flex-col md:grid md:grid-cols-12 gap-6 p-4">
