@@ -8,16 +8,16 @@ interface AddressInfoProps {
 
 const AddressInfo: React.FC<AddressInfoProps> = ({fullName, phone, address}) => {
     return (
-        <div className={'relative p-3 md:p-4 text-xs md:text-sm leading-5 mb-3 rounded-md bg-white'}>
+        <div className={'relative p-3 md:p-4 text-xs md:text-sm leading-5 mb-3 rounded-md bg-white w-full'}>
             <div className="block-header flex items-center justify-between mb-2 md:mb-3">
                 <h3 className={'text-[rgb(128,128,137)] text-sm md:text-base'}>Giao tới</h3>
                 <a href="/" className={'text-[#0b74e5]'}>Thay đổi</a>
             </div>
             <div
                 className="customer-info flex items-center mb-0.5 font-semibold text-[rgb(56,56,61)] flex-wrap md:flex-nowrap">
-                <p className="w-full md:w-auto">{fullName}</p>
+                <p className="w-full md:w-auto truncate">{fullName}</p>
                 <i className={'hidden md:block w-[1px] h-[20px] bg-[#EBEBF0] mx-2'}></i>
-                <p className="w-full md:w-auto">{phone || ''}</p>
+                <p className="w-full md:w-auto truncate">{phone || ''}</p>
             </div>
             <div className="address text-[rgb(128,128,137)] font-normal flex flex-wrap items-start md:items-center">
                 <span
@@ -25,7 +25,7 @@ const AddressInfo: React.FC<AddressInfoProps> = ({fullName, phone, address}) => 
                   Văn phòng
                 </span>
                 <span
-                    className="text-xs md:text-sm">{address || ''}</span>
+                    className="text-xs md:text-sm break-words overflow-hidden">{address || ''}</span>
             </div>
         </div>
     );

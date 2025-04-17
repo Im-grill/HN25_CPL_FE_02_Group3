@@ -13,11 +13,11 @@ interface ShippingMethodProps {
 
 const ShippingMethod: React.FC<ShippingMethodProps> = ({ orderData }) => {
     return (
-        <div className="rounded relative p-3 mb-4 bg-white">
+        <div className="rounded relative p-3 mb-4 bg-white w-full">
             <h3 className={'mb-3 md:mb-4 text-[rgb(56,56,61)] font-bold text-base md:text-lg leading-6 m-0'}>
                 Chọn hình thức giao hàng
             </h3>
-            <div className="relative w-full md:w-[497px] pb-4 mb-4">
+            <div className="relative w-full md:w-full pb-4 mb-4">
                 <div className="shipping-method-list bg-[rgb(240,248,255)] border border-[rgb(194,225,255)] rounded-[10px] p-3 md:p-4 grid gap-y-3">
                     <div>
                         <label htmlFor="" className={'flex items-center'}>
@@ -76,7 +76,7 @@ const ShippingMethod: React.FC<ShippingMethodProps> = ({ orderData }) => {
                         </div>
                     </div>
                     <div className={'left-content'}>
-                        <div className={'mt-3 md:mt-4 w-full md:w-[482px] flex justify-between'}>
+                        <div className={'mt-3 md:mt-4 w-full flex justify-between'}>
                             <div className={'flex items-center'}>
                                 <img
                                     src={nowLogo}
@@ -110,11 +110,11 @@ const ShippingMethod: React.FC<ShippingMethodProps> = ({ orderData }) => {
                                         className={'w-10 h-10 md:w-12 md:h-12 object-contain'}
                                     />
                                 </div>
-                                <div className={'text-xs md:text-sm leading-5 text-[rgb(128,128,137)] flex-1'}>
-                                    <div className={'mb-1 pr-3 md:pr-5 line-clamp-2'}>
+                                <div className={'text-xs md:text-sm leading-5 text-[rgb(128,128,137)] flex-1 overflow-hidden'}>
+                                    <div className={'mb-1 pr-3 md:pr-5 line-clamp-2 overflow-hidden text-ellipsis'}>
                                         <span>{orderData.books.name}</span>
                                     </div>
-                                    <div className={'flex mb-1 pr-2 md:pr-4 justify-between w-full md:w-[440px] flex-wrap md:flex-nowrap'}>
+                                    <div className={'flex mb-1 pr-2 md:pr-4 justify-between w-full flex-wrap md:flex-nowrap'}>
                                         <span>SL: {orderData.quantity}</span>
                                         <div>
                                             <div className="text-[rgb(255,66,78)] flex gap-2 md:gap-4 items-center font-medium">

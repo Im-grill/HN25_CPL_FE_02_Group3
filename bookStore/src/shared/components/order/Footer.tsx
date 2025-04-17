@@ -2,8 +2,8 @@ import React from 'react';
 
 const Footer: React.FC = () => {
     return (
-        <footer className={'bg-[#ebebf0] text-[10px] md:text-[11px] leading-[16px] pt-[30px] md:pt-[40px] pb-[40px] md:pb-[50px]'}>
-            <div className={'w-full px-4 mx-auto md:w-[1270px] md:px-[15px]'}>
+        <footer className={'bg-[#ebebf0] text-[10px] md:text-[11px] leading-[16px] pt-[30px] md:pt-[40px] pb-[40px] md:pb-[50px] w-full overflow-hidden'}>
+            <div className={'w-full px-4 mx-auto md:w-full md:max-w-[1270px] md:px-[15px]'}>
                 <p className="mb-1 text-[rgb(128,128,137)]">
                     Bằng việc tiến hành Đặt Mua, bạn đồng ý với các Điều kiện Giao dịch chung:
                 </p>
