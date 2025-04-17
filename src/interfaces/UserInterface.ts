@@ -7,5 +7,6 @@ export interface IUser {
   address: string,
   phone: string,
   createdAt?: string,
+  role: string,
 }
 export default IUser;

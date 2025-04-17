@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import { ICategory } from "../interfaces.ts";
 import instance from "./api.service";
 
@@ -11,7 +10,14 @@ export const getCategoryById = async (id: number): Promise<ICategory> => {
 }
 
 export const createCategory = async (data: ICategory) => {
-  return instance.post("categories", data)
+  const categories = await getCategory();
+  const newId = categories.length > 0
+  ? Math.max(...categories.map((cat) => cat.id)) + 1
+  : 1;
+
+  const newCategory = { ...data, id: newId };
+
+  return instance.post("categories", newCategory);
 }
 
 // Update

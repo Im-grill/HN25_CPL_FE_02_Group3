@@ -1,10 +1,9 @@
-import React from "react";
 import { ICategory } from "../../../interfaces.ts";
 import { deleteCategory } from "../../../api/category.service";
 
 type CategoryItemProps = {
   category: ICategory,
-  onGetCategories: () => {},
+  onGetCategories: () => void,
   onUpdateCategory?: () => void,
 }
 

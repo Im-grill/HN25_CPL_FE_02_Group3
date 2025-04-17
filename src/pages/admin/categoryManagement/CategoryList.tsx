@@ -15,25 +15,25 @@ const CategoryList = () => {
   const alert = useContext(AlertContext);
 
   const getCategories = async () => {
-    const data = await getCategory()
+    const data = await getCategory();
     setCategories(data);
-  }
+  };
 
   const updateCategory = (id?: number) => {
     if (id) {
-      setUpdateCatId(id)
+      setUpdateCatId(id);
     }
-  }
+  };
 
   const closeModal = () => {
     setUpdateCatId(null);
-    alert?.success("Cập nhật category thành công")
-    getCategories()
-  }
+    alert?.success("Cập nhật category thành công");
+    getCategories();
+  };
 
   useEffect(() => {
     getCategories();
-  }, [])
+  }, []);
 
   return (
     <section className='relative'>
@@ -51,12 +51,19 @@ const CategoryList = () => {
           </thead>
 
           <tbody className="divide-y divide-gray-200">
-            {categories.map((cat) => <CategoryItem onUpdateCategory={() => updateCategory(cat.id)} onGetCategories={getCategories} category={cat} />)}
+            {categories.map((cat) => (
+              <CategoryItem
+                key={cat.id}
+                onUpdateCategory={() => updateCategory(cat.id)}
+                onGetCategories={getCategories}
+                category={cat}
+              />
+            ))}
           </tbody>
         </table>
       </div>
       {updateCatId && <CategoryModal id={updateCatId} onClose={closeModal} />}
     </section>
-  )
-}
+  );
+};
 export default CategoryList;
