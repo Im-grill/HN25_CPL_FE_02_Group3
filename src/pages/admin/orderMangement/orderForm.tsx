@@ -18,7 +18,7 @@ const OrderForm = ({ onGetOrders }: OrderFormProps) => {
     const alert = useContext(AlertContext);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [debouncedTerm, setDebouncedTerm] = useState<string>('');
-    const [orders, setOrders] = useState<IOrder[]>([]);
+    const [, setOrders] = useState<IOrder[]>([]);
 
     const getListOrders = async () => {
         const data = await getOrders();
@@ -32,7 +32,6 @@ const OrderForm = ({ onGetOrders }: OrderFormProps) => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
     } = useForm<Inputs>();
 
     // debounce function to delay search
