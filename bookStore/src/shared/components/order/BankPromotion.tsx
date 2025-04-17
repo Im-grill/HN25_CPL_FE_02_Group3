@@ -29,12 +29,12 @@ const BankPromotion: React.FC = () => {
 
     return (
         <div className="ml-0 md:ml-[21px] mt-4 md:mt-0">
-            <div className="p-3 md:p-4 bg-[#F5F5FA] w-full md:w-[733px]">
+            <div className="p-3 md:p-4 bg-[#F5F5FA] w-full md:w-auto max-w-full">
                 <div className="text-xs md:text-[13px] font-medium leading-[1.4] md:leading-[1.54] text-[#0D5CB6] flex items-center mb-2">
                     <img src={counponBankPayLogo} className={'h-4 w-4 md:h-5 md:w-5 mr-1 md:mr-1.5'} alt="" />
                     <span>Ưu đãi thanh toán thẻ</span>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 grid-rows-1 gap-2">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
                     {Array(12).fill(null).map((_, index) => (
                         <React.Fragment key={index}>
                             {renderBankCard()}

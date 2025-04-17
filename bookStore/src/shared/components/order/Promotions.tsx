@@ -7,7 +7,7 @@ import infoLogo1 from '../../../assets/order-logo/img_15.png';
 
 const Promotions: React.FC = () => {
     return (
-        <div className="rounded-md mb-3 relative p-[16px] bg-white">
+        <div className="rounded-md mb-3 relative p-[16px] bg-white w-full">
             {/* Header */}
             <div className="flex items-center justify-between leading-5 mb-[16px]">
                 <div className="text-[rgb(36,36,36)] font-medium text-[13px]">
@@ -24,11 +24,11 @@ const Promotions: React.FC = () => {
             </div>
 
             {/* Coupon Container - SVG tràn hết container */}
-            <div className="mb-[16px]">
-                <div className="relative">
+            <div className="mb-[16px] w-full">
+                <div className="relative w-full">
                     {/* Container */}
                     <div className="w-full overflow-hidden">
-                        <div className="relative h-[50px] sm:h-[55px] md:h-[60px]">
+                        <div className="relative h-[50px] sm:h-[55px] md:h-[60px] w-full">
                             {/* SVG Coupon Background - Tràn hết container */}
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286 60" className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
                                 <g fill="none" fillRule="evenodd">

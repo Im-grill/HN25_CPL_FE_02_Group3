@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import certificatelogo1 from '../../assets/footer-logo/certificate/img.png'
 import certificatelogo2 from '../../assets/footer-logo/certificate/img_1.png'
 import certificatelogo3 from '../../assets/footer-logo/certificate/img_2.png'
@@ -26,7 +26,7 @@ const Footer = () => {
     const [isMobileView, setIsMobileView] = useState(false);
 
     // Kiểm tra kích thước màn hình khi component mount và khi resize
-    useState(() => {
+    useEffect(() => {
         const checkScreenSize = () => {
             setIsMobileView(window.innerWidth < 1024); // Xem là mobile/tablet nếu nhỏ hơn 1024px
         };
@@ -47,16 +47,16 @@ const Footer = () => {
     }
 
     return (
-        <footer className={'mt-4 text-xs leading-4 font-normal text-[rgb(128,128,137)] bg-white xl:flex hidden'}>
+        <footer className={'mt-4 text-xs leading-4 font-normal text-[#808089] bg-white'}>
             <div className={'py-4'}>
                 <div className={'flex justify-between w-full max-w-[1270px] px-[15px] mx-auto flex-wrap lg:flex-nowrap'}>
                     <div className={'w-full lg:w-[268px] mb-6 lg:mb-0'}>
-                        <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>Hỗ trợ khách
+                        <h4 className={'text-base leading-6 font-medium text-[#38383D] mb-3 mt-0'}>Hỗ trợ khách
                             hàng</h4>
-                        <p className={"hotline mb-2"}>
+                        <p className={"mb-2"}>
                             Hotline:
-                            <a href="/">1900-6035</a>
-                            <span className={'block'}>(1000 đ/phút, 8-12h kể cả T7,CN)</span>
+                            <a href="/"> 1900-6035</a>
+                            <span className={'block'}>(1000 đ/phút, 8-12h kể cả T7, CN)</span>
                         </p>
                         <a className={'mb-2 block'} href={"/"}>Các câu hỏi thường gặp</a>
                         <a className={'mb-2 block'} href={"/"}>Gửi yêu cầu hỗ trợ</a>
@@ -95,27 +95,27 @@ const Footer = () => {
                         </a>
                     </div>
                     <div className={'w-full lg:w-[226px] mb-6 lg:mb-0'}>
-                        <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>
+                        <h4 className={'text-base leading-6 font-medium text-[#38383D] mb-3 mt-0'}>
                             Hợp tác và liên kết
                         </h4>
                         <a className={'mb-2 block'} href="/">
                             Quy chế hoạt động Sàn GDTMĐT
                         </a>
-                        <a className={'mb-2 block'} href="">
+                        <a className={'mb-2 block'} href="/">
                             Bán hàng cùng Tiki
                         </a>
-                        <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-6'}>Chứng nhận
+                        <h4 className={'text-base leading-6 font-medium text-[#38383D] mb-3 mt-6'}>Chứng nhận
                             bởi</h4>
-                        <div className={'w-full lg:w-[226px] flex items-center flex-wrap gap-2'}>
+                        <div className={'flex items-center flex-wrap gap-2'}>
                             <img className={'h-8'} src={certificatelogo1} alt=""/>
                             <img className={'h-8'} src={certificatelogo2} alt=""/>
                             <img className={'h-8'} src={certificatelogo3} alt=""/>
                         </div>
                     </div>
                     <div className={'w-full lg:w-[226px] mb-6 lg:mb-0'}>
-                        <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>Phương thức
+                        <h4 className={'text-base leading-6 font-medium text-[#38383D] mb-3 mt-0'}>Phương thức
                             thanh toán</h4>
-                        <p className={'text-xs leading-4 text-[rgb(128,128,137)] mb-3 mt-0'}>
+                        <p className={'mb-3'}>
                             <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo1}
                                        alt=""/></span>
                             <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo2}
@@ -139,36 +139,36 @@ const Footer = () => {
                             <span><img className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} src={paymentlogo11}
                                        alt=""/></span>
                         </p>
-                        <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>Dịch vụ giao
+                        <h4 className={'text-base leading-6 font-medium text-[#38383D] mb-3 mt-0'}>Dịch vụ giao
                             hàng</h4>
                         <a href="/">
-                            <img className={'ml-[-9px] mt-[-8px] w-[109px] h-[33px]'} src={tikilogo} alt=""/>
+                            <img className={'w-auto h-8'} src={tikilogo} alt="TIKI NOW"/>
                         </a>
                     </div>
                     <div className={'w-full lg:w-[226px] mb-6 lg:mb-0'}>
-                        <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-0'}>Kết nối với
+                        <h4 className={'text-base leading-6 font-medium text-[#38383D] mb-3 mt-0'}>Kết nối với
                             chúng tôi</h4>
                         <p>
-                            <a className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} href="">
-                                <img src={fblogo} alt=""/>
+                            <a className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} href="/">
+                                <img src={fblogo} alt="Facebook"/>
                             </a>
-                            <a className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} href="">
-                                <img src={ytblogo} alt=""/>
+                            <a className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} href="/">
+                                <img src={ytblogo} alt="Youtube"/>
                             </a>
-                            <a className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} href="">
-                                <img src={zllogo} alt=""/>
+                            <a className={'inline-block mr-2 mb-2 align-middle w-8 h-8'} href="/">
+                                <img src={zllogo} alt="Zalo"/>
                             </a>
                         </p>
-                        <h4 className={'text-base leading-6 font-medium text-[rgb(56,56,61)] mb-3 mt-6'}>Tải ứng dụng
+                        <h4 className={'text-base leading-6 font-medium text-[#38383D] mb-3 mt-6'}>Tải ứng dụng
                             trên điện thoại</h4>
-                        <div className={'flex gap-2 '}>
-                            <img className={'w-20 h-20'} src={qrcodelogo} alt=""/>
-                            <div className={'flex flex-col gap-2 justify-between items-center'}>
-                                <a href="">
-                                    <img className={'w-[122px]'} src={androidlogo} alt=""/>
+                        <div className={'flex gap-2'}>
+                            <img className={'w-20 h-20'} src={qrcodelogo} alt="QR Code"/>
+                            <div className={'flex flex-col gap-2 justify-between'}>
+                                <a href="/">
+                                    <img className={'w-full'} src={androidlogo} alt="Android App"/>
                                 </a>
-                                <a href="">
-                                    <img className={'w-[122px]'} src={ioslogo} alt=""/>
+                                <a href="/">
+                                    <img className={'w-full'} src={ioslogo} alt="iOS App"/>
                                 </a>
                             </div>
                         </div>
@@ -178,89 +178,85 @@ const Footer = () => {
             <div className="h-px w-full max-w-[1240px] bg-gray-200 mx-auto"></div>
             <div className={'py-4 bg-white'}>
                 <div className={'w-full max-w-[1270px] px-[15px] mx-auto'}>
-                    <p className={'text-[16px] leading-6 font-medium text-[#38383d] mb-3 mt-0'}>Công ty TNHH TI KI</p>
+                    <p className={'text-base leading-6 font-medium text-[#38383D] mb-3 mt-0'}>Công ty TNHH TI KI</p>
                     <p className={'block mb-2 text-[#808089]'}>Tòa nhà số 52 đường Út Tịch, Phường 4, Quận Tân Bình,
-                        Thành
-                        phố Hồ Chí Minh</p>
+                        Thành phố Hồ Chí Minh</p>
                     <p className={'block mb-2 text-[#808089]'}> Giấy chứng nhận đăng ký doanh nghiệp số 0309532909 do Sở
-                        Kế
-                        Hoạch và Đầu Tư Thành phố Hồ Chí Minh cấp lần đầu vào ngày 06/01/2010.
+                        Kế Hoạch và Đầu Tư Thành phố Hồ Chí Minh cấp lần đầu vào ngày 06/01/2010.
                     </p>
                     <p className={'block mb-0 text-[#808089]'}>
                         Hotline:
-                        <a className={'text-[#0b74e5] no-underline'} href=""> 1900 6035</a>
+                        <a className={'text-[#0B74E5] no-underline'} href="/"> 1900 6035</a>
                     </p>
                 </div>
             </div>
             <div className="h-px w-full max-w-[1240px] bg-gray-200 mx-auto"></div>
-            <div className={'w-full max-w-[1270px] px-[15px] mx-auto'}>
-                <div className="pt-4">
-                    <div className={'text-[16px] leading-6 font-medium text-[#38383d] mb-3 mt-0'}>
-                        Thương Hiệu Nổi Bật
-                    </div>
-                    <div className={'mb-4'}>
-                        <p className={'inline-flex flex-wrap'}>
-                            <a href="/" className={'text-[#808089]'}>vascara</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>dior</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>esteelauder</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>th truemilk</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>barbie</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>owen</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>ensure</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>durex</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>bioderma</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>elly</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>milo</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>skechers</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>aldo</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>triumph</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>nutifood</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>kindle</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>nerman</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>wacom</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>anessa</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>yoosee</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>olay</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>similac</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>comfort</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>bitas</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>shiseido</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>langfarm</a>
-                            <a href="/" className={'text-[#808089]'}>hukan</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>vichy</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>fila</a>
-                            &nbsp;/&nbsp;
-                            <a href="/" className={'text-[#808089]'}>tsubaki</a>
-                            &nbsp;/&nbsp;
-                        </p>
-                    </div>
+            <div className={'w-full max-w-[1270px] px-[15px] mx-auto pt-4 pb-4'}>
+                <div className={'text-base leading-6 font-medium text-[#38383D] mb-3 mt-0'}>
+                    Thương Hiệu Nổi Bật
+                </div>
+                <div className={'mb-4'}>
+                    <p className={'inline-flex flex-wrap'}>
+                        <a href="/" className={'text-[#808089]'}>vascara</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>dior</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>esteelauder</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>th truemilk</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>barbie</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>owen</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>ensure</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>durex</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>bioderma</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>elly</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>milo</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>skechers</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>aldo</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>triumph</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>nutifood</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>kindle</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>nerman</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>wacom</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>anessa</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>yoosee</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>olay</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>similac</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>comfort</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>bitas</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>shiseido</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>langfarm</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>hukan</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>vichy</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>fila</a>
+                        &nbsp;/&nbsp;
+                        <a href="/" className={'text-[#808089]'}>tsubaki</a>
+                    </p>
                 </div>
             </div>
         </footer>
