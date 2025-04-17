@@ -15,7 +15,7 @@ const UserList = () => {
   const [updateUserId, setUpdateUserId] = useState<number | null>()
   const alert = useContext(AlertContext);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(5);
+  const [itemsPerPage] = useState<number>(5);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
