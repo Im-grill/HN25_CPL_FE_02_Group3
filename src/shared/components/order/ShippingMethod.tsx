@@ -1,10 +1,10 @@
 import React from 'react';
-import nowLogo from '../../../assets/order-logo/img_2.png';
-import arrowLogo from '../../../assets/order-logo/img_3.png';
-import packageLogo from '../../../assets/order-logo/img_4.png';
-import infoLogo from '../../../assets/order-logo/img_5.png';
-import couponLogo from '../../../assets/order-logo/img_7.png';
-import arrowRightLogo from '../../../assets/order-logo/img_8.png';
+import nowLogo from '../../../assets/Order-logo/img_2.png';
+import arrowLogo from '../../../assets/Order-logo/img_3.png';
+import packageLogo from '../../../assets/Order-logo/img_4.png';
+import infoLogo from '../../../assets/Order-logo/img_5.png';
+import couponLogo from '../../../assets/Order-logo/img_7.png';
+import arrowRightLogo from '../../../assets/Order-logo/img_8.png';
 import {OrderData} from './types';
 
 interface ShippingMethodProps {
