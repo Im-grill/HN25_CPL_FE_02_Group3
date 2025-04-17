@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import { getUserById, updateUser } from "../../../api/user.service.ts";
 import IUser from "../../../interfaces/UserInterface";
 import { useForm, SubmitHandler } from 'react-hook-form'
