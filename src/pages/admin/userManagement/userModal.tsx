@@ -18,7 +18,7 @@ type Inputs = {
 
 const UserModal = ({ onClose, id }: UserModalProps) => {
   const [user, setUser] = useState<IUser>()
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<Inputs>()
+  const { register, handleSubmit, reset } = useForm<Inputs>()
 
   const submitForm: SubmitHandler<Inputs> = async (data) => {
     // console.log(data);

@@ -10,12 +10,12 @@ import Pagination from './Pagination.tsx';
 
 const UserList = () => {
   // State of component - Noi luu tru du lieu trong component
-  const [users, setUsers] = useState<IUser[]>([]);
+  const [, setUsers] = useState<IUser[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<IUser[]>([]);
   const [updateUserId, setUpdateUserId] = useState<number | null>()
   const alert = useContext(AlertContext);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(5);
+  const [itemsPerPage] = useState<number>(5);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -60,12 +60,7 @@ const UserList = () => {
   };
 
   // Handle items per page change
-  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newItemsPerPage = parseInt(e.target.value);
-    setItemsPerPage(newItemsPerPage);
-    setCurrentPage(1); // Reset to first page
-    setTotalPages(Math.ceil(filteredUsers.length / newItemsPerPage));
-  };
+
   const closeModal = () => {
     setUpdateUserId(null);
     alert?.success("Cập nhật danh sách người dùng thành công")
