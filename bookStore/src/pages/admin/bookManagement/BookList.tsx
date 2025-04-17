@@ -291,11 +291,6 @@ const handleDeleteBook = async (_id:string)=>{
                 </li>
             </ul>
           {currentBook ?  <BookEdit isOpen={openModal} onClose={isCloseModal} bookData={currentBook} />:null} 
-
-        
-
-
-
         </div>
 
     )
