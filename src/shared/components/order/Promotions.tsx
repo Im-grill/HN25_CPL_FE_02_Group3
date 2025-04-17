@@ -1,9 +1,9 @@
 import React from 'react';
-import couponLogo from '../../../assets/order-logo/img_7.png';
-import arrowRightBlueLogo from '../../../assets/order-logo/img_16.png';
-import freeShipLogo from '../../../assets/order-logo/img_14.png';
-import infoLogo from '../../../assets/order-logo/img_5.png';
-import infoLogo1 from '../../../assets/order-logo/img_15.png';
+import couponLogo from '../../../assets/Order-logo/img_7.png';
+import arrowRightBlueLogo from '../../../assets/Order-logo/img_16.png';
+import freeShipLogo from '../../../assets/Order-logo/img_14.png';
+import infoLogo from '../../../assets/Order-logo/img_5.png';
+import infoLogo1 from '../../../assets/Order-logo/img_15.png';
 
 const Promotions: React.FC = () => {
     return (
