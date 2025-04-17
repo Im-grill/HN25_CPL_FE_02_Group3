@@ -1,6 +1,6 @@
 import React from 'react';
 import freeShip from '../../../assets/Order-logo/img.png';
-import logoTiki from '../../../assets/order-logo/img_1.png';
+import logoTiki from '../../../assets/Order-logo/img_1.png';
 
 const Header: React.FC = () => {
     return (
