@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import axios from 'axios';
+import instance from '../../../api/api.service';
 import Header from '../../../shared/components/order/Header.tsx';
 import ShippingMethod from '../../../shared/components/order/ShippingMethod';
 import PaymentMethod from '../../../shared/components/order/PaymentMethod';
@@ -78,9 +78,8 @@ const Order: React.FC = () => {
         };
 
         try {
-           
-            await axios.post('http://localhost:8080/order', orderPayload);
-             navigate('/confirm', {state: {order: orderPayload}});
+            await instance.post('/order', orderPayload);
+            navigate('/confirm', { state: { order: orderPayload } });
         } catch (err) {
             console.error('Lỗi khi đặt hàng:', err);
             setError(`Không thể đặt hàng:`);
