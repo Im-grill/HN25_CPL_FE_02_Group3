@@ -10,7 +10,7 @@ interface SidebarProps {
 }
 
 const SidebarMobile = ({ isSidebarOpen, setIsSidebarOpen }: SidebarProps) => {
-    console.log('Sidebar props:', { isSidebarOpen, setIsSidebarOpen });
+    
     const [openCategoryIds, setOpenCategoryIds] = useState<number[]>([]);
     const categories = [
         {

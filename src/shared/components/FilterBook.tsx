@@ -94,7 +94,7 @@ export default function FilterBook({ onFilterChange }: FilterBookProps) {
 
     }
     return (
-        <div className='flex bg-white md:mt-[34px]  flex-col mt-2 '>
+        <div className='flex bg-white md:mt-[34px] w-screen flex-col mt-2 '>
             <span className='font-semibold  mt-3 hidden md:inline '>Tất cả sản phẩm</span>
             {/* range book for mobile */}
             <div className='border-1 md:hidden flex justify-between p-2  border-b border-[#F2F2F2]'>
@@ -115,14 +115,14 @@ export default function FilterBook({ onFilterChange }: FilterBookProps) {
 
             </div>
             {/* filter for mobile */}
-            <div className='p-2 flex  xl:hidden'>
+            <div className='p-2 flex  md:hidden w-full'>
                 <div className='flex justify-center items-center gap-2'>
                     <img src="/assets/filter.png" alt="" className='w-[16.5px] h-[17.25px]' />
                     <span className='text-sm'>Lọc</span>
                     <Divider orientation="vertical" flexItem />
                 </div>
                 <div className='flex justify-between pl-2 w-full '>
-                    <button className={`cursor-pointer ${checkboxes.fastShip ? 'bg-[#bcbcc4]' : 'bg-[#F5F5FA]'} p-2 items-center rounded-[100px]`}
+                    <button  className={`cursor-pointer ${checkboxes.fastShip ? 'bg-[#bcbcc4]' : 'bg-[#F5F5FA]'} p-2 items-center rounded-[100px]`}
                         onClick={() => filterBook("fast_ship")}
                     >
                         <img className='h-[17px] w-[34px] mr-2.5 ' src='https://s3-alpha-sig.figma.com/img/9f63/2df5/52d4ff178b5e56072899664c52a61fe5?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Nu1b-foWKNYD~a0rsOZFyJmprSlYBp81prQPQuPYuYNCszilUfG7bgc4B2ZIgvgqWxo0~hbZKf1CfC6N3Y4pejv~wsfGGC8IxPGgsdTtMNJYiytufPyjsSOopMdjWhwF2uYCo0LdCVLdUWZMoy~yj3l5hAsQxNYjEEg70B1Bmt3dT-eA~L7t7g-T1EoZ9TexjjV8WIpK0UvOPLSHIVtbiTTnDbaIswQeZ4Jr~WcJf2QhXhJ-fN3OQM7MATfI5r4pM4CZ8DByrPl5AMXsorbw1gbbG41xFx2AuOii54zjNpfSrcofgprELgw-Y-scOZEErGYxgWbIb0Vjh09FY38O2g__' alt='' />
