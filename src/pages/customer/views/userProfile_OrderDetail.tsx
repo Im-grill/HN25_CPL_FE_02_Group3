@@ -3,10 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { getOrderById} from "../../../api/order.service";
+import { getOrderById } from "../../../api/order.service";
 import { IOrder } from "../../../interfaces";
 import instance from "../../../api/api.service";
-import IUser  from "../../../interfaces/UserInterface";
+import IUser from "../../../interfaces/UserInterface";
 import { getUsers } from "../../../api/user.service";
 import UserSideBar from "../../../shared/components/UserSideBar";
 import OrderDetailItem from "../../../shared/components/OrderDetailItem";
@@ -19,9 +19,9 @@ const UserProfileOrderDetails = () => {
     const [userInfo, setUserInfo] = useState({
         fullName: "",
         email: "",
-    }); 
+    });
     const [user, setUser] = useState<IUser>();
-    
+
     // Đồng bộ trạng thái đăng nhập khi component mount và khi localStorage thay đổi
     useEffect(() => {
         // Function để kiểm tra đăng nhập và cập nhật thông tin người dùng
@@ -39,7 +39,7 @@ const UserProfileOrderDetails = () => {
                     fullName: storedFullName,
                     email: storedEmail,
                 });
-                
+
             } else {
                 // Reset thông tin người dùng khi đăng xuất
                 setUserInfo({
@@ -50,13 +50,20 @@ const UserProfileOrderDetails = () => {
         };
         // Kiểm tra ngay khi component mount
         checkLoginAndUpdateInfo();
-        // Thiết lập interval để kiểm tra mỗi 1 giây
-        const intervalId = setInterval(checkLoginAndUpdateInfo, 1000);
+        // Theo dõi localStorage khi thay đổi ở tab khác
+        const handleStorageChange = (event: StorageEvent) => {
+            if (['accessToken', 'loggedInEmail', 'loggedInFullName'].includes(event.key || '')) {
+                checkLoginAndUpdateInfo();
+            }
+        };
+        window.addEventListener('storage', handleStorageChange);
         // Cleanup khi component unmount
-        return () => clearInterval(intervalId);
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, [isLoggedIn]);
 
-    useEffect(() =>{
+    useEffect(() => {
         const fetchUserByEmail = async () => {
             try {
                 if (!userInfo.email) {
@@ -79,7 +86,7 @@ const UserProfileOrderDetails = () => {
             fetchUserByEmail();
         };
     }, [isLoggedIn, userInfo.email]);
-    
+
     //lấy dữ liệu từ order
     useEffect(() => {
         const fetchOrderDetail = async () => {
@@ -115,7 +122,7 @@ const UserProfileOrderDetails = () => {
         if (isLoggedIn && userInfo.email) {
             fetchOrderDetail();
         };
-    }, [isLoggedIn, userInfo.email, orderId,loading])
+    }, [isLoggedIn, userInfo.email, orderId, loading])
 
     const patchOrderStatus = async (id: number, status: string) => {
         try {
@@ -166,10 +173,6 @@ const UserProfileOrderDetails = () => {
             minute: '2-digit'
         });
     };
-    useEffect(()=>{
-        console.log(currentOrder)
-    },[])
-
     return (
         <main className=" bg-[#F5F5FA]">
             {/* breadcrumb */}
@@ -180,7 +183,7 @@ const UserProfileOrderDetails = () => {
                 <span> Đơn hàng của tôi </span>
             </div>
             <div className="mainContent flex mx-26">
-                <UserSideBar/>
+                <UserSideBar />
                 <section className="mainContentCtn md:w-[75%] w-full max-[767px]:flex max-[767px]:flex-col max-[767px]:items-center ">
                     <div className="orderTitle text-lg mt-7">
                         <span className="">Chi tiết đơn hàng #{currentOrder?.id} - </span>
@@ -218,7 +221,7 @@ const UserProfileOrderDetails = () => {
                                     <span>Giao Siêu Tốc</span>
                                 </div>
                                 <div className="text-sm mb-1 mt-1.5">Giao thứ 6, trước 13h, 28/03</div>
-                                <div className="text-sm">   
+                                <div className="text-sm">
                                     Được giao bởi TikiNOW Smart Logistics (giao từ Hà Nội)
                                 </div>
                                 <div className="text-sm mt-1.5">
@@ -253,7 +256,7 @@ const UserProfileOrderDetails = () => {
                                 </tr>
                             </thead>
                             <tbody className=" divide-gray-200">
-                               <OrderDetailItem/>
+                                <OrderDetailItem />
                             </tbody>
                             <tfoot className="text-sm">
                                 <tr className="sumPrice">

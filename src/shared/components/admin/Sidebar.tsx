@@ -32,13 +32,10 @@ const Sidebar = () => {
                 setIsExpanded(true);
             }
         };
-
         // Set initial state
         handleResize();
-
         // Add event listener
         window.addEventListener('resize', handleResize);
-
         // Cleanup event listener on unmount
         return () => {
             window.removeEventListener('resize', handleResize);
