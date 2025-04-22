@@ -11,7 +11,7 @@ function ProductCard({ product }: ProductCardProps) {
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate(`/customer/productdetail/${product.id}`);
+        navigate(`/productdetail/${product.id}`);
     };
 
     const renderStars = (rating: number) => {
