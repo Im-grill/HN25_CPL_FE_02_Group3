@@ -52,12 +52,17 @@ const UserProfileListOrder = () => {
 
         // Kiểm tra ngay khi component mount
         checkLoginAndUpdateInfo();
-
-        // Thiết lập interval để kiểm tra mỗi 1 giây
-        const intervalId = setInterval(checkLoginAndUpdateInfo, 1000);
-
+        // Theo dõi localStorage khi thay đổi ở tab khác
+        const handleStorageChange = (event: StorageEvent) => {
+            if (['accessToken', 'loggedInEmail', 'loggedInFullName'].includes(event.key || '')) {
+                checkLoginAndUpdateInfo();
+            }
+        };
+        window.addEventListener('storage', handleStorageChange);
         // Cleanup khi component unmount
-        return () => clearInterval(intervalId);
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, []);
 
     // phục vụ mục đích lấy id người dùng từ email 
@@ -81,11 +86,11 @@ const UserProfileListOrder = () => {
         }
     }, [userInfo.email]);
 
-    useEffect(()=>{
-        if(isLoggedIn && userInfo.email){
-            fetchUserByEmail(); 
+    useEffect(() => {
+        if (isLoggedIn && userInfo.email) {
+            fetchUserByEmail();
         }
-    },[isLoggedIn, userInfo.email, fetchUserByEmail]);
+    }, [isLoggedIn, userInfo.email, fetchUserByEmail]);
 
     //lấy dữ liệu từ order
     useEffect(() => {
@@ -113,7 +118,7 @@ const UserProfileListOrder = () => {
         /// Chỉ fetch khi đã đăng nhập và có loggedUser
         if (isLoggedIn && loggedUser?.id) {
             fetchOrders();
-        }   
+        }
     }, [isLoggedIn, loggedUser?.id])
 
     // VND format
@@ -146,7 +151,7 @@ const UserProfileListOrder = () => {
                 <span> Đơn hàng của tôi </span>
             </div>
             <div className="mainContent flex mx-4 md:mx-26 ">
-                <UserSideBar/>
+                <UserSideBar />
                 <section className="mainContentCtn md:w-[75%] w-full max-[767px]:flex-1">
                     <div className="orderTitle text-xl my-3.5">
                         <span className="">Đơn hàng của tôi </span>

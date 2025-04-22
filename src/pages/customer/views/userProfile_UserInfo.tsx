@@ -30,7 +30,6 @@ const UserInfo = () => {
     }>({message: '', isValid: true, color: ''});
     const {register, handleSubmit, formState: {isDirty}, reset, control} = useForm<Inputs>()
 
-
     // Function để kiểm tra đăng nhập và cập nhật thông tin người dùng
     const checkLoginAndUpdateInfo = useCallback(() => {
         // Đảm bảo dùng cùng một key để kiểm tra đăng nhập
