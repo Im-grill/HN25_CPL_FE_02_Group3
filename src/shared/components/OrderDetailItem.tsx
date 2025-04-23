@@ -92,12 +92,11 @@ const OrderDetailItem = () => {
                 const orderDetail = await getOrderById(orderIdNumber);
 
                 //kiểm tra đúng đơn hàng của người dùng đang đăng nhập
-                if (orderDetail && orderDetail.users.email === user?.email) {
+                if (orderDetail && orderDetail.users.id === user?.id) {
                     setCurrentOrder(orderDetail);
                     console.log("Found order detail:", orderDetail);
                 } else {
                     console.log("Order either not found nor unauthorized");
-                    console.log("Order email:", orderDetail?.users?.email, "User email:", userInfo.email);
                 }
             } catch (error) {
                 console.error("Error fetching orders: ", error);
@@ -110,6 +109,8 @@ const OrderDetailItem = () => {
         //chỉ fetch khi đã đăng nhập và có email
         if (isLoggedIn && userInfo.email) {
             fetchOrderDetail();
+            console.log(user);
+
         };
     }, [isLoggedIn, userInfo.email, orderId, loading])
 
