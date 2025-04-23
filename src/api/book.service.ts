@@ -4,6 +4,9 @@ import instance from "./api.service";
 export const getBook = async ():Promise<IBook[]> => {
   return instance.get("books")
 }
+export const getBookById = async (id: string): Promise<IBook> => {
+  return instance.get(`/books/${id}`);
+};
 export const addNewBook = async (data:IBook) => {
   return instance.post("books",data)
 }
