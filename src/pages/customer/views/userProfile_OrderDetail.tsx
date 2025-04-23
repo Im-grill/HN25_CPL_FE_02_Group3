@@ -103,12 +103,13 @@ const UserProfileOrderDetails = () => {
                 const orderDetail = await getOrderById(orderIdNumber);
 
                 //kiểm tra đúng đơn hàng của người dùng đang đăng nhập
-                if (orderDetail && orderDetail.users.email === userInfo.email) {
+                if (orderDetail && orderDetail.users.id === user?.id) {
                     setCurrentOrder(orderDetail);
                     console.log("Found order detail:", orderDetail);
+                    console.log("Order user id:", orderDetail?.users?.id, "User id:", user?.id);
                 } else {
                     console.log("Order either not found nor unauthorized");
-                    console.log("Order email:", orderDetail?.users?.email, "User email:", userInfo.email);
+                    console.log("Order user id:", orderDetail?.users?.id, "User id:", user?.id);
                 }
             } catch (error) {
                 console.error("Error fetching orders: ", error);
