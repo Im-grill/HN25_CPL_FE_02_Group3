@@ -269,7 +269,7 @@ const UserInfo = () => {
 
                                         <div className="relative">
                                             <input
-                                                {...register("email", {required: true, disabled: true})}
+                                                {...register("email", {required: true})}
                                                 type="text"
                                                 className="w-full rounded-lg border-gray-200 border-1 p-2 pe-12 text-sm shadow-xs"
                                                 placeholder="Enter new email"
