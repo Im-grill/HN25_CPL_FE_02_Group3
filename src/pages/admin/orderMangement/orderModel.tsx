@@ -83,7 +83,7 @@ const OrderModal = ({ onClose, id }: OrderModalProps) => {
                 // quantity: order.quantity,
                 // total_price: order.total_price,
                 status: order.status,
-                // created_at: order.created_at
+                created_at: order.created_at
             });
         }
     }, [order, reset]);

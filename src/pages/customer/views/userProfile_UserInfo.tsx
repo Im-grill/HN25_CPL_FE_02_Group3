@@ -8,6 +8,8 @@ import IUser from "../../../interfaces/UserInterface";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { getUsers, updateUser } from "../../../api/user.service";
 import UserSideBar from "../../../shared/components/UserSideBar";
+import { IOrder } from "../../../interfaces";
+import { getOrders, updateOrder } from "../../../api/order.service";
 
 type Inputs = {
     email: string,
@@ -156,6 +158,24 @@ const UserInfo = () => {
         };
         try {
             await updateUser(user.id, updateData);
+//-----------------------------------------------------------
+            //cập nhật thông tin người dùng trong ỏder nếu email thay đổi
+            if (email !== userInfo.email) {
+                const orders = await getOrders();
+                const userOrders = orders.filter(order => order.users.email === userInfo.email);
+                const updatePromises = userOrders.map(order => {
+                    const updatedOrder: Partial<IOrder> = {
+                        users: {
+                            ...order.users,
+                            email: email
+                        }
+                    };
+                    return updateOrder(order.id as number, updatedOrder);
+                });
+                await Promise.all(updatePromises);
+            }
+//-----------------------------------------------------------
+            //cập nhật thông tin người dùng trong localStorage
             if (email !== localStorage.getItem('loggedInEmail')) {
                 //xóa thông tin đăng nhập trong localStorage
                 localStorage.removeItem('accessToken');

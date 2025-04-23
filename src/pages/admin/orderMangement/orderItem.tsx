@@ -8,6 +8,7 @@ type OrderItemProps = {
 }
 
 const OrderItem = ({ order, onGetOrders, onUpdateOrder }: OrderItemProps) => {
+    
     const onDeleteOrder = async (id?: number) => {
         if (id) {
             if (window.confirm("Are you sure you want to delete this order?")) {
