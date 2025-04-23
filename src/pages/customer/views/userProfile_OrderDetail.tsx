@@ -71,7 +71,7 @@ const UserProfileOrderDetails = () => {
                     return;
                 }
                 const allUsers = await getUsers();
-                const foundUser = allUsers.find(user => user.email === user?.email);
+                const foundUser = allUsers.find(user => user.email === userInfo.email);
                 if (foundUser) {
                     setUser(foundUser);
                 } else {
@@ -121,6 +121,8 @@ const UserProfileOrderDetails = () => {
         //chỉ fetch khi đã đăng nhập và có email
         if (isLoggedIn && userInfo.email) {
             fetchOrderDetail();
+            console.log(user);
+
         };
     }, [isLoggedIn, userInfo.email, orderId, loading])
 
