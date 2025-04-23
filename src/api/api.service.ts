@@ -2,7 +2,7 @@ import axios from "axios";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_SERVER,
-  timeout: 2000,
+  timeout: 6000,
   // headers: { 'X-Custom-Header': 'foobar' }
 });
 
