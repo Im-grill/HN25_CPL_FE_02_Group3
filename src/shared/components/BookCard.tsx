@@ -115,7 +115,7 @@ export default function BookCard({ props }: BookCardProps) {
             <div className='ml-3 mr-3 border-t-1 border-[#EBEBF0]  pt-2 pb-2 flex items-center mt-5'>
                 {
                     props.fastShip ? <>
-                            <img src='https://s3-alpha-sig.figma.com/img/9f63/2df5/52d4ff178b5e56072899664c52a61fe5?Expires=1745193600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=L07qhIWxsoESr22Fhy-h3W3JlynDVcIz5s8Oz8Nkrf-2t8W2AX2WIF7iBCdurqcEoiXadvU902oF7u2--X38P61RecGX2d-UM-o7vHuEtLjQPB-gOHEVRQ0pyq5aMyzQDyhja~Eqcx7XD-Eie61PwF6ENOg91o2Vhuuqn0kRbo1J9yuPUP-pPoAF-42yUuV2Lw66GrooiHlmyTEDmIlOsy271YCcCvDP2-YcQuyfhus-NdfR7BwtVHAtMukisUOSsAw~O3O-t0L4et25PKRy~NouPFNTcUr9fg3y~C0Qy2nk8DJ~lsnKn45iheEGGM7W~a~BgZ806De4Gsg3HnjC0Q__' className='h-4 w-8 mr-2' alt='' />
+                            <img src='/assets/now.png' className='h-4 w-8 mr-2' alt='' />
                             <span className='text-[#808089] font-normal'>Giao siêu tốc 2h</span>
                         </> :
                         <span className='text-[#808089] font-normal  '>Giao thứ 3, 01/04</span>

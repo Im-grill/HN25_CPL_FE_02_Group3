@@ -38,7 +38,7 @@ export default function HomePage() {
           <div className='bg-white w-full h-[74px] rounded-b-lg pt-4 pl-4 hidden md:block'>
             <span className='text-[28px] font-semibold'>Nhà Sách Tiki</span>
           </div>
-          <div className='w-full '>
+          <div className='w-full overflow-hidden'>
           <BannerCarousel />
           </div>
            

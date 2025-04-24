@@ -27,12 +27,12 @@ export default function BookSeries({name,books}:Series) {
                 </div>
             </div>
             <div className='pt-4 pl-4'>
-                <span className='text-[20px] font-medium'>{name}</span>
+                <span className='text-[20px] font-medium h-[60px] block'>{name}</span>
                 <div className='flex '>
                     <span className='text-[#808089] mr-1'>Tài trợ bởi </span>
                     <span className='font-medium mr-1'> 1980 Books Tại Tiki Trading</span>
                     <span className='text-[#808089] mr-1'>5/5 </span>
-                    <img src='https://s3-alpha-sig.figma.com/img/efcf/dddf/5b5d24c589d7a52e154fc1e20fec684a?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=IuBMGAkxS2dCHqfVlSfHI41MESjolNHDct1qDYK-RPOE4QcjC635LGO1luaZJ-1yvO25cc4YBTN7a9ExasXcM62PuIja1RsH-rODzVlurh4qTa7ZDELWGbXnwgumhMSCMknAo2ZCq1spgiuKYB~rDKVkkFs~5dkRJjyDGjKPp~TAS74golf-yCkZjqv9jw7OZLD4UcAWHWMDYwswc-9S~Jp3LTCAxarAt~RZCPO8DBFhTWJvNxSys8I8raKxyPQLpVsevt8FFRY~CVe4R2b7GHHzRVtR7DNIc9dE~EdYjXQY0XFOrZC3FY68ztVxZ~M~CpcQXupEPNYpQOHSjDVLcw__'
+                    <img src='/assets/star.png'
                         alt='' className='size-5' />
                 </div>
                 {/* book */}
