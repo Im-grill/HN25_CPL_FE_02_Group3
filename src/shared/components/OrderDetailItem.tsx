@@ -112,7 +112,7 @@ const OrderDetailItem = () => {
             console.log(user);
 
         };
-    }, [isLoggedIn, userInfo.email, orderId, loading])
+    }, [isLoggedIn, userInfo.email, orderId])
 
     // VND format
     const formatPrice = (price: number) => {
