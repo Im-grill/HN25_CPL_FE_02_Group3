@@ -125,7 +125,7 @@ const UserProfileOrderDetails = () => {
             console.log(user);
 
         };
-    }, [isLoggedIn, userInfo.email, orderId, loading])
+    }, [isLoggedIn, userInfo.email, orderId])
 
     const patchOrderStatus = async (id: number, status: string) => {
         try {
