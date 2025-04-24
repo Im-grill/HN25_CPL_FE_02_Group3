@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getBook, getBookById } from '../../../api/book.service';
+import { getBook } from '../../../api/book.service';
 import { IBook } from '../../../interfaces/BookInterfaces';
 import IUser from '../../../interfaces/UserInterface';
 import { getUsers } from '../../../api/user.service';
@@ -31,17 +31,12 @@ function ProductDetail() {
     // Gọi API để lấy dữ liệu sách
     useEffect(() => {
         const fetchBookDetail = async () => {
-            setLoading(true);
-
-            if (!id || isNaN(Number(id))) {
-                console.error('ID sách không hợp lệ:', id);
-                setLoading(false);
-                return;
-            }
 
             try {
                 // Gọi API để lấy chi tiết sách
-                const bookData = await getBookById(id);
+                const response = await getBook();
+                setAllBooks(response);
+                const bookData = response.find((b: IBook) => b.id === id);
                 if (bookData) {
                     setBook(bookData);
                     setCurrentImage(bookData.images?.[0]?.base_url ?? '');
