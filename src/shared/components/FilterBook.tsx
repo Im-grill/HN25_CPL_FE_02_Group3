@@ -115,7 +115,7 @@ export default function FilterBook({ onFilterChange }: FilterBookProps) {
 
             </div>
             {/* filter for mobile */}
-            <div className='p-2 flex  md:hidden w-full'>
+            <div className='p-2 flex  lg:hidden w-full'>
                 <div className='flex justify-center items-center gap-2'>
                     <img src="/assets/filter.png" alt="" className='w-[16.5px] h-[17.25px]' />
                     <span className='text-sm'>Lọc</span>

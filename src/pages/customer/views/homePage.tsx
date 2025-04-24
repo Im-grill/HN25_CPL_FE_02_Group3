@@ -25,7 +25,7 @@ export default function HomePage() {
     <div className='w-full max-w-screen  bg-[#F5F5FA] overflow-hidden'>
         
       {/* breadcrumb */}
-      <div className=' bg-[#F5F5FA] ml-6 h-[53px]  w-fit md:flex items-center hidden'>
+      <div className=' bg-[#F5F5FA] ml-6 h-[53px]  w-fit xl:flex items-center hidden'>
         <Breadcrumb />
       </div>
       {/* main content */}
@@ -35,10 +35,10 @@ export default function HomePage() {
         </div>
         {/* Carousel top sach*/}
         <div className=' xl:ml-6 flex flex-col xl:pl-6 min-w-0' >
-          <div className='bg-white w-full h-[74px] rounded-b-lg pt-4 pl-4 hidden md:block'>
+          <div className='bg-white w-full h-[74px] rounded-b-lg pt-4 pl-4 hidden xl:block'>
             <span className='text-[28px] font-semibold'>Nhà Sách Tiki</span>
           </div>
-          <div className='w-full overflow-hidden'>
+          <div className='w-full overflow-hidden hidden xl:block'>
           <BannerCarousel />
           </div>
            

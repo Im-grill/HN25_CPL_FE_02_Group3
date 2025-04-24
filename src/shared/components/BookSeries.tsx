@@ -26,14 +26,14 @@ export default function BookSeries({name,books}:Series) {
                     <img src="/assets/Logo1980Book.png" alt="error" className="w-[123px] h-[123px]" />
                 </div>
             </div>
-            <div className='pt-4 pl-4'>
+            <div className='pt-4 pl-4 '>
                 <span className='text-[20px] font-medium h-[60px] block'>{name}</span>
                 <div className='flex '>
                     <span className='text-[#808089] mr-1'>Tài trợ bởi </span>
                     <span className='font-medium mr-1'> 1980 Books Tại Tiki Trading</span>
                     <span className='text-[#808089] mr-1'>5/5 </span>
                     <img src='/assets/star.png'
-                        alt='' className='size-5' />
+                        alt='' className='size-5 ' />
                 </div>
                 {/* book */}
                 <div className='flex mt-7'>
